@@ -1,0 +1,53 @@
+﻿@using WealthWise_RCD.Models
+@{
+    ViewData["Title"] = "News";
+    var articles = (List<Article>)ViewData["Articles"];
+    var stocks = (List<string>)ViewData["Stocks"];
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4">@ViewData["Title"]</h1>
+        <p class="lead text-muted">Stay updated on the latest financial information!</p>
+    </div>
+
+    <ul class="nav nav-tabs justify-content-center" id="newsTabs" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active" id="newsArticles-tab" data-bs-toggle="tab" href="#articles" type="button" role="tab" aria-controls="articles" aria-selected="true">Articles</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="newsStocks-tab" data-bs-toggle="tab" href="#stocks" role="tab" aria-controls="stocks" aria-selected="false">Stocks</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="newsTabsContent">
+        <div class="tab-pane fade show active" id="articles" role="tabpanel" aria-labelledby="articles-tab">
+            @foreach (var article in articles)
+            {
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">@article.Title</h3>
+                        <p class="card-text">By: @article.Author | Published: @article.PublishDate</p>
+                        <a href="@article.Link" class="btn btn-primary">Read more</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="stocks" role="tabpanel" aria-labelledby="stocks-tab">
+            <ul class="list-group">
+                @if (stocks != null && stocks.Count > 0)
+                {
+                    @foreach (var stock in stocks)
+                    {
+                        <li class="list-group-item">@stock</li>
+                    }
+                }
+                else
+                {
+                    <p class="text-center text-muted">No stocks found.</p>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
