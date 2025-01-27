@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using WealthWise_RCD.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add database connection to build
+builder.Services.AddDbContext<ApplicationDbContext>(options => {
+    options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 // Add services to the container.
 builder.Services.AddRazorPages()
