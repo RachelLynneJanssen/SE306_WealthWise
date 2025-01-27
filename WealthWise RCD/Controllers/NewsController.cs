@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace WealthWise_RCD.Controllers
 {
+    //hi
     public class NewsController : Controller
     {
         private readonly HttpClient _httpClient;
