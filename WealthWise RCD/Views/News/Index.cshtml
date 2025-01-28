@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "News";
     var articles = (List<Article>)ViewData["Articles"];
-    var stocks = (List<string>)ViewData["Stocks"];
+    var stocks = (List<Stock>)ViewData["Stocks"];
 }
 
 <div class="container mt-5">
@@ -40,7 +40,7 @@
                 {
                     @foreach (var stock in stocks)
                     {
-                        <li class="list-group-item">@stock</li>
+                        <li class="list-group-item"> @stock.Ticker. @stock.Name : $@stock.Price @stock.PercentChange </li>
                     }
                 }
                 else

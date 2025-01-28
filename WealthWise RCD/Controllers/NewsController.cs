@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
+using MySqlX.XDevAPI;
+using HtmlAgilityPack;
 
 namespace WealthWise_RCD.Controllers
 {
@@ -58,34 +61,45 @@ namespace WealthWise_RCD.Controllers
             return articles;
         }
 
-        private async Task<List<string>> LoadStocksAsync()
+        private async Task<List<Stock>> LoadStocksAsync()
         {
-            var stocks = new List<string>();
-            var stockSymbols = new List<string> { "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "META", "NVDA", "BRK-B", "JNJ", "V" };
+            string url = "https://stockanalysis.com/list/sp-500-stocks/";
+            var stocks = new List<Stock>();
 
-            foreach (var symbol in stockSymbols)
+            HttpClient client = new HttpClient();
+            string html = await client.GetStringAsync(url);
+
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            var table = doc.DocumentNode.SelectSingleNode("//table");
+
+            if (table != null)
             {
-                var response = await _httpClient.GetAsync($"https://api.polygon.io/v2/aggs/ticker/{symbol}/prev?apiKey=69raDZohS9ejuVi3eV25ppkuYKFl7FuH");
+                var rows = table.SelectNodes(".//tr");
 
-                if (response.IsSuccessStatusCode)
+                for (int i = 1; i < rows.Count; i++)
                 {
-                    var jsonString = await response.Content.ReadAsStringAsync();
-                    var jsonObject = JsonDocument.Parse(jsonString).RootElement;
-
-                    if (jsonObject.TryGetProperty("results", out JsonElement resultsElement) && resultsElement.GetArrayLength() > 0)
+                    var cells = rows[i].SelectNodes(".//td");
+                    if (cells != null && cells.Count >= 3)
                     {
-                        var stockData = resultsElement[0]; // Get the first result
-                        decimal price = stockData.GetProperty("c").GetDecimal(); // Close price
-                        stocks.Add($"{symbol}: ${price:F2}");
+                        string ticker = cells[0].InnerText.Trim();
+                        string name = cells[1].InnerText.Trim();
+                        string sector = cells[2].InnerText.Trim();
+                        string marketCap = cells[3].InnerText.Trim();
+                        string price = cells[4].InnerText.Trim();
+                        string percentChange = cells[5].InnerText.Trim();
+                        string revenue = cells[6].InnerText.Trim();
+
+                        stocks.Add(new Stock { Ticker = ticker, Name = name, Sector = sector, MarketCap = marketCap, Price = price, PercentChange = percentChange, Revenue = revenue });
                     }
                 }
-                else
-                {
-                    stocks.Add($"{symbol}: Data not available");
-                }
             }
-
-            return stocks;
+            else
+            {
+                stocks.Add(new Stock { Ticker = "Error", Name = "Error", Sector = "Error", MarketCap = "Error", Price = "Error", PercentChange = "Error", Revenue = "Error" });
+            }
+            return stocks;           
         }
     }
 }
