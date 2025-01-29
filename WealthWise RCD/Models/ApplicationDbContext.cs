@@ -11,6 +11,8 @@ namespace WealthWise_RCD.Models
 
         }
         public DbSet<Test> Tests { get; set; }
+        public DbSet<testtest> testtests { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySQL("server=localhost;port=3306;database=wealthwise;user=root;password=rcd306");
