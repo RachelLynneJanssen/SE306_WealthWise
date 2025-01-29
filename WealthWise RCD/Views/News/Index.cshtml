@@ -4,7 +4,7 @@
     var articles = (List<Article>)ViewData["Articles"];
     var stocks = ViewData["Stocks"] as List<Stock>;
     var showAll = ViewData["ShowAll"] as bool? ?? false;
-    var activeTab = ViewData["ActiveTab"] as string ?? "articles";
+    var activeTab = ViewData["ActiveTab"]?.ToString() ?? "articles";
 }
 
 <div class="container mt-5">
@@ -40,7 +40,7 @@
 
         <div class="tab-pane @(activeTab is "stocks" ? "active show" : "fade")" id="stocks" role="tabpanel" aria-labelledby="stocks-tab">
             <h2>S&P 500 Stocks</h2>
-            @if (stocks != null && stocks.Count > 0)
+            @if (stocks != null)
             {
                 <table class="table table-bordered">
                     <thead>
@@ -71,7 +71,7 @@
                 </table>
 
                 <form method="get" asp-controller="News" asp-action="Index">
-                    <input type="hidden" name="showAll" value="@(!showAll)" />
+                    <input type="hidden" name="showAll" value="@(showAll ? "false" : "true")" />
                     <input type="hidden" name="activeTab" value="stocks" />
                     <button type="submit" class="btn btn-primary">
                         @(showAll ? "Show Top 10" : "View More")
