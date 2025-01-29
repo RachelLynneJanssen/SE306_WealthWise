@@ -15,7 +15,7 @@ namespace WealthWise_RCD.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL("server=172.60.58.145;port=3306;database=wealthwise;user=root;password=rcd306");
+            optionsBuilder.UseMySQL("server=localhost;port=3306;database=wealthwise;user=root;password=rcd306");
         }
     }
 }
