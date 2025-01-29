@@ -4,6 +4,7 @@
     var articles = (List<Article>)ViewData["Articles"];
     var stocks = ViewData["Stocks"] as List<Stock>;
     var showAll = ViewData["ShowAll"] as bool? ?? false;
+    var activeTab = ViewData["ActiveTab"] as string ?? "articles";
 }
 
 <div class="container mt-5">
@@ -12,17 +13,19 @@
         <p class="lead text-muted">Stay updated on the latest financial information!</p>
     </div>
 
+    <!-- Tab Navigation -->
     <ul class="nav nav-tabs justify-content-center" id="newsTabs" role="tablist">
         <li class="nav-item">
-            <button class="nav-link active" id="newsArticles-tab" data-bs-toggle="tab" href="#articles" type="button" role="tab" aria-controls="articles" aria-selected="true">Articles</button>
+            <button class="nav-link @(activeTab is "articles" ? "active" : "")" href="#articles" id="newsArticles-tab" data-bs-toggle="tab" href="#articles" type="button" role="tab" aria-controls="articles" aria-selected="true">Articles</button>
         </li>
         <li class="nav-item">
-            <button class="nav-link" id="newsStocks-tab" data-bs-toggle="tab" href="#stocks" role="tab" aria-controls="stocks" aria-selected="false">Stocks</button>
+            <button class="nav-link @(activeTab is "stocks" ? "active" : "")" href="#stocks" id="newsStocks-tab" data-bs-toggle="tab" href="#stocks" role="tab" aria-controls="stocks" aria-selected="false">Stocks</button>
         </li>
     </ul>
 
+    <!-- Tab Content -->
     <div class="tab-content" id="newsTabsContent">
-        <div class="tab-pane fade show active" id="articles" role="tabpanel" aria-labelledby="articles-tab">
+        <div class="tab-pane @(activeTab is "articles" ? "active show" : "fade")" id="articles" role="tabpanel" aria-labelledby="articles-tab">
             @foreach (var article in articles)
             {
                 <div class="card mb-4">
@@ -35,7 +38,7 @@
             }
         </div>
 
-        <div class="tab-pane fade" id="stocks" role="tabpanel" aria-labelledby="stocks-tab">
+        <div class="tab-pane @(activeTab is "stocks" ? "active show" : "fade")" id="stocks" role="tabpanel" aria-labelledby="stocks-tab">
             <h2>S&P 500 Stocks</h2>
             @if (stocks != null && stocks.Count > 0)
             {
@@ -69,6 +72,7 @@
 
                 <form method="get" asp-controller="News" asp-action="Index">
                     <input type="hidden" name="showAll" value="@(!showAll)" />
+                    <input type="hidden" name="activeTab" value="stocks" />
                     <button type="submit" class="btn btn-primary">
                         @(showAll ? "Show Top 10" : "View More")
                     </button>

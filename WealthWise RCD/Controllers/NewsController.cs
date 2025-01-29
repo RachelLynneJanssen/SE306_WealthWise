@@ -19,7 +19,7 @@ namespace WealthWise_RCD.Controllers
             _httpClient = new HttpClient();
         }
 
-        public async Task<IActionResult> Index(bool showAll = false)
+        public async Task<IActionResult> Index(bool showAll = false, string activeTab = "articles")
         {
             var articles = await LoadArticlesAsync();
             var stocks = await LoadStocksAsync();
@@ -29,6 +29,7 @@ namespace WealthWise_RCD.Controllers
             ViewData["Articles"] = articles;
             ViewData["Stocks"] = displayStocks;
             ViewData["ShowAll"] = showAll;
+            ViewData["ActiveTab"] = activeTab;
 
             return View();
         }
