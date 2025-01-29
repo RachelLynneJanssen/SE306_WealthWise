@@ -2,7 +2,8 @@
 @{
     ViewData["Title"] = "News";
     var articles = (List<Article>)ViewData["Articles"];
-    var stocks = (List<Stock>)ViewData["Stocks"];
+    var stocks = ViewData["Stocks"] as List<Stock>;
+    var showAll = ViewData["ShowAll"] as bool? ?? false;
 }
 
 <div class="container mt-5">
@@ -35,19 +36,48 @@
         </div>
 
         <div class="tab-pane fade" id="stocks" role="tabpanel" aria-labelledby="stocks-tab">
-            <ul class="list-group">
-                @if (stocks != null && stocks.Count > 0)
-                {
-                    @foreach (var stock in stocks)
-                    {
-                        <li class="list-group-item"> @stock.Ticker. @stock.Name : $@stock.Price @stock.PercentChange </li>
-                    }
-                }
-                else
-                {
-                    <p class="text-center text-muted">No stocks found.</p>
-                }
-            </ul>
+            <h2>S&P 500 Stocks</h2>
+            @if (stocks != null && stocks.Count > 0)
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ticker</th>
+                            <th>Name</th>
+                            <th>Sector</th>
+                            <th>Market Cap</th>
+                            <th>Price</th>
+                            <th>% Change</th>
+                            <th>Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var stock in stocks)
+                        {
+                            <tr>
+                                <td>@stock.Ticker</td>
+                                <td>@stock.Name</td>
+                                <td>@stock.Sector</td>
+                                <td>@stock.MarketCap</td>
+                                <td>@stock.Price</td>
+                                <td>@stock.PercentChange</td>
+                                <td>@stock.Revenue</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <form method="get" asp-controller="News" asp-action="Index">
+                    <input type="hidden" name="showAll" value="@(!showAll)" />
+                    <button type="submit" class="btn btn-primary">
+                        @(showAll ? "Show Top 10" : "View More")
+                    </button>
+                </form>
+            }
+            else
+            {
+                <p>No stock data available.</p>
+            }
         </div>
     </div>
 </div>

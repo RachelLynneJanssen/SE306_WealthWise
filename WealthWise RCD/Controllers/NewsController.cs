@@ -10,7 +10,6 @@ using HtmlAgilityPack;
 
 namespace WealthWise_RCD.Controllers
 {
-    //hi
     public class NewsController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -20,14 +19,16 @@ namespace WealthWise_RCD.Controllers
             _httpClient = new HttpClient();
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showAll = false)
         {
             var articles = await LoadArticlesAsync();
             var stocks = await LoadStocksAsync();
+            var displayStocks = showAll ? stocks : stocks.Take(10).ToList();
 
             ViewData["Title"] = "News";
             ViewData["Articles"] = articles;
-            ViewData["Stocks"] = stocks;
+            ViewData["Stocks"] = displayStocks;
+            ViewData["ShowAll"] = showAll;
 
             return View();
         }
