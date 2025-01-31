@@ -72,7 +72,7 @@
             <!-- Stocks Table Logic -->
             @if (stocks != null)
             {
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="stocksTable">
                     <thead>
                         <tr>
                             <th>Ticker</th>
@@ -93,7 +93,7 @@
                                 <td>@stock.Sector</td>
                                 <td>@stock.MarketCap</td>
                                 <td>@stock.Price</td>
-                                <td>@stock.PercentChange</td>
+                                <td class="percent-change">@stock.PercentChange</td>
                                 <td>@stock.Revenue</td>
                             </tr>
                         }
@@ -117,3 +117,38 @@
         </div>
     </div>
 </div>
+
+<!-- Add JavaScript to apply colors based on value -->
+<script>
+    window.onload = function() {
+        var table = document.getElementById('stocksTable');
+        var rows = table.getElementsByTagName('tr');
+        var columnIndex = 5; // % Change column index (6th column, 0-based index)
+
+        // Loop through all rows (skip the header row)
+        for (var i = 1; i < rows.length; i++) {
+            var cell = rows[i].cells[columnIndex];
+            var cellValue = cell.textContent.trim();
+
+            if(cellValue.charAt(0) === '-') {
+                cell.textContent = '▼ ' + cellValue.substring(1);
+                cell.classList.add('red-text');
+            }
+            else{
+                cell.textContent = '▲ ' + cellValue.substring(1);
+                cell.classList.add('green-text');
+            }
+        }
+    };
+</script>
+
+<!-- Add CSS for the green and red text -->
+<style>
+    .green-text {
+        color: #32CD32; <!-- Didn't like the standard green, hex code for lime green -->
+    }
+
+    .red-text {
+        color: red;
+    }
+</style>
