@@ -47,20 +47,19 @@
             <div>
                 <form method="get" asp-controller="News" asp-action="Index" id="stockTypeForm">
                     <input type="hidden" name="activeTab" value="stocks" />
-                    <select name="stockType" class="form-select" onchange="document.getElementById('stockTypeForm').submit()">
-                        <option value="sp500" selected>S&P 500</option>
-                        <option value="dow">Dow Jones</option>
-                        <option value="nasdaq">Nasdaq 100</option>
-                    </select>
+                    @Html.DropDownList(
+                             "stockType",
+                             new SelectList(new[] { "S&P 500", "Dow Jones", "Nasdaq 100" }, stockType),
+                             new { @class = "form-select", onchange = "document.getElementById('stockTypeForm').submit()" })
                 </form>
             </div>
             
             <!-- Stocks header logic -->
-            @if (stockType == "sp500")
+            @if (stockType == "S&P 500")
             {
                 <h2>S&P 500</h2>
             }
-            else if (stockType == "dow")
+            else if (stockType == "Dow Jones")
             {
                 <h2>Dow Jones</h2>
             }

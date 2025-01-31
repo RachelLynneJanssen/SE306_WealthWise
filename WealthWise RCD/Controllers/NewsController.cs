@@ -19,7 +19,7 @@ namespace WealthWise_RCD.Controllers
             _httpClient = new HttpClient();
         }
 
-        public async Task<IActionResult> Index(bool showAll = false, string stockType = "sp500", string activeTab = "articles")
+        public async Task<IActionResult> Index(bool showAll = false, string stockType = "S&P 500", string activeTab = "articles")
         {
             var articles = await LoadArticlesAsync();
             var stocks = await LoadStocksAsync(stockType);
@@ -68,8 +68,8 @@ namespace WealthWise_RCD.Controllers
         {
             string url = stockType switch
             {
-                "sp500" => "https://stockanalysis.com/list/sp-500-stocks/",
-                "nasdaq" => "https://stockanalysis.com/list/nasdaq-100-stocks/",
+                "S&P 500" => "https://stockanalysis.com/list/sp-500-stocks/",
+                "Nasdaq 100" => "https://stockanalysis.com/list/nasdaq-100-stocks/",
                 _ => "https://stockanalysis.com/list/sp-500-stocks/"
             };
 
