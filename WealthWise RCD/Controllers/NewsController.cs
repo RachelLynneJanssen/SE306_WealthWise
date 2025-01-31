@@ -19,10 +19,10 @@ namespace WealthWise_RCD.Controllers
             _httpClient = new HttpClient();
         }
 
-        public async Task<IActionResult> Index(bool showAll = false, string activeTab = "articles")
+        public async Task<IActionResult> Index(bool showAll = false, string stockType = "sp500", string activeTab = "articles")
         {
             var articles = await LoadArticlesAsync();
-            var stocks = await LoadStocksAsync();
+            var stocks = await LoadStocksAsync(stockType);
             var displayStocks = showAll ? stocks : stocks.Take(10).ToList();
 
             ViewData["Title"] = "News";
@@ -30,6 +30,7 @@ namespace WealthWise_RCD.Controllers
             ViewData["Stocks"] = displayStocks;
             ViewData["ShowAll"] = showAll;
             ViewData["ActiveTab"] = activeTab;
+            ViewData["StockType"] = stockType;
 
             return View();
         }
@@ -63,9 +64,15 @@ namespace WealthWise_RCD.Controllers
             return articles;
         }
 
-        private async Task<List<Stock>> LoadStocksAsync()
+        private async Task<List<Stock>> LoadStocksAsync(string stockType)
         {
-            string url = "https://stockanalysis.com/list/sp-500-stocks/";
+            string url = stockType switch
+            {
+                "sp500" => "https://stockanalysis.com/list/sp-500-stocks/",
+                "nasdaq" => "https://stockanalysis.com/list/nasdaq-100-stocks/",
+                _ => "https://stockanalysis.com/list/sp-500-stocks/"
+            };
+
             var stocks = new List<Stock>();
 
             HttpClient client = new HttpClient();

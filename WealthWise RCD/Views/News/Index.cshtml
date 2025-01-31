@@ -1,8 +1,9 @@
 ﻿@using WealthWise_RCD.Models
 @{
     ViewData["Title"] = "News";
-    var articles = (List<Article>)ViewData["Articles"];
+    var articles = ViewData["Articles"] as List<Article>;
     var stocks = ViewData["Stocks"] as List<Stock>;
+    var stockType = ViewData["StockType"]?.ToString() ?? "sp500";
     var showAll = ViewData["ShowAll"] as bool? ?? false;
     var activeTab = ViewData["ActiveTab"]?.ToString() ?? "articles";
 }
@@ -24,6 +25,7 @@
     </ul>
 
     <!-- Tab Content -->
+    <!-- News Tab -->
     <div class="tab-content" id="newsTabsContent">
         <div class="tab-pane @(activeTab is "articles" ? "active show" : "fade")" id="articles" role="tabpanel" aria-labelledby="articles-tab">
             @foreach (var article in articles)
@@ -38,8 +40,36 @@
             }
         </div>
 
+        <!-- Stocks Tab -->
         <div class="tab-pane @(activeTab is "stocks" ? "active show" : "fade")" id="stocks" role="tabpanel" aria-labelledby="stocks-tab">
-            <h2>S&P 500 Stocks</h2>
+            
+            <!-- Stocks drop down -->
+            <div>
+                <form method="get" asp-controller="News" asp-action="Index" id="stockTypeForm">
+                    <input type="hidden" name="activeTab" value="stocks" />
+                    <select name="stockType" class="form-select" onchange="document.getElementById('stockTypeForm').submit()">
+                        <option value="sp500" selected>S&P 500</option>
+                        <option value="dow">Dow Jones</option>
+                        <option value="nasdaq">Nasdaq 100</option>
+                    </select>
+                </form>
+            </div>
+            
+            <!-- Stocks header logic -->
+            @if (stockType == "sp500")
+            {
+                <h2>S&P 500</h2>
+            }
+            else if (stockType == "dow")
+            {
+                <h2>Dow Jones</h2>
+            }
+            else
+            {
+                <h2>Nasdaq 100</h2>
+            }
+
+            <!-- Stocks Table Logic -->
             @if (stocks != null)
             {
                 <table class="table table-bordered">
@@ -70,11 +100,13 @@
                     </tbody>
                 </table>
 
+                <!-- Show All Button -->
                 <form method="get" asp-controller="News" asp-action="Index">
                     <input type="hidden" name="showAll" value="@(showAll ? "false" : "true")" />
                     <input type="hidden" name="activeTab" value="stocks" />
+                    <input type="hidden" name="stockType" value="@stockType" />
                     <button type="submit" class="btn btn-primary">
-                        @(showAll ? "Show Top 10" : "View More")
+                       @(showAll ? "Show Top 10" : "View All")
                     </button>
                 </form>
             }
