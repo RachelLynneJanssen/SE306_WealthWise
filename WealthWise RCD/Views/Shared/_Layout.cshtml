@@ -10,10 +10,24 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <style>
+            header {
+                width: 100%;
+                height: fit-content;
+                background-color: #d5cab8;
+                -webkit-text-fill-color: white;
+                text-align: left;
+            }
+        </style>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-#adad85  mb-3">
             <div class="container">
                 <img src="~/images/RCDLogo.jpg" alt="Roman Cat Dynasty Logo" width="50" height="50" />
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">WealthWise by RCD</a>
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index" id="title">WealthWise by RCD</a>
+                <style>
+                    #title {
+                        color: #5d5d3c;
+                    }
+                </style>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -41,7 +55,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+        <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -50,6 +64,18 @@
         <div class="container">
             &copy; 2025 - WealthWise_by_RCD - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
+        <style>
+            footer {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: fit-content;
+                background-color: #adad85;
+                -webkit-text-fill-color: #5d5d3c;
+                text-align: left;
+            }
+        </style>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

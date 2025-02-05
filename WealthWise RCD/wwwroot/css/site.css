@@ -1,24 +1,45 @@
 html {
   font-size: 14px;
+  font-family: 'Times New Roman';
 }
 
 @media (min-width: 768px) {
   html {
     font-size: 16px;
+    font-family: 'Times New Roman';
   }
+}
+
+body {
+    background-color: #f1eee8; /* light beige */
 }
 
 .btn {
     background-color: #adad85; /* olive green */
-    border-color: #7a7a52; /* gold */
+    border-color: #7a7a52; /* darker darker olive green */
     color: #FFFFFF; /* white text */
 }
 
-    .btn:hover {
-        background-color: #8a8a5c; /* darker olive green */
-        border-color: #7a7a52; /* gold */
-        color: #FFFFFF; /* white text */
-    }
+.btn:hover {
+    background-color: #8a8a5c; /* darker olive green */
+    border-color: #7a7a52; /* darker darker olive green */
+    color: #FFFFFF; /* white text */
+}
+
+.btn:active {
+    background-color: #8a8a5c; /* darker olive green */
+    border-color: #7a7a52; /* darker darker olive green */
+    color: #FFFFFF; /* white text */
+    box-shadow: 0 0 0 0.2rem #adad85;
+}
+
+.btn:focus {
+    background-color: #8a8a5c; /* darker olive green */
+    border-color: #7a7a52; /* darker darker olive green */
+    color: #FFFFFF; /* white text */
+    box-shadow:0 0 0 0.2rem #adad85;
+}
+
 
 html {
   position: relative;
@@ -27,10 +48,20 @@ html {
 
 body {
   margin-bottom: 60px;
+  font-family: 'Times New Roman';
+}
+
+h1 {
+    font-family: 'Times New Roman';
 }
 
 h2 {
     margin-top: 30px;
+    font-family: 'Times New Roman';
+}
+
+h3 {
+    font-family: 'Times New Roman';
 }
 
 .nav-tabs .nav-link {

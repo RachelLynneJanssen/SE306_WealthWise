@@ -7,89 +7,61 @@
 
     
 }
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="interest-calculator-tab" data-toggle="tab" href="#interest-calculator" role="tab" aria-controls="interest-calculator" aria-selected="true">Interest Calculator</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="retirement-calculator-tab" data-toggle="tab" href="#retirement-calculator" role="tab" aria-controls="retirement-calculator" aria-selected="false">Retirement Calculator</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="budget-planner-tab" data-toggle="tab" href="#budget-planner" role="tab" aria-controls="budget-planner" aria-selected="false">Monthly Budget Planner</a>
-    </li>
-</ul>
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="interest-calculator" role="tabpanel" aria-labelledby="interest-calculator-tab">
-        <!-- Interest Calculator Content -->
-        <h3>Interest Calculator</h3>
-        <form method="post" >
-            <div class="form-group">
-                <label for="Initial Amount">Initial Amount</label>
-                <input type="number" class="form-control" id="initialAmount" name="InitialAmount" placeholder="Enter initial amount" step="0.01">
-            </div>
-            <div class="form-group">
-                <label for="numberOfPayments">Number of Payments</label>
-                <input type="number" class="form-control" id="numberOfPayments" name="NumberOfPayments" placeholder="Enter number of payments" step="0.01">
-            </div>
-            <div class="form-group">
-                <label for="time">Time</label>
-                <input type="number" class="form-control" id="time" name="Time" placeholder="Enter time" step="0.01">
-            </div>
-            <div class="form-group">
-                <label for="interestRate">Interest Rate (%)</label>
-                <input type="number" class="form-control" id="interestRate" name="InterestRate" placeholder="Enter interest rate" step="0.01">
-            </div>
-            <br />
-            <button type="submit" class="btn btn-primary">Calculate</button>
-        </form>
-        <div class="mt-3">
-            <h5>Formula:</h5>
-            <img src="~/images/CompoundInterestFormula.png" alt="Interest Calculation Formula" class="img-fluid">
-        </div>
-        <div class="alert alert-info mt-3">
-            <strong>Calculated Amount:</strong> @amount
-        </div>
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4">Financial Calculators</h1>
+        <p class="lead text-muted">Tools to analyze and plan for your financial future!</p>
     </div>
-    <div class="tab-pane fade show active" id="retirement-calculator" role="tabpanel" aria-labelledby="retirement-calculator-tab">
-        <!-- Retirement Calculator Content -->
-        <h3>Retirement Calculator</h3>
-        <form method="post">
-            <div class="form-group">
-                <label for="loanAmount">Loan Amount</label>
-                <input type="number" class="form-control" id="loanAmount" name="LoanAmount" placeholder="Enter loan amount" step="0.01">
-            </div>
-            <div class="form-group">
-                <label for="numberOfPayments">Number of Payments</label>
-                <input type="number" class="form-control" id="numberOfPayments" name="NumberOfPayments" placeholder="Enter number of payments" step="0.01">
-            </div>
-            <div class="form-group">
-                <label for="time">Time</label>
-                <input type="number" class="form-control" id="time" name="Time" placeholder="Enter time" step="0.01">
-            </div>
-            <div class="form-group">
-                <label for="interestRate">Interest Rate (%)</label>
-                <input type="number" class="form-control" id="interestRate" name="InterestRate" placeholder="Enter interest rate" step="0.01">
-            </div>
-            <br />
-            <button type="submit" class="btn btn-primary">Calculate</button>
-        </form>
-        <div class="mt-3">
-            <h5>Formula:</h5>
-            <img src="~/images/CompoundInterestFormula.png" alt="Interest Calculation Formula" class="img-fluid">
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="interest-calculator-tab" data-toggle="tab" href="#interest-calculator" role="tab" aria-controls="interest-calculator" aria-selected="true">Interest Calculator</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="budget-planner-tab" data-toggle="tab" href="#budget-planner" role="tab" aria-controls="budget-planner" aria-selected="false">Monthly Budget Planner</a>
+        </li>
+    </ul>
+
+    <!-- tab page content -->
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="interest-calculator" role="tabpanel" aria-labelledby="interest-calculator-tab">
+            <!-- Interest Calculator Content -->
+            <h3>Interest Calculator</h3>
+            <form>
+                <div class="form-group">
+                    <label for="loanAmount">Loan Amount</label>
+                    <input type="number" class="form-control" id="loanAmount" placeholder="Enter loan amount">
+                </div>
+                <div class="form-group">
+                    <label for="numberOfPayments">Number of Payments</label>
+                    <input type="number" class="form-control" id="numberOfPayments" placeholder="Enter number of payments">
+                </div>
+                <div class="form-group">
+                    <label for="time">Time (in years)</label>
+                    <input type="number" class="form-control" id="time" placeholder="Enter time in years">
+                </div>
+                <div class="form-group">
+                    <label for="interestRate">Interest Rate (%)</label>
+                    <input type="number" class="form-control" id="interestRate" placeholder="Enter interest rate">
+                </div>
+                <button type="submit" class="btn btn-primary" id="calcbutton">Calculate</button>
+                <style>
+                    #calcbutton{
+                    margin-top: 30px;
+                    margin-bottom: 30px;
+                    }
+                </style>
+            </form>
         </div>
-        <div class="alert alert-info mt-3">
-            <strong>Calculated Amount:</strong> @amount
+        <div class="tab-pane fade" id="budget-planner" role="tabpanel" aria-labelledby="budget-planner-tab">
+            <!-- Monthly Budget Planner Content -->
+            <h3>Monthly Budget Planner</h3>
+            <form>
+                <!-- Add your form fields here -->
+            </form>
         </div>
-    </div>    
-    <div class="tab-pane fade" id="budget-planner" role="tabpanel" aria-labelledby="budget-planner-tab">
-        <!-- Monthly Budget Planner Content -->
-        <h3>Monthly Budget Planner</h3>
-        <form>
-            <!-- Add your form fields here -->
-        </form>
     </div>
 </div>
-
 @section Scripts {
     <script>
         $(function () {

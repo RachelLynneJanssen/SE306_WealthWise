@@ -61,11 +61,11 @@
             }
             else if (stockType == "Dow Jones")
             {
-                <h2>Dow Jones</h2>
+                <h2> Dow Jones</h2>
             }
             else
             {
-                <h2>Nasdaq 100</h2>
+                <h2> Nasdaq 100</h2>
             }
 
             <!-- Stocks Table Logic -->
@@ -130,8 +130,16 @@
             var cellValue = cell.textContent.trim();
 
             if(cellValue.charAt(0) === '-') {
-                cell.textContent = '▼ ' + cellValue.substring(1);
-                cell.classList.add('red-text');
+                if(cellValue.length === 1)
+                {
+                    cell.textContent = '  --';
+                    cell.classList.add('black-text');
+                }
+                else
+                {
+                    cell.textContent = '▼ ' + cellValue.substring(1);
+                    cell.classList.add('red-text');
+                }
             }
             else{
                 cell.textContent = '▲ ' + cellValue.substring(1);
@@ -150,4 +158,13 @@
     .red-text {
         color: red;
     }
+
+    .black-text {
+        color: black;
+    }
+
+    #stocksTable {
+        background-color: white;
+    }
 </style>
+
