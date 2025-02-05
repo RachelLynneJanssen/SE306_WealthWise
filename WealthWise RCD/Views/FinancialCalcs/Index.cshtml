@@ -2,4 +2,60 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var loanAmount = ViewData["LoanAmount"];
+    var numberOfPayments = ViewData["NumberOfPayments"];
+    var time = ViewData["Time"];
+    var interestRate = ViewData["InterestRate"];
+    
 }
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="interest-calculator-tab" data-toggle="tab" href="#interest-calculator" role="tab" aria-controls="interest-calculator" aria-selected="true">Interest Calculator</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="budget-planner-tab" data-toggle="tab" href="#budget-planner" role="tab" aria-controls="budget-planner" aria-selected="false">Monthly Budget Planner</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="interest-calculator" role="tabpanel" aria-labelledby="interest-calculator-tab">
+        <!-- Interest Calculator Content -->
+        <h3>Interest Calculator</h3>
+        <form>
+            <div class="form-group">
+                <label for="loanAmount">Loan Amount</label>
+                <input type="number" class="form-control" id="loanAmount" placeholder="Enter loan amount">
+            </div>
+            <div class="form-group">
+                <label for="numberOfPayments">Number of Payments</label>
+                <input type="number" class="form-control" id="numberOfPayments" placeholder="Enter number of payments">
+            </div>
+            <div class="form-group">
+                <label for="time">Time (in years)</label>
+                <input type="number" class="form-control" id="time" placeholder="Enter time in years">
+            </div>
+            <div class="form-group">
+                <label for="interestRate">Interest Rate (%)</label>
+                <input type="number" class="form-control" id="interestRate" placeholder="Enter interest rate">
+            </div>
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="budget-planner" role="tabpanel" aria-labelledby="budget-planner-tab">
+        <!-- Monthly Budget Planner Content -->
+        <h3>Monthly Budget Planner</h3>
+        <form>
+            <!-- Add your form fields here -->
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#myTab a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        });
+    </script>
+}</li>
