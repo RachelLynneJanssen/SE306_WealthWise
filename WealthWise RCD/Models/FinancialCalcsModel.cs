@@ -12,7 +12,7 @@
         {
             if (InitialAmount >= 0 && InterestRate >= 0 && NumberOfPayments > 0 && Time >= 0)
             {
-                Amount = InitialAmount * Math.Pow(1 + (InterestRate / NumberOfPayments), (Time * NumberOfPayments));
+                Amount = Math.Round(InitialAmount * Math.Pow((1 + ((InterestRate/100) / NumberOfPayments)), (Time * NumberOfPayments)),2);
                 return true;
             }
             return false;
