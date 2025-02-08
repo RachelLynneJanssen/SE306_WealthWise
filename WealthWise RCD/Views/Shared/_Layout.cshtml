@@ -35,22 +35,27 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="FinancialCalcs" asp-action="Index">Finanical Calculators</a>
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "FinancialCalcs" ? "active font-weight-bold" : "")"
+                               asp-controller="FinancialCalcs" asp-action="Index">Financial Calculators</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="LearningHub" asp-action="Index">Learning Hub</a>
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LearningHub" ? "active font-weight-bold" : "")"
+                               asp-controller="LearningHub" asp-action="Index">Learning Hub</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="News" asp-action="Index">News</a>
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "News" ? "active font-weight-bold" : "")"
+                               asp-controller="News" asp-action="Index">News</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Scheduler" asp-action="Index">Scheduler</a>
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Scheduler" ? "active font-weight-bold" : "")"
+                               asp-controller="Scheduler" asp-action="Index">Scheduler</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Index">Account</a>
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Account" ? "active font-weight-bold" : "")"
+                               asp-controller="Account" asp-action="Index">Account</a>
                         </li>
                     </ul>
+
                 </div>
             </div>
         </nav>
