@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace WealthWise_RCD.Controllers
+namespace WealthWise_RCD.Areas.Advisor.Controllers
 {
+    [Area("Advisor")]
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
-            return View();
+            return View("Home");
         }
 
         public IActionResult Privacy()

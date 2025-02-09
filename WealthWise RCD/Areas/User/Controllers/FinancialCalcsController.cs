@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WealthWise_RCD.Models;
 
-namespace WealthWise_RCD.Controllers
+namespace WealthWise_RCD.Areas.User.Controllers
 {
+    [Area("User")]
     public class FinancialCalcsController : Controller
     {
         [HttpGet]
