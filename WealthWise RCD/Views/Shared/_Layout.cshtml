@@ -9,78 +9,51 @@
     <link rel="stylesheet" href="~/WealthWise_RCD.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <style>
-            header {
-                width: 100%;
-                height: fit-content;
-                background-color: #d5cab8;
-                -webkit-text-fill-color: white;
-                text-align: left;
-            }
-        </style>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-#adad85  mb-3">
-            <div class="container">
-                <img src="~/images/RCDLogo.jpg" alt="Roman Cat Dynasty Logo" width="50" height="50" />
+    <header id="topbar">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-#adad85 mb-3" style="margin-left: 3em">
+            <div class="container-fluid" >
+                <img src="~/images/RCDLogo.jpg" alt="Roman Cat Dynasty Logo" width="50" height="50"/>
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index" id="title">WealthWise by RCD</a>
-                <style>
-                    #title {
-                        color: #5d5d3c;
-                    }
-                </style>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-center" style="padding-left: 1em">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        <li class="nav-item" style="padding-left: 1em">
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "FinancialCalcs" ? "active font-weight-bold" : "")"
                                asp-controller="FinancialCalcs" asp-action="Index">Financial Calculators</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="padding-left: 1em">
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LearningHub" ? "active font-weight-bold" : "")"
                                asp-controller="LearningHub" asp-action="Index">Learning Hub</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="padding-left: 1em">
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "News" ? "active font-weight-bold" : "")"
                                asp-controller="News" asp-action="Index">News</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="padding-left: 1em">
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Scheduler" ? "active font-weight-bold" : "")"
                                asp-controller="Scheduler" asp-action="Index">Scheduler</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="padding-left: 1em">
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Account" ? "active font-weight-bold" : "")"
                                asp-controller="Account" asp-action="Index">Account</a>
                         </li>
                     </ul>
-
                 </div>
             </div>
         </nav>
     </header>
-        <div class="container">
+    <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - WealthWise_by_RCD - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container" id="footer">
+            &copy; 2025 - WealthWise Financial Advising by Roman Cat Dynasty | Empowering Your Financial Future - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-        <style>
-            footer {
-                position: fixed;
-                left: 0;
-                bottom: 0;
-                width: 100%;
-                height: fit-content;
-                background-color: #adad85;
-                -webkit-text-fill-color: #5d5d3c;
-                text-align: left;
-            }
-        </style>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -90,3 +63,27 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<style>
+    #topbar {
+        width: 100%;
+        height: fit-content;
+        background-color: #d5cab8;
+        -webkit-text-fill-color: white;
+        text-align: left;
+    }
+    #title {
+        color: #5d5d3c;
+        margin-left: 1em;
+    }
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: fit-content;
+        background-color: #adad85;
+        -webkit-text-fill-color: #5d5d3c;
+        text-align: left;
+    }
+</style>
