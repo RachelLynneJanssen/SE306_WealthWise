@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace WealthWise_RCD.Controllers
+namespace WealthWise_RCD.Areas.User.Controllers
 {
-    public class AccountController : Controller
+    [Area("User")]
+    public class SchedulerController : Controller
     {
         public IActionResult Index()
         {

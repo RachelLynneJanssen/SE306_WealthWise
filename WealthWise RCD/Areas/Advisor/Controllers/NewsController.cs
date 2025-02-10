@@ -8,8 +8,9 @@ using static System.Net.WebRequestMethods;
 using MySqlX.XDevAPI;
 using HtmlAgilityPack;
 
-namespace WealthWise_RCD.Controllers
+namespace WealthWise_RCD.Areas.Advisor.Controllers
 {
+    [Area("Advisor")]
     public class NewsController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -32,7 +33,7 @@ namespace WealthWise_RCD.Controllers
             ViewData["ActiveTab"] = activeTab;
             ViewData["StockType"] = stockType;
 
-            return View();
+            return View("News");
         }
 
         private async Task<List<Article>> LoadArticlesAsync()
@@ -108,7 +109,7 @@ namespace WealthWise_RCD.Controllers
             {
                 stocks.Add(new Stock { Ticker = "Error", Name = "Error", Sector = "Error", MarketCap = "Error", Price = "Error", PercentChange = "Error", Revenue = "Error" });
             }
-            return stocks;           
+            return stocks;
         }
     }
 }

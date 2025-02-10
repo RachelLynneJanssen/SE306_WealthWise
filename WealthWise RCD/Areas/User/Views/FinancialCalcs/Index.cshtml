@@ -1,0 +1,193 @@
+﻿@using WealthWise_RCD.Models
+@{
+    var amount = ViewData["Amount"]?.ToString() ?? " ";
+}
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4">Financial Calculators</h1>
+        <p class="lead text-muted">Tools to analyze and plan for your financial future!</p>
+    </div>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="interest-calculator-tab" data-toggle="tab" href="#interest-calculator" role="tab" aria-controls="interest-calculator" aria-selected="true">Interest Calculator</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="retirement-calculator-tab" data-toggle="tab" href="#retirement-calculator" role="tab" aria-controls="retirment-calculator" aria-selected="false"> Retirement Calculator</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="budget-planner-tab" data-toggle="tab" href="#budget-planner" role="tab" aria-controls="budget-planner" aria-selected="false">Monthly Budget Planner</a>
+        </li>
+    </ul>
+
+    <!-- tab page content -->
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="interest-calculator" role="tabpanel" aria-labelledby="interest-calculator-tab">
+            <!-- Interest Calculator Content -->
+            <h3>Interest Calculator</h3>
+            <form method="post">
+                <div class="form-group">
+                    <label for="Initial Amount">Initial Amount:</label>
+                    <div class="position-relative">
+                        <input type="number" class="form-control money-input-interest" id="initialAmount" name="InitialAmount" placeholder="Enter initial amount" step="0.01">
+                        <span class="dollar-sign-interest">$</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="numberOfPayments">Number of Payments:</label>
+                    <input type="number" class="form-control" id="numberOfPayments" name="NumberOfPayments" placeholder="Enter number of payments" step="1">
+                </div>
+                <div class="form-group">
+                    <label for="time">Time:</label>
+                    <input type="number" class="form-control" id="time" name="Time" placeholder="Enter the times you want to compound" step="1">
+                </div>
+                <div class="form-group">
+                    <label for="interestRate">Interest Rate (%):</label>
+                    <input type="number" class="form-control" id="interestRate" name="InterestRate" placeholder="Enter interest rate" step="0.01">
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+            @if (ViewData["Amount"] != null)
+            {
+                <div class="alert alert-info mt-3" id="calculatedAmountBox">
+                    <strong>Calculated Amount:</strong> @amount
+                </div>
+            }
+            <div class="mt-3">
+                <h5>Formula:</h5>
+                <img src="~/images/CompoundInterestFormula.png" alt="Interest Calculation Formula" class="img-fluid">
+            </div>
+        </div>
+        <div class="tab-pane fade" id="retirement-calculator" role="tabpanel" aria-labelledby="retirement-calculator-tab">
+            <!-- Retirement Calculator Content -->
+            <h3>Retirement Calculator</h3>
+            <form method="post">
+                <div class="form-group">
+                    <label for="loanAmount">Loan Amount:</label>
+                    <div class="position-relative">
+                        <input type="number" class="form-control money-input-retirement" id="loanAmount" name="LoanAmount" placeholder="Enter initial amount" step="0.01">
+                        <span class="dollar-sign-retirement">$</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="numberOfPayments">Number of Payments:</label>
+                    <input type="number" class="form-control" id="numberOfPayments" name="NumberOfPayments" placeholder="Enter number of payments" step="1">
+                </div>
+                <div class="form-group">
+                    <label for="time">Time:</label>
+                    <input type="number" class="form-control" id="time" name="Time" placeholder="Enter time" step="1">
+                </div>
+                <div class="form-group">
+                    <label for="interestRate">Interest Rate (%):</label>
+                    <input type="number" class="form-control" id="interestRate" name="InterestRate" placeholder="Enter interest rate" step="0.01">
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+            @if (ViewData["Amount"] != null)
+            {
+                <div class="alert alert-info mt-3" id="calculatedAmountBox">
+                    <strong>Calculated Amount:</strong> @amount
+                </div>
+            }
+        </div>
+        <div class="tab-pane fade" id="budget-planner" role="tabpanel" aria-labelledby="budget-planner-tab">
+            <!-- Monthly Budget Planner Content -->
+            <h3>Monthly Budget Planner</h3>
+            <form method="post">
+                <!-- Add your form fields here -->
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(function () {
+            $('#myTab a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputField = document.querySelector(".money-input-interest");
+            const dollarSign = document.querySelector(".dollar-sign-interest");
+
+            inputField.addEventListener("input", function() {
+                if (inputField.value.trim() !== "")
+                {
+                    dollarSign.style.opacity = "1";
+                    inputField.style.paddingLeft = "20px";
+                }
+                else
+                {
+                    dollarSign.style.opacity = "0";
+                    inputField.style.paddingLeft = "10px";
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputField = document.querySelector(".money-input-retirement");
+            const dollarSign = document.querySelector(".dollar-sign-retirement");
+
+            inputField.addEventListener("input", function() {
+                if (inputField.value.trim() !== "")
+                {
+                    dollarSign.style.opacity = "1";
+                    inputField.style.paddingLeft = "20px";
+                }
+                else
+                {
+                    dollarSign.style.opacity = "0";
+                    inputField.style.paddingLeft = "10px";
+                }
+            });
+        });
+    </script>
+}
+
+<style>
+    #calculatedAmountBox {
+        background-color: white;
+        border-color: lightgrey;
+        -webkit-text-fill-color: #8a8a5c;
+        text-align: left;
+        padding: 10px;
+    }
+
+    .position-relative {
+        position: relative;
+    }
+
+    .dollar-sign-interest  {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: lightgray;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
+    }
+
+    .money-input-interest {
+        padding-left: 10px;
+    }
+
+    .dollar-sign-retirement {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: lightgray;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
+    }
+
+    .money-input-retirement {
+        padding-left: 10px;
+    }
+</style>
