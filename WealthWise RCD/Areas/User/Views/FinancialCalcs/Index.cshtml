@@ -28,7 +28,10 @@
             <form method="post">
                 <div class="form-group">
                     <label for="Initial Amount">Initial Amount</label>
-                    <input type="number" class="form-control" id="initialAmount" name="InitialAmount" placeholder="Enter initial amount" step="0.01">
+                    <div class="position-relative">
+                        <input type="number" class="form-control money-input-interest" id="initialAmount" name="InitialAmount" placeholder="Enter initial amount" step="0.01">
+                        <span class="dollar-sign-interest">$</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="numberOfPayments">Number of Payments</label>
@@ -59,7 +62,10 @@
             <form method="post">
                 <div class="form-group">
                     <label for="loanAmount">Loan Amount</label>
-                    <input type="number" class="form-control" id="loanAmount" name="LoanAmount" placeholder="Enter loan amount" step="0.01">
+                    <div class="position-relative">
+                        <input type="number" class="form-control money-input-retirement" id="loanAmount" name="LoanAmount" placeholder="Enter initial amount" step="0.01">
+                        <span class="dollar-sign-retirement">$</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="numberOfPayments">Number of Payments</label>
@@ -97,6 +103,42 @@
                 $(this).tab('show');
             });
         });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputField = document.querySelector(".money-input-interest");
+            const dollarSign = document.querySelector(".dollar-sign-interest");
+
+            inputField.addEventListener("input", function() {
+                if (inputField.value.trim() !== "")
+                {
+                    dollarSign.style.opacity = "1";
+                    inputField.style.paddingLeft = "20px";
+                }
+                else
+                {
+                    dollarSign.style.opacity = "0";
+                    inputField.style.paddingLeft = "10px";
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputField = document.querySelector(".money-input-retirement");
+            const dollarSign = document.querySelector(".dollar-sign-retirement");
+
+            inputField.addEventListener("input", function() {
+                if (inputField.value.trim() !== "")
+                {
+                    dollarSign.style.opacity = "1";
+                    inputField.style.paddingLeft = "20px";
+                }
+                else
+                {
+                    dollarSign.style.opacity = "0";
+                    inputField.style.paddingLeft = "10px";
+                }
+            });
+        });
     </script>
 }
 
@@ -107,5 +149,39 @@
         -webkit-text-fill-color: #8a8a5c;
         text-align: left;
         padding: 10px;
+    }
+
+    .position-relative {
+        position: relative;
+    }
+
+    .dollar-sign-interest  {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: lightgray;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
+    }
+
+    .money-input-interest {
+        padding-left: 10px;
+    }
+
+    .dollar-sign-retirement {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: lightgray;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
+    }
+
+    .money-input-retirement {
+        padding-left: 10px;
     }
 </style>
