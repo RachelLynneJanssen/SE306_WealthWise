@@ -36,11 +36,10 @@
                             <a class="nav-link text-light @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Scheduler" ? "active font-weight-bold" : "")"
                                asp-area="User" asp-controller="Scheduler" asp-action="Index">Scheduler</a>
                         </li>
-                        <li class="nav-item" style="padding-left: 1em">
-                            <a class="nav-link text-light @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Account" ? "active font-weight-bold" : "")"
-                               asp-area="User" asp-controller="Account" asp-action="Index">Account</a>
-                        </li>
                     </ul>
+                    <a class="navbar-brand" asp-area="User" asp-controller="Account" asp-action="Index" id="Account" style="align-content: right">
+                        <img src="~/images/Profile icon.jpg" alt="Profile icon" width="30" height="30" style="border-radius: 50%; border: 1px solid #ccc;"/>
+                    </a>
                 </div>
             </div>
         </nav>
