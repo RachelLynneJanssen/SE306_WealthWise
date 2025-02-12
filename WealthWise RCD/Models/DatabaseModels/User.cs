@@ -22,6 +22,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
         [Required]
         public int AddressId { get; set; }
         public Address Address { get; set; } = null!;
+        // public string ProfileLoc { get; set; }
         [Required]
         public int SubscriptionId { get; set; }
         public Subscription Subscription { get; set; } = null!;

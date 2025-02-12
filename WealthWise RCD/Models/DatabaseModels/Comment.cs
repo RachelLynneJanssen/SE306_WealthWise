@@ -8,8 +8,10 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public string Content {  get; set; }
         public DateTime PublicationDate { get; set; }
 
-        // Parent Blog post?
-        
+        public int ParentCommentId { get; set; }
+
+        [ForeignKey(nameof(ParentCommentId))]
+        public Comment ParentComment { get; set; } = null!;
         public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
