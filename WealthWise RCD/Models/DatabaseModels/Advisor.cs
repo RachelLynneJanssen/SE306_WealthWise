@@ -10,7 +10,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
         [Required]
         public string LastName { get; set; }
         public string Biography { get; set; }
-        // image???
-        public ICollection<AdvisorCertificate> Certificates { get; set; }
+        // public string ImageLoc { get; set; }
+        public ICollection<Certificate> Certificates { get; set; }
     }
 }
