@@ -11,9 +11,9 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public string Category { get; set; }
         public string Content { get; set; }
 
-        public int AdvisorId { get; set; }
+        public string AdvisorId { get; set; }
 
         [ForeignKey(nameof(AdvisorId))]
-        public Advisor Advisor { get; set; } = null!;
+        public User Advisor { get; set; } = null!;
     }
 }

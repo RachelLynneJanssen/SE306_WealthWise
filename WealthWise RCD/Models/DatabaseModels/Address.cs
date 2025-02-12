@@ -31,7 +31,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public AddressState State { get; set; }
         [Required, StringLength(5)]
         public string ZipCode {  get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey(nameof(UserId))]
         public User User { get; set; } = null!;
     }

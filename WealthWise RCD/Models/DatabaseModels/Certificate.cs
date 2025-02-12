@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public ICollection<Advisor> Advisors { get; set; }
+        public ICollection<User> Advisors { get; set; }
     }
 }

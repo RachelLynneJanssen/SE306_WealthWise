@@ -26,7 +26,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
         #region PayPal Info
         public string? AccountName {  get; set; }
         #endregion
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         
         [ForeignKey(nameof(UserId))]
         public User User { get; set; } = null!;

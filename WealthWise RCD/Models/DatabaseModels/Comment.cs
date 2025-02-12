@@ -12,7 +12,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
 
         [ForeignKey(nameof(ParentCommentId))]
         public Comment ParentComment { get; set; } = null!;
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public User User { get; set; } = null!;

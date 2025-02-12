@@ -6,11 +6,11 @@ namespace WealthWise_RCD.Models.DatabaseModels
     {
         public int Id { get; set; }
         public DateTime DateTime { get; set; }
-        public int AdvisorId { get; set; }
+        public string AdvisorId { get; set; }
         
         [ForeignKey(nameof(AdvisorId))]
-        public Advisor Advisor { get; set; } = null!;
-        public int UserId { get; set; }
+        public User Advisor { get; set; } = null!;
+        public string UserId { get; set; }
         
         [ForeignKey(nameof(UserId))]
         public User User { get; set; } = null!;
