@@ -11,8 +11,6 @@ namespace WealthWise_RCD.Models
         {
 
         }
-        public DbSet<Test> Tests { get; set; }
-        public DbSet<testtest> testtests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
