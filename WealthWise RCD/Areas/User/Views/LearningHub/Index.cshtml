@@ -15,7 +15,7 @@
     </div>
 
     <div class="d-grid gap-5 d-md-flex justify-content-md-center">
-        <div class="">
+        <a asp-area="User" asp-controller="LearningHub" asp-action="References">
             <div class="link-box">
                 <div class="icon-box">
                     <i class="fa-solid fa-book-open fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
@@ -24,9 +24,9 @@
                     <h3 style="text-align: center">Learning Resources</h3>
                 </div>
             </div>
-        </div>
+        </a>
 
-        <div class="">
+        <a asp-area="User" asp-controller="LearningHub" asp-action="TipsAndTricks">
             <div class="link-box">
                 <div class="icon-box">
                     <i class="fa-solid fa-screwdriver-wrench fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
@@ -35,18 +35,18 @@
                     <h3 style="text-align: center">Tips and Tricks</h3>
                 </div>
             </div>
-        </div>
+        </a>
 
-        <div class="">
+        <a asp-area="User" asp-controller="LearningHub" asp-action="BlogPosts">
             <div class="link-box">
                 <div class="icon-box">
-                    <i class="fa-solid fa-user-pen fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
+                    <i class="fa-solid fa-user-pen fa-2xl" style="color: #7a7a52; font-size: 100px;"></i>
                 </div>
                 <div class="name-box">
-                    <h3 style="text-align: center">Blog Posts</h3>
+                    <h3 style="text-align: center; margin-top: 45px">Blog Posts</h3>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 
 </div>
@@ -76,5 +76,6 @@
         margin-top: 30px;
         font-size: 18px;
         font-weight: bold;
+        color: #7a7a52;
     }
 </style>
