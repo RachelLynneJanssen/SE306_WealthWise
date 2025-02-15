@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WealthWise RCD", "WealthWise RCD.csproj", "{74E2834C-A62B-01AC-5B33-F76DC35901DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74E2834C-A62B-01AC-5B33-F76DC35901DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74E2834C-A62B-01AC-5B33-F76DC35901DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74E2834C-A62B-01AC-5B33-F76DC35901DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74E2834C-A62B-01AC-5B33-F76DC35901DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DFBCEB89-6641-4F9D-AD3C-7478BB481F63}
+	EndGlobalSection
+EndGlobal
