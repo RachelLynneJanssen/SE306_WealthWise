@@ -30,7 +30,9 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public MonthlyBudget? Budget { get; set; }
         public ICollection<AdvisorEvent>? RegisteredEvents { get; set; }     // Renamed to avoid confusion
         public string? Biography { get; set; }
-        // public string ImageLoc { get; set; }
+
+        [MaxLength(255)]    
+        public string? ImageLoc { get; set; }
         public ICollection<Certificate>? Certificates { get; set; }
         public ICollection<AdvisorEvent>? AdvisorEvents { get; set; }
     }

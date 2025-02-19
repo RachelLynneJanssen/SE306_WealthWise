@@ -22,10 +22,11 @@ namespace WealthWise_RCD.Models.DatabaseModels
     public class Address
     {
         public int Id { get; set; }
-        [Required]
+        [Required, MaxLength(255)]
         public string StreetName {  get; set; }
+        [MaxLength(255)]
         public string? ExtraInfo { get; set; }
-        [Required]
+        [Required, MaxLength(255)]
         public string City { get; set; }
         [Required]
         public AddressState State { get; set; }
