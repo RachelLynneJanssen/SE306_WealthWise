@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WealthWise_RCD.Views.Shared
+namespace WealthWise_RCD.Views.Shared.Home
 {
     public class IndexModel : PageModel
     {

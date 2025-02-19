@@ -37,9 +37,20 @@
                                asp-area="User" asp-controller="Scheduler" asp-action="Index">Scheduler</a>
                         </li>
                     </ul>
-                    <a class="navbar-brand" asp-area="User" asp-controller="Account" asp-action="Index" id="Account" style="align-content: right">
-                        <img src="~/images/Cat Coins/PP1.jpg" alt="Profile icon" width="40" height="40" style="border-radius: 50%; border: 1px solid #ccc;"/>
-                    </a>
+
+                    <!-- Navbar Profile Dropdown -->
+                    <ul style="align-content: end">
+                        <li class="nav-item dropdown" style="list-style-type: none">
+                            <a class="nav-link" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="~/images/Cat Coins/PP1.jpg" alt="Profile icon" width="45" height="45" style="border-radius: 50%; border: 1px solid #ccc;" />
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Index">Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="Logout" asp-action="Index">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
