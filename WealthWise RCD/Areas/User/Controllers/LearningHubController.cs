@@ -9,5 +9,20 @@ namespace WealthWise_RCD.Areas.User.Controllers
         {
             return View();
         }
+
+        public IActionResult BlogPosts()
+        {
+            return View();
+        }
+
+        public IActionResult References()
+        {
+            return View();
+        }
+
+        public IActionResult TipsAndTricks()
+        {
+            return View();
+        }
     }
 }
