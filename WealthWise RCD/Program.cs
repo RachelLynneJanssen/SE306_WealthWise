@@ -1,4 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using WealthWise_RCD.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +11,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+// Add Identity services
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews(options =>
+{
+    // Apply a global authorization policy to require authentication
+    var policy = new AuthorizationPolicyBuilder()
+                     .RequireAuthenticatedUser()
+                     .Build();
+    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
+});
+
+
 
 // Add services to the container.
 builder.Services.AddRazorPages()
@@ -28,16 +49,25 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllerRoute
+//    (
+//        name: "default",
+//        pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}"
+//    );
+//});
+app.MapGet("/", async context =>
 {
-    endpoints.MapControllerRoute
-    (
-        name: "default",
-        pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}"
-    );
+    context.Response.Redirect("/Identity/Account/Login");
 });
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 
