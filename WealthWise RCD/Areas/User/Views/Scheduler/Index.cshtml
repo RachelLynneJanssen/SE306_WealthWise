@@ -9,16 +9,116 @@
 </div> 
 
 <div>
-    <p>Name: </p>
-    <p>Current Advisor: </p>
-    <p>Upcoming Appointments: </p>
+    <div>
+        <h2>User Information</h1>
+    </div>
 </div>
 
-<form method="=post">
-    <div class="form-group">
-        <label for="Change Advisor">Change Advisor</label>
-        <div class="position-relative">
-            <input type="search" class="form-control" id="changeAdvisor" name="ChangeAdvisor" placeholder="Enter Advisor Name">
-        </div> 
-    </div>
-</form>
+<div>
+    <p>Name: </p>
+    <p>Current Advisor: </p>
+</div>
+<div class="card p-2 mt-2 no-border">
+    <h5>Upcoming appointments</h5>
+    <table class="table table-striped custom-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Advisor</th>
+            </tr>
+        </thead>
+        <tbody class="custom-body">
+            <td>February 26, 2025</td>
+            <td>3:00 PM</td>
+            <td>Your Mom</td>
+            <td><button class="btn btn danger btn-sm">Cancel</button></td>
+        </tbody>
+    </table>
+</div>
+
+
+@* <div class="row">
+<div class="col-sml-6">
+<div class="schedule-table"> *@
+<h2 class="timeline">Appointment Timeline</h5>
+<table class="table table-sm"> 
+    <thead>
+        <tr>
+            <th scope="col">Time</th>
+            <th scope="col">Monday</th>
+            <th scope="col">Tuesday</th>
+            <th scope="col">Wednesday</th>
+            <th scope="col">Thursday</th>
+            <th scope="col">Friday</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">8:00 AM</th>
+        </tr>
+        <tr>
+            <th scope="row">9:00 AM</th>
+        </tr>
+        <tr>
+            <th scope="row">10:00 AM</th>
+        </tr>
+        <tr>
+            <th scope="row">11:00 AM</th>
+        </tr>
+        <tr>
+            <th scope="row">12:00 PM</th>
+        </tr>
+        <tr>
+            <th scope="row">1:00 PM</th>
+        </tr>
+        <tr>
+            <th scope="row">2:00 PM</th>
+        </tr>
+        <tr>
+            <th scope="row">3:00 PM</th>
+        </tr>
+        <tr>
+            <th scope="row">4:00 PM</th>
+        </tr>
+        <tr>
+            <th scope="row">5:00 PM</th>
+        </tr>
+    </tbody>
+</table>
+
+<div class="change-advisor"></div>
+    <form method="=post">
+        <div class="form-group">
+            <label class="change-advisor" for="Change Advisor">Change Advisor</label>
+            <div class="position-relative">
+                <input type="search" class="form-control" id="changeAdvisor" name="ChangeAdvisor" placeholder="Enter Advisor Name">
+            </div> 
+        </div>
+        <div class="reason-advisor-change">
+            <label for="reason-advisor-change">Reason for Advisor Change</label>
+            <input type="textarea" class="form-control" id="reason" name="reason-advisor-change" placeholder="State your reason for changing advisors">
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+</div>
+
+<style>
+    .custom-table th, .custom-table td, .custom-body{
+        padding:  5x !important;
+        background-color: transparent !important;
+    }
+    .no-border {
+        background-color: transparent !important;
+        border: none;
+        box-shadow: none;
+    }
+    h5 {
+        padding-top: 1rem;
+    }
+    .change-advisor, .reason-advisor-change {
+        padding-top:1rem;
+        font: size 2rem;;
+        font-weight: 1000;
+    }
+</style>
