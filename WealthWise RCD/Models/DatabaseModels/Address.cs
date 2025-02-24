@@ -22,16 +22,17 @@ namespace WealthWise_RCD.Models.DatabaseModels
     public class Address
     {
         public int Id { get; set; }
-        [Required]
+        [Required, MaxLength(255)]
         public string StreetName {  get; set; }
+        [MaxLength(255)]
         public string? ExtraInfo { get; set; }
-        [Required]
+        [Required, MaxLength(255)]
         public string City { get; set; }
         [Required]
         public AddressState State { get; set; }
         [Required, StringLength(5)]
         public string ZipCode {  get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey(nameof(UserId))]
         public User User { get; set; } = null!;
     }
