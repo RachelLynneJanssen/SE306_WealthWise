@@ -18,14 +18,15 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddControllersWithViews(options =>
-{
-    // Apply a global authorization policy to require authentication
-    var policy = new AuthorizationPolicyBuilder()
-                     .RequireAuthenticatedUser()
-                     .Build();
-    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
-});
+//builder.Services.AddControllersWithViews(options =>
+//{
+//    // Apply a global authorization policy to require authentication
+//    // TURNED OFF FOR DEBUGGING
+//    var policy = new AuthorizationPolicyBuilder()
+//                     .RequireAuthenticatedUser()
+//                     .Build();
+//    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
+//});
 
 
 
@@ -49,8 +50,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
-app.UseAuthorization();
+// TEMPORARILY DISABLED FOR DEBUGGING
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 //app.UseEndpoints(endpoints =>
 //{
@@ -67,7 +69,7 @@ app.MapGet("/", async context =>
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 
