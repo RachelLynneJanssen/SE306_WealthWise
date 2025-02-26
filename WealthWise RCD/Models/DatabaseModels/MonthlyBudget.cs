@@ -9,7 +9,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public decimal Expense {  get; set; }
         public decimal Savings { get; set; }
         public decimal Total {  get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         
         [ForeignKey(nameof(UserId))]
         public User User { get; set; } = null!;

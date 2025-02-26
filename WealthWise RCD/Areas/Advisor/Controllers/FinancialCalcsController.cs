@@ -15,15 +15,7 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
         [HttpPost]
         public IActionResult Index(FinancialCalculator model)
         {
-            if (model.Calculate())
-            {
-                ViewData["Amount"] = model.Amount;
-            }
-            else
-            {
-                ViewData["Amount"] = "Invalid input";
-            }
-
+        
             return View(model);
         }
     }

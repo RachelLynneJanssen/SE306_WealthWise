@@ -8,7 +8,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public int Level {  get; set; }
         public DateOnly ExpDate { get; set; }
         public bool Recurring {  get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         
         [ForeignKey(nameof(UserId))]
         public User User { get; set; } = null!;
