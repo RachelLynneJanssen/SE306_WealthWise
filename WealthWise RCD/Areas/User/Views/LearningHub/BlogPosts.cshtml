@@ -43,7 +43,11 @@
     {
         <div class="card mb-4 shadow-sm">
             <div class="card-body">
-                <h3 class="card-title fw-bold">@blog.Title</h3>
+                <h3 class="card-title fw-bold">
+                    <a asp-area="User" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id" class="text-dark">
+                        @blog.Title
+                    </a>
+                </h3>
                 <p class="card-text">Topic: @blog.Topic</p>
                 <p class="card-text text-muted">Author Name -- Published: @blog.PublicationDate</p>
             </div>
