@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WealthWise_RCD.Models;
+using WealthWise_RCD.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,7 @@ builder.Services.AddControllersWithViews();
 //    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
 //});
 
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 
 // Add services to the container.

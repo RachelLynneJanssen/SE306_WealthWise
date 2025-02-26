@@ -1,5 +1,4 @@
 ﻿<!DOCTYPE html>
-<partial name="_LoginPartial" />
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,14 +9,14 @@
     <link rel="stylesheet" href="~/WealthWise_RCD.styles.css" asp-append-version="true" />
 </head>
  <body>
-       <header id="topbar">
+    <header id="topbar">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-#adad85 mb-3" style="margin-left: 3em;">
             <div class="container-fluid">
                 <img src="~/images/RCDLogo color.jpg" alt="Roman Cat Dynasty Logo" width="50" height="50" />
             </div>
+            <partial name="_LoginPartial" />
         </nav>
     </header>
-    
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
