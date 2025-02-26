@@ -1,5 +1,82 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using WealthWise_RCD.Models
 @{
+
 }
+<!-- Link for the font awesome library -->
+<head>
+    <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
+</head>
+
+<div class="container mt-5">
+    <!-- Title and tag line of learning hub -->
+    <div class="text-center">
+        <h1 class="display-4" style="text-align: center">Learning Hub</h1>
+        <p class="lead text-muted">Expand Your Knowledge!</p>
+    </div>
+
+    <div class="d-grid gap-5 d-md-flex justify-content-md-center">
+        <a asp-area="Advisor" asp-controller="LearningHub" asp-action="References">
+            <div class="link-box">
+                <div class="icon-box">
+                    <i class="fa-solid fa-book-open fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
+                </div>
+                <div class="name-box">
+                    <h3 style="text-align: center">Learning Resources</h3>
+                </div>
+            </div>
+        </a>
+
+        <a asp-area="Advisor" asp-controller="LearningHub" asp-action="TipsAndTricks">
+            <div class="link-box">
+                <div class="icon-box">
+                    <i class="fa-solid fa-screwdriver-wrench fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
+                </div>
+                <div class="name-box">
+                    <h3 style="text-align: center">Tips and Tricks</h3>
+                </div>
+            </div>
+        </a>
+
+        <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogPosts">
+            <div class="link-box">
+                <div class="icon-box">
+                    <i class="fa-solid fa-user-pen fa-2xl" style="color: #7a7a52; font-size: 100px;"></i>
+                </div>
+                <div class="name-box">
+                    <h3 style="text-align: center; margin-top: 45px">Blog Posts</h3>
+                </div>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+
+<style>
+    .link-box 
+    {
+        display: inline-block;
+        width: 200px;
+        height: 200px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        margin: 20px;
+        background-color: white;
+    }
+
+    .icon-box 
+    {
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .name-box 
+    {
+        margin-top: 30px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #7a7a52;
+    }
+</style>
