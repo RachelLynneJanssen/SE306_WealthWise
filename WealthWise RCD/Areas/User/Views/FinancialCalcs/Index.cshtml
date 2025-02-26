@@ -1,6 +1,7 @@
 ﻿@using WealthWise_RCD.Models
 @{
-    var amount = ViewData["Amount"]?.ToString() ?? " ";
+    var interestAmount = ViewData["InterestAmount"]?.ToString() ?? " ";
+	var retirementAmount = ViewData["RetirementAmount"]?.ToString() ?? " ";
 }
 <div class="container mt-5">
     <div class="text-center">
@@ -48,10 +49,10 @@
                 <br />
                 <button type="submit" class="btn btn-primary">Calculate</button>
             </form>
-            @if (ViewData["Amount"] != null)
+            @if (@interestAmount != null)
             {
                 <div class="alert alert-info mt-3" id="calculatedAmountBox">
-                    <strong>Calculated Amount:</strong> @amount
+                    <strong>Calculated Amount:</strong> @interestAmount
                 </div>
             }
             <div class="mt-3">
@@ -64,31 +65,36 @@
             <h3>Retirement Calculator</h3>
             <form method="post">
                 <div class="form-group">
-                    <label for="loanAmount">Loan Amount:</label>
-                    <div class="position-relative">
-                        <input type="number" class="form-control money-input-retirement" id="loanAmount" name="LoanAmount" placeholder="Enter initial amount" step="0.01">
-                        <span class="dollar-sign-retirement">$</span>
-                    </div>
+                    <label for="currentAge">Current Age:</label>
+                    <input type="number" class="form-control money-input-retirement" id="currentAge" name="CurrentAge" placeholder="Enter your age" step="1">
                 </div>
                 <div class="form-group">
-                    <label for="numberOfPayments">Number of Payments:</label>
-                    <input type="number" class="form-control" id="numberOfPayments" name="NumberOfPayments" placeholder="Enter number of payments" step="1">
+                    <label for="retirementAge">Retirement Age:</label>
+                    <input type="number" class="form-control money-input-retirement" id="retirementAge" name="RetirementAge" placeholder="Enter retirement age" step="1">
                 </div>
                 <div class="form-group">
-                    <label for="time">Time:</label>
-                    <input type="number" class="form-control" id="time" name="Time" placeholder="Enter time" step="1">
+                    <label for="annualIncome">Annual Income:</label>
+                    <input type="number" class="form-control" id="annualIncome" name="AnnualIncome" placeholder="Enter your income" step="1">
                 </div>
                 <div class="form-group">
-                    <label for="interestRate">Interest Rate (%):</label>
-                    <input type="number" class="form-control" id="interestRate" name="InterestRate" placeholder="Enter interest rate" step="0.01">
+                    <label for="expectedIncomeInc">Expected Annual Income Increase (%):</label>
+                    <input type="number" class="form-control" id="expectedIncomeInc" name="ExpectedIncomeInc" placeholder="Enter the percent you think your income will increase annually" step="1">
+                </div>
+                <div class="form-group">
+                    <label for="retirementSavings">Annual Retirement Saving of Income (%):</label>
+                    <input type="number" class="form-control" id="retirementSavings" name="RetirementSavings" placeholder="Enter the percent of your annual income you will save" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="savingsInterestRate">Savings Annual Interest Rate (%):</label>
+                    <input type="number" class="form-control" id="savingsInterestRate" name="SavingsInterestRate" placeholder="Enter the interest rate of your savings" step="0.01">
                 </div>
                 <br />
                 <button type="submit" class="btn btn-primary">Calculate</button>
             </form>
-            @if (ViewData["Amount"] != null)
+            @if (retirementAmount != null)
             {
                 <div class="alert alert-info mt-3" id="calculatedAmountBox">
-                    <strong>Calculated Amount:</strong> @amount
+                    <strong>Calculated Amount:</strong> @retirementAmount
                 </div>
             }
         </div>
