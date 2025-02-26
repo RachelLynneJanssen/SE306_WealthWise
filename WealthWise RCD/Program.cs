@@ -65,10 +65,10 @@ app.UseRouting();
 //        pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}"
 //    );
 //});
-app.MapGet("/", async context =>
+/*app.MapGet("/", async context =>
 {
     context.Response.Redirect("/Identity/Account/Login");
-});
+});*/
 
 app.MapControllerRoute(
     name: "default",
