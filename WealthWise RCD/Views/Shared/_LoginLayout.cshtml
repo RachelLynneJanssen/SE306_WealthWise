@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<partial name="_LoginPartial" />
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WealthWise_by_RCD</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WealthWise_RCD.styles.css" asp-append-version="true" />
+</head>
+ <body>
+       <header id="topbar">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-#adad85 mb-3" style="margin-left: 3em;">
+            <div class="container-fluid">
+                <img src="~/images/RCDLogo color.jpg" alt="Roman Cat Dynasty Logo" width="50" height="50" />
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container" id="footer">
+            &copy; 2025 - WealthWise Financial Advising by Roman Cat Dynasty | Empowering Your Financial Future - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body> 
+</html>
+
+<style>
+    #topbar {
+        width: 100%;
+        height: fit-content;
+        background-color: #d5cab8;
+        -webkit-text-fill-color: white;
+        text-align: left;
+    }
+    #title {
+        color: #5d5d3c;
+    }
+    .footer {
+        position: absolute; 
+        margin-bottom: 0;
+        bottom: 0;
+        width: 100%;
+        height: fit-content;
+        background-color: #adad85;
+        -webkit-text-fill-color: #5d5d3c;
+        text-align: left;
+    }
+
+    .navbar {
+        padding: 0px;
+    }
+</style>
