@@ -1,10 +1,12 @@
-﻿@using WealthWise_RCD.Models
+@using WealthWise_RCD.Models
+@{
+}
 <div class="container mt-5">
     <div class="text-center">
         <h1 class="display-4">Scheduler</h1>
         <p class="lead text-muted">Schedule appointments with Users or Advisors</p>
     </div>
-
+</div> 
 
 <div>
     <div>
@@ -34,8 +36,6 @@
         </tbody>
     </table>
 </div>
-
-
 @* <div class="row">
 <div class="col-sml-6">
 <div class="schedule-table"> *@
@@ -96,23 +96,10 @@
         <div class="reason-advisor-change">
             <label for="reason-advisor-change">Reason for Advisor Change</label>
             <input type="textarea" class="form-control" id="reason" name="reason-advisor-change" placeholder="State your reason for changing advisors">
-
-    <div class="mt-4">
-        <p><strong>Name:</strong> [User's Name]</p>
-        <p><strong>Current Advisor:</strong> [Advisor's Name]</p>
-        <p><strong>Upcoming Appointments:</strong> [List of Appointments]</p>
-    </div>
-
-    <form method="post" class="mt-4">
-        <div class="form-group">
-            <label for="changeAdvisor" class="form-label">Change Advisor</label>
-            <input type="search"
-                   class="form-control"
-                   id="changeAdvisor"
-                   name="changeAdvisor"
-                   placeholder="Enter Advisor Name"
-                   aria-describedby="changeAdvisorHelp" />
-            <small id="changeAdvisorHelp" class="form-text text-muted">Type the name of the advisor you wish to switch to.</small>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+</div>
 
 <style>
     .custom-table th, .custom-table td, .custom-body{
