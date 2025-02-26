@@ -1,0 +1,31 @@
+﻿@model WealthWise_RCD.Models.DatabaseModels.Blog
+@{
+
+}
+<head>
+    <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
+</head>
+
+<body> 
+    <!-- Back Button -->
+    <a asp-area="User" asp-controller="LearningHub" asp-action="BlogPosts">
+        <i class="fa-solid fa-arrow-left fa-xl" style="color: #828282;" alt="Return to Blog List"></i>
+    </a>
+
+    <!-- Single Blog Page -->
+    <div class="container flex-column justify-content-between align-items-center mb-5 px-5">
+        <h1>@Model.Title</h1>
+        <p class="text-muted">Topic: @Model.Topic | Published: @Model.PublicationDate</p>
+        <hr/>
+        <p>@Model.Content</p>
+        <hr />
+
+        <div class="container d-flex justify-content-start align-items-center mb-5 px-5">
+            <i class="fa-solid fa-heart fa-xl" style="color: #828282; margin-right: 20px" alt="Reccomend"></i>
+            <i class="fa-solid fa-bookmark fa-xl" style="color: #828282; margin: 20px" alt="Save"></i>
+            <i class="fa-solid fa-share fa-xl" style="color: #828282; margin: 20px" alt="Share"></i>
+        </div>
+    </div>
+
+
+</body> 

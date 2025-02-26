@@ -11,17 +11,29 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
             return View();
         }
 
-        public IActionResult BlogPosts()
+        private static List<Blog> dummyBlogPosts = new List<Blog>
         {
             // To be removed later
-            var dummyBlogPosts = new List<Blog>
-            {
-                new Blog { Title = "Blog Post 1", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 1." },
-                new Blog { Title = "Blog Post 2", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 2." },
-                new Blog { Title = "Blog Post 3", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 3." },
-            };
+            new Blog { Id = 1, Title = "Advisor Blog Post 1", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 1." },
+            new Blog { Id = 2, Title = "Advisor Blog Post 2", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 2." },
+            new Blog { Id = 3, Title = "Advisor Blog Post 3", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 3." },
+        };
 
+        public IActionResult BlogPosts()
+        {
             return View(dummyBlogPosts);
+        }
+
+        public IActionResult BlogDetails(int id)
+        {
+            var blog = dummyBlogPosts.FirstOrDefault(b => b.Id == id);
+
+            if (blog is null)
+            {
+                return NotFound();
+            }
+
+            return View(blog);
         }
 
         public IActionResult References()
@@ -33,5 +45,6 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
         {
             return View();
         }
+
     }
 }

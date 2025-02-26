@@ -16,3 +16,78 @@
     <h1 class="display-4" style="text-align: center">Learning Hub: Tips and Tricks</h1>
     <p class="lead text-muted">Here are some helpful tips!</p>
 </div>
+
+<div class="d-grid gap-5 d-md-flex justify-content-md-center">
+    <a asp-area="User" asp-controller="LearningHub" asp-action="References">
+        <div class="link-box">
+            <div class="icon-box">
+                <i class="fa-solid fa-arrow-trend-up fa-2xl" style="color: #7a7a52;font-size: 100px"></i>
+            </div>
+            <div class="name-box">
+                <h3 style="text-align: center">Investing Advice</h3>
+            </div>
+        </div>
+    </a>
+
+    <a asp-area="User" asp-controller="LearningHub" asp-action="TipsAndTricks">
+        <div class="link-box">
+            <div class="icon-box">
+                <i class="fa-solid fa-piggy-bank fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
+            </div>
+            <div class="name-box">
+                <h3 style="text-align: center">Savings Advice</h3>
+            </div>
+        </div>
+    </a>
+
+    <a asp-area="User" asp-controller="LearningHub" asp-action="BlogPosts">
+        <div class="link-box">
+            <div class="icon-box">
+                <i class="fa-solid fa-house fa-2xl" style="color: #7a7a52; font-size: 100px;"></i>
+            </div>
+            <div class="name-box">
+                <h3 style="text-align: center; margin-top: 45px font-size: auto">Mortgage Advice</h3>
+            </div>
+        </div>
+    </a>
+
+    <a asp-area="User" asp-controller="LearningHub" asp-action="TipsAndTricks">
+        <div class="link-box">
+            <div class="icon-box">
+                <i class="fa-solid fa-credit-card fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
+            </div>
+            <div class="name-box">
+                <h3 style="text-align: center">Credit Card Advice</h3>
+            </div>
+        </div>
+    </a>
+
+</div>
+
+
+<style>
+    .link-box {
+        display: inline-block;
+        width: 200px;
+        height: 200px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        margin: 20px;
+        background-color: white;
+    }
+
+    .icon-box {
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .name-box {
+        margin-top: 30px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #7a7a52;
+    }
+</style>
+
