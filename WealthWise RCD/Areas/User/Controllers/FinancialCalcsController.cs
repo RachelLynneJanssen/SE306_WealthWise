@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WealthWise_RCD.Models;
+using System.Collections.Generic;
 
 namespace WealthWise_RCD.Areas.User.Controllers
 {
@@ -17,6 +18,7 @@ namespace WealthWise_RCD.Areas.User.Controllers
         {
             if (model.CalculateInterest())
             {
+                ViewData["ActiveTab"] = "investment";
                 ViewData["InterestAmount"] = model.InterestAmount;
             }
             else
@@ -26,7 +28,9 @@ namespace WealthWise_RCD.Areas.User.Controllers
 
             if (model.CalculateRetirement())
             {
+                ViewData["ActiveTab"] = "retirement";
                 ViewData["RetirementAmount"] = model.RetirementAmount;
+                ViewData["YearlySavings"] = model.YearlySavings;
             }
             else
             {
