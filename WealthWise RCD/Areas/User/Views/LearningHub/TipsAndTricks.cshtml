@@ -14,51 +14,32 @@
 
 <div class="text-center">
     <h1 class="display-4" style="text-align: center">Learning Hub: Tips and Tricks</h1>
-    <p class="lead text-muted">Here are some helpful tips!</p>
+    <p class="lead text-muted">Select a category to get started learning some tips!</p>
 </div>
 
-<div class="d-grid gap-5 d-md-flex justify-content-md-center">
-    <a asp-area="User" asp-controller="LearningHub" asp-action="References">
-        <div class="link-box">
-            <div class="icon-box">
-                <i class="fa-solid fa-arrow-trend-up fa-2xl" style="color: #7a7a52;font-size: 100px"></i>
-            </div>
-            <div class="name-box">
-                <h3 style="text-align: center">Investing Advice</h3>
-            </div>
-        </div>
-    </a>
-
-    <a asp-area="User" asp-controller="LearningHub" asp-action="TipsAndTricks">
-        <div class="link-box">
-            <div class="icon-box">
-                <i class="fa-solid fa-piggy-bank fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
-            </div>
-            <div class="name-box">
-                <h3 style="text-align: center">Savings Advice</h3>
-            </div>
-        </div>
-    </a>
+<div class="d-grid gap-5 d-md-flex justify-content-md-center" style="margin-top: 50px">
 
     <a asp-area="User" asp-controller="LearningHub" asp-action="BlogPosts">
-        <div class="link-box">
-            <div class="icon-box">
-                <i class="fa-solid fa-house fa-2xl" style="color: #7a7a52; font-size: 100px;"></i>
-            </div>
-            <div class="name-box">
-                <h3 style="text-align: center; margin-top: 45px font-size: auto">Mortgage Advice</h3>
-            </div>
+        <div class="card" id="investmentsCard">
+            <i class="fa-solid fa-arrow-trend-up fa-2xl" style="color: #c4c4a1;font-size: 100px; accent-color: none"></i>
         </div>
     </a>
 
-    <a asp-area="User" asp-controller="LearningHub" asp-action="TipsAndTricks">
-        <div class="link-box">
-            <div class="icon-box">
-                <i class="fa-solid fa-credit-card fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
-            </div>
-            <div class="name-box">
-                <h3 style="text-align: center">Credit Card Advice</h3>
-            </div>
+    <a asp-area="User" asp-controller="LearningHub" asp-action="References">
+        <div class="card" id="savingsCard">
+            <i class="fa-solid fa-piggy-bank fa-2xl" style="color: #c4c4a1;font-size: 100px; accent-color: none"></i>
+        </div>
+    </a>
+
+    <a asp-area="User" asp-controller="LearningHub" asp-action="References">
+        <div class="card" id="mortgageCard">
+            <i class="fa-solid fa-house fa-2xl" style="color: #c4c4a1;font-size: 100px; accent-color: none"></i>
+        </div>
+    </a>
+
+    <a asp-area="User" asp-controller="LearningHub" asp-action="References">
+        <div class="card" id="creditCardCard">
+            <i class="fa-solid fa-credit-card fa-2xl" style="color: #c4c4a1;font-size: 100px; accent-color: none"></i>
         </div>
     </a>
 
@@ -66,28 +47,84 @@
 
 
 <style>
-    .link-box {
-        display: inline-block;
-        width: 200px;
-        height: 200px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-        margin: 20px;
-        background-color: white;
-    }
 
-    .icon-box {
-        margin-top: 50px;
-        margin-bottom: 30px;
-    }
-
-    .name-box {
-        margin-top: 30px;
-        font-size: 18px;
+    .card {
+        position: relative;
+        width: 220px;
+        height: 320px;
+        background: #edeae3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
         font-weight: bold;
-        color: #7a7a52;
+        text-decoration: none;
+        color: #c4c4a1;
+        border-radius: 15px;
+        cursor: pointer;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
+
+    .card::before,
+    .card::after {
+        position: absolute;
+        content: "";
+        width: 20%;
+        height: 20%;
+        display: inline-block, flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        font-weight: bold;
+        background-color: #c4c4a1;
+        transition: all 0.5s;
+        color: white;
+    }
+
+    .card::before {
+        top: 0;
+        right: 0;
+        border-radius: 0 15px 0 100%;
+    }
+
+    .card::after {
+        bottom: 0;
+        left: 0;
+        border-radius: 0 100% 0 15px;
+    }
+
+    .card:hover::before,
+    .card:hover::after {
+        width: 100%;
+        height: 100%;
+        border-radius: 15px;
+        transition: all 0.5s;
+    }
+
+    .card:hover::after {
+        font-size: 50px;
+        color: #edeae3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #investmentsCard:hover::after {
+        content: "Investing Advice";
+    }
+
+    #savingsCard:hover::after {
+        content: "Savings Advice";
+    }
+
+    #mortgageCard:hover::after {
+        content: "Mortgage Advice";
+    }
+
+    #creditCardCard:hover::after {
+        content: "Credit Card Advice";
+    }
+
 </style>
 
