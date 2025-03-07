@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using WealthWise_RCD.Models.DatabaseModels
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
 @if (true ) //SignInManager.IsSignedIn(User))
