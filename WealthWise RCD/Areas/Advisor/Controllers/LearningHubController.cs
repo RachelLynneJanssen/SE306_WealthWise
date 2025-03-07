@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.DiaSymReader;
 using WealthWise_RCD.Models.DatabaseModels;
 
 namespace WealthWise_RCD.Areas.Advisor.Controllers
@@ -6,6 +7,7 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
     [Area("Advisor")]
     public class LearningHubController : Controller
     {
+        public string BlogContent { get; set; } = "Default.";
         public IActionResult Index()
         {
             return View();
@@ -34,6 +36,11 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
             }
 
             return View(blog);
+        }
+
+        public IActionResult BlogCreator()
+        {
+            return View();
         }
 
         public IActionResult References()

@@ -1,0 +1,72 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<head>
+    <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+</head>
+
+<!-- Back button -->
+<a asp-area="User" asp-controller="LearningHub" asp-action="BlogPosts">
+    <i class="fa-solid fa-arrow-left fa-xl" style="color: #828282;"></i>
+</a>
+
+<div class="container mt-5">
+    <!-- Title and tag line of learning hub -->
+    <div class="text-center">
+        <h1 class="display-4" style="text-align: center">Create a Blog Post</h1>
+    </div>
+</div>
+<body>
+    <!-- Title input -->
+    <div>
+        <p class="lead" style="margin-top: 12px">Title:</p>
+        <input type="text" class="form-control" placeholder="EX: How I Got Rich"
+               aria-label="Title" aria-describedby="basic-addon1" style="width: 67%">
+    </div>
+    <!-- Main Topic input -->
+    <div style="display: flex; align-items: center; margin-top: 0px; margin-bottom: 15px;">
+        <p class="lead" style="margin-top: 12px">Main Topic:</p>
+        <input type="text" class="form-control justify-content-start" placeholder="EX: Money Management"
+               aria-label="Title" aria-describedby="basic-addon1" style="margin: 20px; width: 67%">
+    </div>
+
+    <!-- Create the editor container -->
+    <div id="editor" style="background: white;">
+    </div>
+
+
+    <!-- Source input -->
+    <div style="display: flex; align-items: center">
+        <p class="text-muted" style="margin-top: 12px">Sources:</p>
+        <input type="text" class="form-control justify-content-start" placeholder="Site your resources"
+               aria-label="Title" aria-describedby="basic-addon1" style="margin: 20px; width: 67%">
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" type="submit">Post</button>
+    </div>
+
+</body>
+
+
+
+
+<!-- Initialize Quill editor -->
+<script>
+    const options = {
+        debug: 'info',
+        modules: {
+            toolbar: true,
+            history: true,
+        },
+        placeholder: 'Start writing here...',
+        theme: 'snow'
+    };
+    const quill = new Quill('#editor', options);
+    const delta = quill.getContents();
+</script>
