@@ -167,6 +167,13 @@ namespace WealthWise_RCD.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+                else
+                {
+                    _dbContext.Addresses.Add(address);
+                    await _dbContext.SaveChangesAsync();
+                }
+
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
