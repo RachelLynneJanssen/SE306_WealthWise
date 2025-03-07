@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Register";
 }
-
+@using WealthWise_RCD.Models.DatabaseModels;
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">
@@ -44,11 +44,14 @@
                 <label asp-for="Input.Age">Age</label>
                 <span asp-validation-for="Input.Age" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Gender" class="form-control" autocomplete="gender" aria-required="false" placeholder="gender" />
-                <label asp-for="Input.Gender">Gender (opt.)</label>
+            <div class="form-group">
+                <label asp-for="Input.Gender"></label>
+                <select asp-for="Input.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control">
+                    <option value="">Select Gender</option>
+                </select>
                 <span asp-validation-for="Input.Gender" class="text-danger"></span>
             </div>
+
             <!-- Address -->
             <h4>Address Information</h4>
             <div class="form-floating mb-3">
@@ -66,9 +69,11 @@
                 <label asp-for="Input.City">City</label>
                 <span asp-validation-for="Input.City" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.State" class="form-control" autocomplete="state" aria-required="true" placeholder="state" />
-                <label asp-for="Input.State">State</label>
+            <div class="form-group">
+                <label asp-for="Input.State"></label>
+                <select asp-for="Input.State" asp-items="Html.GetEnumSelectList<AddressState>()" class="form-control">
+                    <option value="">Select State</option>
+                </select>
                 <span asp-validation-for="Input.State" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
