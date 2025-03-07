@@ -5,6 +5,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
 {
     public class Advice
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [MaxLength(255)]
         public string Title { get; set; }
@@ -16,6 +17,6 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public string AdvisorId { get; set; }
 
         [ForeignKey(nameof(AdvisorId))]
-        public User Advisor { get; set; } = null!;
+        public ApplicationUser Advisor { get; set; } = null!;
     }
 }

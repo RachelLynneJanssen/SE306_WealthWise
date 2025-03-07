@@ -11,6 +11,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
 
     public class Payment
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [MaxLength(255)]
         public string Name { get; set; }
@@ -29,10 +30,6 @@ namespace WealthWise_RCD.Models.DatabaseModels
         [MaxLength(255)]
         public string? AccountName {  get; set; }
         #endregion
-        public string UserId { get; set; }
-        
-        [ForeignKey(nameof(UserId))]
-        public User User { get; set; } = null!;
 
     }
 }

@@ -53,9 +53,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// TEMPORARILY DISABLED FOR DEBUGGING
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 //app.UseEndpoints(endpoints =>
 //{

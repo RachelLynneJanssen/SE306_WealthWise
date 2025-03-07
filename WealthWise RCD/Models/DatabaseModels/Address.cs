@@ -21,6 +21,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
     }
     public class Address
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required, MaxLength(255)]
         public string StreetName {  get; set; }
@@ -32,8 +33,5 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public AddressState State { get; set; }
         [Required, StringLength(5)]
         public string ZipCode {  get; set; }
-        public string UserId { get; set; }
-        [ForeignKey(nameof(UserId))]
-        public User User { get; set; } = null!;
     }
 }

@@ -5,6 +5,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
 {
     public class Reference
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [MaxLength(255)]
         public string websiteUrl { get; set; }

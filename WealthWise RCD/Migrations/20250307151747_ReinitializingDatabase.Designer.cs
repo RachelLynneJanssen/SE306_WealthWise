@@ -11,8 +11,8 @@ using WealthWise_RCD.Models;
 namespace WealthWise_RCD.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250224181119_maxTest")]
-    partial class maxTest
+    [Migration("20250307151747_ReinitializingDatabase")]
+    partial class ReinitializingDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,7 +22,7 @@ namespace WealthWise_RCD.Migrations
                 .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("AdvisorEventUser", b =>
+            modelBuilder.Entity("AdvisorEventApplicationUser", b =>
                 {
                     b.Property<int>("RegisteredEventsId")
                         .HasColumnType("int");
@@ -34,10 +34,10 @@ namespace WealthWise_RCD.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("AdvisorEventUser");
+                    b.ToTable("AdvisorEventApplicationUser");
                 });
 
-            modelBuilder.Entity("CertificateUser", b =>
+            modelBuilder.Entity("ApplicationUserCertificate", b =>
                 {
                     b.Property<string>("AdvisorsId")
                         .HasColumnType("varchar(255)");
@@ -49,7 +49,7 @@ namespace WealthWise_RCD.Migrations
 
                     b.HasIndex("CertificatesId");
 
-                    b.ToTable("CertificateUser");
+                    b.ToTable("ApplicationUserCertificate");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -99,79 +99,6 @@ namespace WealthWise_RCD.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("varchar(13)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator().HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -276,19 +203,12 @@ namespace WealthWise_RCD.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.Property<string>("ZipCode")
                         .IsRequired()
                         .HasMaxLength(5)
                         .HasColumnType("varchar(5)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Addresses");
                 });
@@ -355,6 +275,110 @@ namespace WealthWise_RCD.Migrations
                     b.HasIndex("AdvisorId");
 
                     b.ToTable("AdvisorEvents");
+                });
+
+            modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Age")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Biography")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("BudgetId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageLoc")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("SubscriptionId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<int?>("advisorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("SubscriptionId");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.Appointment", b =>
@@ -499,14 +523,7 @@ namespace WealthWise_RCD.Migrations
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("MonthlyBudgets");
                 });
@@ -519,6 +536,9 @@ namespace WealthWise_RCD.Migrations
 
                     b.Property<string>("AccountName")
                         .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ApplicationUserId")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("CardNumber")
@@ -544,13 +564,9 @@ namespace WealthWise_RCD.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Payments");
                 });
@@ -604,65 +620,20 @@ namespace WealthWise_RCD.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
-                    b.Property<int>("PaymentId")
+                    b.Property<int?>("PaymentId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Recurring")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PaymentId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
                     b.ToTable("Subscriptions");
                 });
 
-            modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.User", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Age")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Biography")
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("BudgetId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageLoc")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("SubscriptionId")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("User");
-                });
-
-            modelBuilder.Entity("AdvisorEventUser", b =>
+            modelBuilder.Entity("AdvisorEventApplicationUser", b =>
                 {
                     b.HasOne("WealthWise_RCD.Models.DatabaseModels.AdvisorEvent", null)
                         .WithMany()
@@ -670,16 +641,16 @@ namespace WealthWise_RCD.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", null)
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CertificateUser", b =>
+            modelBuilder.Entity("ApplicationUserCertificate", b =>
                 {
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", null)
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("AdvisorsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -703,7 +674,7 @@ namespace WealthWise_RCD.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -712,7 +683,7 @@ namespace WealthWise_RCD.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -727,7 +698,7 @@ namespace WealthWise_RCD.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -736,27 +707,16 @@ namespace WealthWise_RCD.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.Address", b =>
-                {
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", "User")
-                        .WithOne("Address")
-                        .HasForeignKey("WealthWise_RCD.Models.DatabaseModels.Address", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.Advice", b =>
                 {
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", "Advisor")
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", "Advisor")
                         .WithMany()
                         .HasForeignKey("AdvisorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -767,7 +727,7 @@ namespace WealthWise_RCD.Migrations
 
             modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.AdvisorEvent", b =>
                 {
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", "Advisor")
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", "Advisor")
                         .WithMany("AdvisorEvents")
                         .HasForeignKey("AdvisorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -776,15 +736,38 @@ namespace WealthWise_RCD.Migrations
                     b.Navigation("Advisor");
                 });
 
+            modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", b =>
+                {
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.MonthlyBudget", "Budget")
+                        .WithMany()
+                        .HasForeignKey("BudgetId");
+
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.Subscription", "Subscription")
+                        .WithMany()
+                        .HasForeignKey("SubscriptionId");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Budget");
+
+                    b.Navigation("Subscription");
+                });
+
             modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.Appointment", b =>
                 {
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", "Advisor")
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", "Advisor")
                         .WithMany()
                         .HasForeignKey("AdvisorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", "User")
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -797,8 +780,8 @@ namespace WealthWise_RCD.Migrations
 
             modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.Blog", b =>
                 {
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", "Advisor")
-                        .WithMany()
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", "Advisor")
+                        .WithMany("BlogPosts")
                         .HasForeignKey("AdvisorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -820,7 +803,7 @@ namespace WealthWise_RCD.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", "User")
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -833,26 +816,11 @@ namespace WealthWise_RCD.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.MonthlyBudget", b =>
-                {
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", "User")
-                        .WithOne("Budget")
-                        .HasForeignKey("WealthWise_RCD.Models.DatabaseModels.MonthlyBudget", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.Payment", b =>
                 {
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", null)
+                        .WithMany("PaymentMethods")
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.Reference", b =>
@@ -870,32 +838,18 @@ namespace WealthWise_RCD.Migrations
                 {
                     b.HasOne("WealthWise_RCD.Models.DatabaseModels.Payment", "Payment")
                         .WithMany()
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WealthWise_RCD.Models.DatabaseModels.User", "User")
-                        .WithOne("Subscription")
-                        .HasForeignKey("WealthWise_RCD.Models.DatabaseModels.Subscription", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PaymentId");
 
                     b.Navigation("Payment");
-
-                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.User", b =>
+            modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.ApplicationUser", b =>
                 {
-                    b.Navigation("Address")
-                        .IsRequired();
-
                     b.Navigation("AdvisorEvents");
 
-                    b.Navigation("Budget");
+                    b.Navigation("BlogPosts");
 
-                    b.Navigation("Subscription")
-                        .IsRequired();
+                    b.Navigation("PaymentMethods");
                 });
 #pragma warning restore 612, 618
         }
