@@ -4,6 +4,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
 {
     public class Comment
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Content {  get; set; }
         public DateTime PublicationDate { get; set; }
@@ -15,7 +16,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public string UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; } = null!;
+        public ApplicationUser User { get; set; } = null!;
         public int BlogId { get; set; }
 
         [ForeignKey(nameof(BlogId))]

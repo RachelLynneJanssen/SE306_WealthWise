@@ -5,7 +5,7 @@
 namespace WealthWise_RCD.Migrations
 {
     /// <inheritdoc />
-    public partial class CreatetesttestTable : Migration
+    public partial class ApplicationUserConstructor : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

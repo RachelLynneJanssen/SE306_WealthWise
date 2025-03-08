@@ -4,15 +4,16 @@ namespace WealthWise_RCD.Models.DatabaseModels
 {
     public class Appointment
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime DateTime { get; set; }
         public string AdvisorId { get; set; }
         
         [ForeignKey(nameof(AdvisorId))]
-        public User Advisor { get; set; } = null!;
+        public ApplicationUser Advisor { get; set; } = null!;
         public string UserId { get; set; }
         
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; } = null!;
+        public ApplicationUser User { get; set; } = null!;
     }
 }
