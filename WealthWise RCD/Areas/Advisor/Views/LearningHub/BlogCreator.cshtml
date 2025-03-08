@@ -4,6 +4,7 @@
 @{
 }
 
+<!-- API links -->
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
@@ -23,50 +24,53 @@
 </div>
 <body>
     <!-- Title input -->
-    <div>
-        <p class="lead" style="margin-top: 12px">Title:</p>
-        <input type="text" class="form-control" placeholder="EX: How I Got Rich"
-               aria-label="Title" aria-describedby="basic-addon1" style="width: 67%">
+    <div style="display: flex; align-items: center; margin-top: 0px; margin-bottom: 15px;">
+        <p class="lead" id="fieldName" >Title:</p>
+        <input type="text" class="form-control justify-content-start inputField" id="blogTitle" placeholder="EX: How I Got Rich"
+               aria-label="Title" aria-describedby="basic-addon1">
     </div>
     <!-- Main Topic input -->
     <div style="display: flex; align-items: center; margin-top: 0px; margin-bottom: 15px;">
-        <p class="lead" style="margin-top: 12px">Main Topic:</p>
-        <input type="text" class="form-control justify-content-start" placeholder="EX: Money Management"
-               aria-label="Title" aria-describedby="basic-addon1" style="margin: 20px; width: 67%">
+        <p class="lead" id="fieldName">Main Topic:</p>
+        <input type="text" class="form-control justify-content-start inputField" id="blogTopic" placeholder="EX: Money Management"
+               aria-label="Title" aria-describedby="basic-addon1">
     </div>
 
     <!-- Create the editor container -->
     <div id="editor" style="background: white;">
     </div>
 
+    <!-- Last saved time -->
+    <div class="d-flex justify-content-end">
+        <p id="lastSaved" class="text-muted"></p>
+    </div>
 
     <!-- Source input -->
     <div style="display: flex; align-items: center">
-        <p class="text-muted" style="margin-top: 12px">Sources:</p>
-        <input type="text" class="form-control justify-content-start" placeholder="Site your resources"
-               aria-label="Title" aria-describedby="basic-addon1" style="margin: 20px; width: 67%">
+        <p class="text-muted" id="fieldName">Sources:</p>
+        <input type="text" class="form-control justify-content-start inputField" id="blogSource" placeholder="Site your resources"
+               aria-label="Title" aria-describedby="basic-addon1">
     </div>
 
     <div class="d-flex justify-content-end">
-        <button class="btn btn-primary" type="submit">Post</button>
+        <button id="postButton" class="btn btn-primary" type="submit">Post</button>
     </div>
-
 </body>
 
 
 
 
-<!-- Initialize Quill editor -->
-<script>
-    const options = {
-        debug: 'info',
-        modules: {
-            toolbar: true,
-            history: true,
-        },
-        placeholder: 'Start writing here...',
-        theme: 'snow'
-    };
-    const quill = new Quill('#editor', options);
-    const delta = quill.getContents();
-</script>
+
+<script src="~/js/blogCreator.js"></script>
+
+<style>
+    #fieldName {
+        margin-top: 12px;
+        -webkit-text-fill-color: #3F3F2F;
+    }
+    .inputField {
+        margin: 10px;
+        margin-left: 5px;
+        width: 67%
+    }
+</style>
