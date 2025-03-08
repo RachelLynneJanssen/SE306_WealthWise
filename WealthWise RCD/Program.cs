@@ -19,6 +19,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {options.SignIn.RequireConfirmedEmail = false; })   //disable email confirmation
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+// Add session for temporary blog data
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+});
+
+// Add controllers and views
 builder.Services.AddControllersWithViews();
 
 //builder.Services.AddControllersWithViews(options =>
@@ -31,6 +40,7 @@ builder.Services.AddControllersWithViews();
 //    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
 //});
 
+// Add email sender service
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 
@@ -53,9 +63,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 //app.UseEndpoints(endpoints =>
 //{
@@ -77,3 +89,5 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+
