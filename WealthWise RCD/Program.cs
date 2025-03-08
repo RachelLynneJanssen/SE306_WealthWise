@@ -20,7 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {options.SignIn.RequireConfirmedEmail = false; })   //disable email confirmation
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-async Task CreateRoles(IServiceProvider serviceProvider)    // Role creation
+async Task CreateRolesandUsers(IServiceProvider serviceProvider)    // Role creation
 {
     var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -37,10 +37,16 @@ async Task CreateRoles(IServiceProvider serviceProvider)    // Role creation
         }
     }
 
-    // Create default admin
-    var adminEmail = "admin@admin.com";
-    var adminUser = await userManager.FindByEmailAsync(adminEmail);
-    if (adminUser == null)
+    // Deafault Users
+    await CreateUserIfNotExisting(userManager, dbContext, "admin@admin.com", "admin@admin.com", "RCD_se306", "Admin", "Admin", "User", "306");
+    await CreateUserIfNotExisting(userManager, dbContext, "testAdvisor@advisor.com", "0000000", "testAdvisor_123", "Advisor", "Test", "Advisor", "1");
+    await CreateUserIfNotExisting(userManager, dbContext, "testUser@user.com", "testUser@user.com", "testUser_123", "User", "Test", "User", "1");
+}
+async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, string email, string username, string password,
+                                   string role, string firstName, string lastName, string age)
+{
+    var user = await userManager.FindByEmailAsync(email);
+    if (user == null)
     {
         var address = new Address
         {
@@ -52,25 +58,24 @@ async Task CreateRoles(IServiceProvider serviceProvider)    // Role creation
         dbContext.Addresses.Add(address);
         await dbContext.SaveChangesAsync();
 
-        var user = new ApplicationUser
+        user = new ApplicationUser
         {
-            UserName = adminEmail,
-            Email = adminEmail,
+            UserName = username,
+            Email = email,
             EmailConfirmed = true,
 
-            FirstName = "Admin",
-            LastName = "User",
-            Age = "306",
+            FirstName = firstName,
+            LastName = lastName,
+            Age = age,
             AddressId = address.Id,
             Address = address
         };
-        var result = await userManager.CreateAsync(user, "RCD_se306");
+        var result = await userManager.CreateAsync(user, password);
 
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(user, "Admin");
+            await userManager.AddToRoleAsync(user, role);
         }
-
     }
 }
 
@@ -123,7 +128,7 @@ app.UseAuthorization();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    await CreateRoles(services);
+    await CreateRolesandUsers(services);
 }
 
 //app.UseEndpoints(endpoints =>
