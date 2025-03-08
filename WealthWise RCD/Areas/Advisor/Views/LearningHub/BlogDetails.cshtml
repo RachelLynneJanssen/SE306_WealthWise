@@ -4,6 +4,7 @@
 }
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.quilljs.com/2.0.3/quill.snow.css" />
 </head>
 
 <body>
@@ -13,22 +14,29 @@
     </a>
 
     <!-- Single Blog Content -->
-    <div class="container flex-column justify-content-between align-items-center mb-5 px-5">
-        <h1>@Model.Title</h1>
+    <div class="container flex-column justify-content-between align-items-center mb-5 px-5" id="blog-content">
+        <h1 style="margin-top: 15px;">@Model.Title</h1>
         <p class="text-muted">Author: Advisor Name | Published: @Model.PublicationDate</p>
         <hr />
-        <p>@Model.Content</p>
+        <p>@Html.Raw(Model.Content)</p>
         <hr />
-    </div>
-
-    <!-- Reccomend, Save, Share -->
-    <div class="container d-flex justify-content-start align-items-center mb-5 px-5">
-        <i class="fa-solid fa-heart fa-xl" style="color: #828282; margin: 20px" alt="Reccomend"></i>
+        <!-- Reccomend, Save, Share -->
+        <i class="fa-solid fa-heart fa-xl" style="color: #828282; margin: 20px; margin-left: 0px;" alt="Reccomend"></i>
         <i class="fa-solid fa-bookmark fa-xl" style="color: #828282; margin: 20px" alt="Save"></i>
         <i class="fa-solid fa-share fa-xl" style="color: #828282; margin: 20px" alt="Share"></i>
     </div>
+
+
 
 </body> 
 <footer>
 
 </footer>
+<style>
+    #blog-content {
+        background: white;
+        width: 90%;
+        padding: 10px;
+        border-radius: 10px;
+    }
+</style>

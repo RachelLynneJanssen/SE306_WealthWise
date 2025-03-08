@@ -18,6 +18,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+// Add session for temporary blog data
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+});
+
+// Add controllers and views
 builder.Services.AddControllersWithViews();
 
 //builder.Services.AddControllersWithViews(options =>
@@ -30,6 +39,7 @@ builder.Services.AddControllersWithViews();
 //    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
 //});
 
+// Add email sender service
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 
@@ -52,6 +62,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 // TEMPORARILY DISABLED FOR DEBUGGING
 //app.UseAuthentication();
@@ -77,3 +89,5 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+
