@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.DiaSymReader;
 using WealthWise_RCD.Models;
 using WealthWise_RCD.Models.DatabaseModels;
@@ -6,6 +7,7 @@ using WealthWise_RCD.Models.DatabaseModels;
 namespace WealthWise_RCD.Areas.Advisor.Controllers
 {
     [Area("Advisor")]
+    [Authorize(Roles = "Advisor,Admin")]
     public class LearningHubController : Controller
     {
         

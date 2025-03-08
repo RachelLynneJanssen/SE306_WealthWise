@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 using MySqlX.XDevAPI;
 using HtmlAgilityPack;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WealthWise_RCD.Areas.User.Controllers
 {
     [Area("User")]
+    [Authorize(Roles = "User,Admin")]
     public class NewsController : Controller
     {
         private readonly HttpClient _httpClient;

@@ -10,8 +10,8 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public DateOnly ExpDate { get; set; }
         public bool Recurring {  get; set; }
         public int? PaymentId { get; set; }
-        
+
         [ForeignKey(nameof(PaymentId))]
-        public Payment? Payment { get; set; }
+        public Payment Payment { get; set; } = null!;
     }
 }

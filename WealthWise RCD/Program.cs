@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using NuGet.Packaging;
 using WealthWise_RCD.Models;
 using WealthWise_RCD.Models.DatabaseModels;
 using WealthWise_RCD.Services;
@@ -19,6 +20,59 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {options.SignIn.RequireConfirmedEmail = false; })   //disable email confirmation
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+async Task CreateRoles(IServiceProvider serviceProvider)    // Role creation
+{
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+
+    string[] roleNames = { "Admin", "User", "Advisor" };
+
+    foreach (var roleName in roleNames)
+    {
+        var roleExists = await roleManager.RoleExistsAsync(roleName);
+        if (!roleExists)
+        {
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+    }
+
+    // Create default admin
+    var adminEmail = "admin@admin.com";
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    if (adminUser == null)
+    {
+        var address = new Address
+        {
+            StreetName = "1451 Stadium Rd",
+            City = "Brookings",
+            State = AddressState.SD,
+            ZipCode = "57007"
+        };
+        dbContext.Addresses.Add(address);
+        await dbContext.SaveChangesAsync();
+
+        var user = new ApplicationUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true,
+
+            FirstName = "Admin",
+            LastName = "User",
+            Age = "306",
+            AddressId = address.Id,
+            Address = address
+        };
+        var result = await userManager.CreateAsync(user, "RCD_se306");
+
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
+        }
+
+    }
+}
 
 // Add session for temporary blog data
 builder.Services.AddSession(options =>
@@ -30,15 +84,14 @@ builder.Services.AddSession(options =>
 // Add controllers and views
 builder.Services.AddControllersWithViews();
 
-//builder.Services.AddControllersWithViews(options =>
-//{
-//    // Apply a global authorization policy to require authentication
-//    // TURNED OFF FOR DEBUGGING
-//    var policy = new AuthorizationPolicyBuilder()
-//                     .RequireAuthenticatedUser()
-//                     .Build();
-//    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
-//});
+builder.Services.AddControllersWithViews(options =>
+{
+    // Apply a global authorization policy to require authentication
+    var policy = new AuthorizationPolicyBuilder()
+                     .RequireAuthenticatedUser()
+                     .Build();
+    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
+});
 
 // Add email sender service
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
@@ -67,7 +120,11 @@ app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await CreateRoles(services);
+}
 
 //app.UseEndpoints(endpoints =>
 //{
@@ -77,10 +134,10 @@ app.UseAuthorization();
 //        pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}"
 //    );
 //});
-/*app.MapGet("/", async context =>
+app.MapGet("/", async context =>
 {
     context.Response.Redirect("/Identity/Account/Login");
-});*/
+});
 
 app.MapControllerRoute(
     name: "default",

@@ -142,6 +142,7 @@ namespace WealthWise_RCD.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    await _userManager.AddToRoleAsync(user, "User"); // Assignes role as User
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -169,6 +170,7 @@ namespace WealthWise_RCD.Areas.Identity.Pages.Account
                 }
                 else
                 {
+                    // Remove address if user registration fails
                     _dbContext.Addresses.Add(address);
                     await _dbContext.SaveChangesAsync();
                 }
