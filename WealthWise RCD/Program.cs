@@ -79,12 +79,18 @@ async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, App
     }
 }
 
-// Add session for temporary blog data
-builder.Services.AddSession(options =>
+builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 });
+
+// Add session for temporary blog data (Commented out for testing auth)
+//builder.Services.AddSession(options =>
+//{
+//    options.IdleTimeout = TimeSpan.FromMinutes(30);
+//    options.Cookie.HttpOnly = true;
+//});
 
 // Add controllers and views
 builder.Services.AddControllersWithViews();
@@ -121,7 +127,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseSession();
+//app.UseSession();     Commented out for auth testing
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -131,22 +137,39 @@ using (var scope = app.Services.CreateScope())
     await CreateRolesandUsers(services);
 }
 
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllerRoute
-//    (
-//        name: "default",
-//        pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}"
-//    );
-//});
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute
+    (
+        name: "default",
+        pattern: "{area=exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+});
 app.MapGet("/", async context =>
 {
-    context.Response.Redirect("/Identity/Account/Login");
+    var user = context.User;
+
+    if (!user.Identity.IsAuthenticated)
+    {
+        context.Response.Redirect("/Identity/Account/Login");
+    }
+    else if (user.IsInRole("Admin"))
+    {
+        context.Response.Redirect("/User/Home/Index");
+    }
+    else if (user.IsInRole("User"))
+    {
+        context.Response.Redirect("/User/Home/Index");
+    }
+    else
+    {
+        context.Response.Redirect("/Shared/Home"); // Default fallback
+    }
 });
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}");
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 
