@@ -139,40 +139,59 @@ using (var scope = app.Services.CreateScope())
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute
-    (
+    // Identity routes (Ensures login/register work)
+    endpoints.MapRazorPages();
+
+    // Advisor Area
+    endpoints.MapControllerRoute(
+        name: "advisor",
+        pattern: "{area=Advisor}/{controller=Home}/{action=Index}/{id?}"
+    );
+
+    // User Area
+    endpoints.MapControllerRoute(
+        name: "user",
+        pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}"
+    );
+
+    // Default route
+    endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{area=exists}/{controller=Home}/{action=Index}/{id?}"
+        pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}"
     );
 });
-app.MapGet("/", async context =>
+
+
+app.Use(async (context, next) =>
 {
-    var user = context.User;
+    if (context.Request.Path == "/")
+    {
+        var user = context.User;
 
-    if (!user.Identity.IsAuthenticated)
-    {
-        context.Response.Redirect("/Identity/Account/Login");
+        if (!user.Identity.IsAuthenticated)
+        {
+            context.Response.Redirect("/Identity/Account/Login");
+            return;
+        }
+        else if (user.IsInRole("Advisor"))
+        {
+            context.Response.Redirect("/Advisor/Home/Index");
+            return;
+        }
+        else if (user.IsInRole("User") || user.IsInRole("Admin"))
+        {
+            context.Response.Redirect("/User/Home/Index");
+            return;
+        }
+        else
+        {
+            context.Response.Redirect("/Shared/Home"); // Default fallback
+            return;
+        }
     }
-    else if (user.IsInRole("Admin"))
-    {
-        context.Response.Redirect("/User/Home/Index");
-    }
-    else if (user.IsInRole("User"))
-    {
-        context.Response.Redirect("/User/Home/Index");
-    }
-    else
-    {
-        context.Response.Redirect("/Shared/Home"); // Default fallback
-    }
+    await next();
 });
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 
 app.Run();
-
-
