@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WealthWise_RCD.Models;
 
 namespace WealthWise_RCD.Areas.Advisor.Controllers
 {
     [Area("Advisor")]
+    [Authorize(Roles = "Advisor,Admin")]
     public class FinancialCalcsController : Controller
     {
         [HttpGet]

@@ -81,7 +81,7 @@ namespace WealthWise_RCD.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Age")]
             public string Age { get; set; }
-            [Display(Name = "Gender (optional)")]
+            [Display(Name = "Gender")]
             public Gender Gender { get; set; }
 
             #region Address
@@ -142,6 +142,7 @@ namespace WealthWise_RCD.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    await _userManager.AddToRoleAsync(user, "User"); // Assignes role as User
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -164,12 +165,13 @@ namespace WealthWise_RCD.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return RedirectToPage("/Account/Login", new { area = "Identity" });
                     }
                 }
                 else
                 {
-                    _dbContext.Addresses.Add(address);
+                    // Remove address if user registration fails
+                    _dbContext.Addresses.Remove(address);
                     await _dbContext.SaveChangesAsync();
                 }
 

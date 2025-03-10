@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WealthWise_RCD.Models.DatabaseModels;
 
 namespace WealthWise_RCD.Areas.User.Controllers
 {
     [Area("User")]
+    [Authorize(Roles = "User,Admin")]
     public class LearningHubController : Controller
     {
         public IActionResult Index()
