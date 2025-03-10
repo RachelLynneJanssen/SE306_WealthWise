@@ -78,6 +78,17 @@ async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, App
         }
     }
 }
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 8;
+    options.Password.RequiredUniqueChars = 1;
+});
+
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -136,6 +147,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     await CreateRolesandUsers(services);
 }
+
 
 app.UseEndpoints(endpoints =>
 {
