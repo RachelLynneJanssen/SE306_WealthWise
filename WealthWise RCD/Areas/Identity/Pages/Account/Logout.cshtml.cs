@@ -27,6 +27,7 @@ namespace WealthWise_RCD.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();
+            Response.Cookies.Delete(".AspNetCore.Identity.Application"); // Ensure cookie is removed
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {

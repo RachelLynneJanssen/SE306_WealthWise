@@ -19,7 +19,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
         [Required]
         public string Age { get; set; }
         public Gender Gender { get; set; }
-        [Required]
+        [ForeignKey("Address")]
         public int AddressId { get; set; }
         public Address Address { get; set; } = null!;
         public int? SubscriptionId { get; set; }

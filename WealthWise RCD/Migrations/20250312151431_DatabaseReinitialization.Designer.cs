@@ -11,8 +11,8 @@ using WealthWise_RCD.Models;
 namespace WealthWise_RCD.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250307165010_ApplicationUserConstructor")]
-    partial class ApplicationUserConstructor
+    [Migration("20250312151431_DatabaseReinitialization")]
+    partial class DatabaseReinitialization
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
