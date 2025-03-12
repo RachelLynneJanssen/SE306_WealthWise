@@ -1,3 +1,11 @@
+/*
+ TEST ACCOUNTS:
+    - ADMIN:   admin@admin.com
+    - ADVISOR: 00000
+    - USER:    user@test.com
+    Password for all is Test_123
+ */
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
