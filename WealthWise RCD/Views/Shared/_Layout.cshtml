@@ -46,7 +46,7 @@
                                 <img src="~/images/Cat Coins/PP1.jpg" alt="Profile icon" width="45" height="45" style="border-radius: 50%; border: 1px solid #ccc; margin-top: 10px; margin-bottom: 0px" />
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Index">Profile</a></li>
+                                <li><a class="dropdown-item" asp-area="@GetAreaBasedOnRole()" asp-controller="Account" asp-action="Index">Profile</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" asp-area="Identity" asp-controller="Account" asp-action="Logout">Logout</a></li>
                             </ul>
