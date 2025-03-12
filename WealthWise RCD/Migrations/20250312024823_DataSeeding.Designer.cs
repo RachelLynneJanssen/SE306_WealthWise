@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WealthWise_RCD.Models;
 
@@ -10,9 +11,11 @@ using WealthWise_RCD.Models;
 namespace WealthWise_RCD.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250312024823_DataSeeding")]
+    partial class DataSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -451,33 +454,33 @@ namespace WealthWise_RCD.Migrations
                         {
                             Id = 1,
                             AdvisorId = "7a87ca4c-6633-4748-9915-0613a5fae389",
-                            Content = "Pulled from the database (Quote by Sigmund Freud)!",
+                            Content = "This is the content of Blog Post 1.",
                             Price = 0m,
-                            PublicationDate = new DateTime(2025, 3, 11, 22, 16, 26, 578, DateTimeKind.Local).AddTicks(4427),
+                            PublicationDate = new DateTime(2025, 3, 11, 21, 48, 22, 508, DateTimeKind.Local).AddTicks(487),
                             RecommendationScore = 0,
-                            Title = "Time spent with cats is never wasted.",
+                            Title = "Blog Post 1",
                             Topic = "Topic"
                         },
                         new
                         {
                             Id = 2,
                             AdvisorId = "7a87ca4c-6633-4748-9915-0613a5fae389",
-                            Content = "Pulled from the database (Quote by Mark Twain)!",
+                            Content = "This is the content of Blog Post 2.",
                             Price = 0m,
-                            PublicationDate = new DateTime(2025, 3, 11, 22, 16, 26, 578, DateTimeKind.Local).AddTicks(4475),
+                            PublicationDate = new DateTime(2025, 3, 11, 21, 48, 22, 508, DateTimeKind.Local).AddTicks(532),
                             RecommendationScore = 0,
-                            Title = "You can never be truly at home without a cat.",
+                            Title = "Blog Post 2",
                             Topic = "Topic"
                         },
                         new
                         {
                             Id = 3,
                             AdvisorId = "7a87ca4c-6633-4748-9915-0613a5fae389",
-                            Content = "Soft as twilight, sleek as night,\\n\r\n                                       A shadow drifts in silver light.\\n\r\n                                       Silent steps on wooden floors,\\n\r\n                                       A ghost that slips through open doors.\\n\r\n                                       \\n\r\n                                       Eyes like lanterns, gleam and glow,\\n\r\n                                       Holding secrets none may know.\\n\r\n                                       A fleeting brush, a velvet sigh,\\n\r\n                                       Then gone—like wind, like lullabies.\\n\r\n                                       \\n\r\n                                       Curled in sunlight, lost in dreams,\\n\r\n                                       Of silent hunts by moonlit streams.\\n\r\n                                       No chains, no ties—just fleeting grace,\\n\r\n                                       A traveler in time and space.\\n\r\n                                       \\n\r\n                                       And when you sleep, beneath the stars,\\n\r\n                                       A whisper hums from realms afar.\\n\r\n                                       A cat’s soft purr, a sacred song,\\n\r\n                                       Reminding you—you do belong.",
+                            Content = "This is the content of Blog Post 3.",
                             Price = 0m,
-                            PublicationDate = new DateTime(2025, 3, 11, 22, 16, 26, 578, DateTimeKind.Local).AddTicks(4477),
+                            PublicationDate = new DateTime(2025, 3, 11, 21, 48, 22, 508, DateTimeKind.Local).AddTicks(535),
                             RecommendationScore = 0,
-                            Title = "The smallest feline is a masterpiece. - Leonardo Da Vinci",
+                            Title = "Blog Post 3",
                             Topic = "Topic"
                         });
                 });

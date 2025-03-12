@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WealthWise_RCD.Models.DatabaseModels;
+using WealthWise_RCD.Services;
 
 namespace WealthWise_RCD.Areas.User.Controllers
 {
@@ -8,27 +9,28 @@ namespace WealthWise_RCD.Areas.User.Controllers
     [Authorize(Roles = "User,Admin")]
     public class LearningHubController : Controller
     {
+        private readonly BlogService _blogService; // for database interactions
+
+        public LearningHubController(BlogService blogService)
+        {
+            _blogService = blogService;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        private static List<Blog> dummyBlogPosts = new List<Blog>
+        public async Task<IActionResult> BlogPosts()
         {
-            // To be removed later
-            new Blog { Id = 1, Title = "Blog Post 1", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 1." },
-            new Blog { Id = 2, Title = "Blog Post 2", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 2." },
-            new Blog { Id = 3, Title = "Blog Post 3", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 3." },
-        };
-
-        public IActionResult BlogPosts()
-        {
-            return View(dummyBlogPosts);
+            var blogPosts = await _blogService.GetAllBlogPostsAsync();
+            return View(blogPosts);
         }
 
-        public IActionResult BlogDetails(int id)
+        public async Task<IActionResult> BlogDetails(int id)
         {
-            var blog = dummyBlogPosts.FirstOrDefault(b => b.Id == id);
+            var blogPosts = await _blogService.GetAllBlogPostsAsync();
+            var blog = blogPosts.FirstOrDefault(b => b.Id == id);
 
             if(blog is null)
             {

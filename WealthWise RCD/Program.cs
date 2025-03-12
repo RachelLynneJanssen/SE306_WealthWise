@@ -108,16 +108,22 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllersWithViews(options =>
 {
-    // Apply a global authorization policy to require authentication
-    var policy = new AuthorizationPolicyBuilder()
-                     .RequireAuthenticatedUser()
-                     .Build();
-    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
+var policy = new AuthorizationPolicyBuilder()
+                 .RequireAuthenticatedUser()
+                 .Build();
+options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
+}).AddRazorPagesOptions(options =>
+{
+    options.Conventions.AllowAnonymousToPage("/Identity/Account/Login");
+    options.Conventions.AllowAnonymousToPage("/Identity/Account/Register");
 });
 
+
+#region Services
 // Add email sender service
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
-
+builder.Services.AddScoped<BlogService>();
+#endregion
 
 // Add services to the container.
 builder.Services.AddRazorPages()
