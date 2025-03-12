@@ -14,7 +14,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-#adad85 mb-3" style="margin-left: 3em;">
             <div class="container-fluid">
                 <img src="~/images/RCDLogo color.jpg" alt="Roman Cat Dynasty Logo" width="50" height="50" />
-                <a class="navbar-brand" asp-area="User" asp-controller="Home" asp-action="Index" id="title">WealthWise by RCD</a>
+                <a class="navbar-brand" asp-area="@GetAreaBasedOnRole()" asp-controller="Home" asp-action="Index" id="title">WealthWise by RCD</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,19 +23,19 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item" style="padding-left: 1em">
                             <a class="nav-link text-light @(ViewContext.RouteData.Values["Controller"]?.ToString() == "FinancialCalcs" ? "active font-weight-bold" : "")"
-                               asp-area="User" asp-controller="FinancialCalcs" asp-action="Index">Financial Calculators</a>
+                               asp-area="@GetAreaBasedOnRole()" asp-controller="FinancialCalcs" asp-action="Index">Financial Calculators</a>
                         </li>
                         <li class="nav-item" style="padding-left: 1em">
                             <a class="nav-link text-light @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LearningHub" ? "active font-weight-bold" : "")"
-                               asp-area="User" asp-controller="LearningHub" asp-action="Index">Learning Hub</a>
+                               asp-area="@GetAreaBasedOnRole()" asp-controller="LearningHub" asp-action="Index">Learning Hub</a>
                         </li>
                         <li class="nav-item" style="padding-left: 1em">
                             <a class="nav-link text-light @(ViewContext.RouteData.Values["Controller"]?.ToString() == "News" ? "active font-weight-bold" : "")"
-                               asp-area="User" asp-controller="News" asp-action="Index">News</a>
+                               asp-area="@GetAreaBasedOnRole()" asp-controller="News" asp-action="Index">News</a>
                         </li>
                         <li class="nav-item" style="padding-left: 1em">
                             <a class="nav-link text-light @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Scheduler" ? "active font-weight-bold" : "")"
-                               asp-area="User" asp-controller="Scheduler" asp-action="Index">Scheduler</a>
+                               asp-area="@GetAreaBasedOnRole()" asp-controller="Scheduler" asp-action="Index">Scheduler</a>
                         </li>
                     </ul>
 
@@ -48,7 +48,7 @@
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                                 <li><a class="dropdown-item" asp-controller="Account" asp-action="Index">Profile</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-controller="Logout" asp-action="Index">Logout</a></li>
+                                <li><a class="dropdown-item" asp-area="Identity" asp-controller="Account" asp-action="Logout">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -103,3 +103,21 @@
         padding: 0px;
     }
 </style>
+
+@{
+    string GetAreaBasedOnRole()
+    {
+        if (User.IsInRole("Advisor"))
+        {
+            return "Advisor"; 
+        }
+        else if (User.IsInRole("User"))
+        {
+            return "User";
+        }
+        else
+        {
+            return "User"; // Start in user for admins
+        }
+    }
+}

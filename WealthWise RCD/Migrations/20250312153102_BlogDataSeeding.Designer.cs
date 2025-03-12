@@ -11,8 +11,8 @@ using WealthWise_RCD.Models;
 namespace WealthWise_RCD.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250307165010_ApplicationUserConstructor")]
-    partial class ApplicationUserConstructor
+    [Migration("20250312153102_BlogDataSeeding")]
+    partial class BlogDataSeeding
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -448,6 +448,41 @@ namespace WealthWise_RCD.Migrations
                     b.HasIndex("AdvisorId");
 
                     b.ToTable("BlogPosts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AdvisorId = "7d948a2b-f258-4cf8-b8c8-913806968f8f",
+                            Content = "Pulled from the database (Quote by Sigmund Freud)!",
+                            Price = 0m,
+                            PublicationDate = new DateTime(2025, 3, 12, 10, 31, 1, 831, DateTimeKind.Local).AddTicks(8885),
+                            RecommendationScore = 0,
+                            Title = "Time spent with cats is never wasted.",
+                            Topic = "Topic"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AdvisorId = "7d948a2b-f258-4cf8-b8c8-913806968f8f",
+                            Content = "Pulled from the database (Quote by Mark Twain)!",
+                            Price = 0m,
+                            PublicationDate = new DateTime(2025, 3, 12, 10, 31, 1, 831, DateTimeKind.Local).AddTicks(8929),
+                            RecommendationScore = 0,
+                            Title = "You can never be truly at home without a cat.",
+                            Topic = "Topic"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AdvisorId = "7d948a2b-f258-4cf8-b8c8-913806968f8f",
+                            Content = "Soft as twilight, sleek as night,\\n\r\n                                       A shadow drifts in silver light.\\n\r\n                                       Silent steps on wooden floors,\\n\r\n                                       A ghost that slips through open doors.\\n\r\n                                       \\n\r\n                                       Eyes like lanterns, gleam and glow,\\n\r\n                                       Holding secrets none may know.\\n\r\n                                       A fleeting brush, a velvet sigh,\\n\r\n                                       Then gone—like wind, like lullabies.\\n\r\n                                       \\n\r\n                                       Curled in sunlight, lost in dreams,\\n\r\n                                       Of silent hunts by moonlit streams.\\n\r\n                                       No chains, no ties—just fleeting grace,\\n\r\n                                       A traveler in time and space.\\n\r\n                                       \\n\r\n                                       And when you sleep, beneath the stars,\\n\r\n                                       A whisper hums from realms afar.\\n\r\n                                       A cat’s soft purr, a sacred song,\\n\r\n                                       Reminding you—you do belong.",
+                            Price = 0m,
+                            PublicationDate = new DateTime(2025, 3, 12, 10, 31, 1, 831, DateTimeKind.Local).AddTicks(8931),
+                            RecommendationScore = 0,
+                            Title = "The smallest feline is a masterpiece. - Leonardo Da Vinci",
+                            Topic = "Topic"
+                        });
                 });
 
             modelBuilder.Entity("WealthWise_RCD.Models.DatabaseModels.Certificate", b =>
