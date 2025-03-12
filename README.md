@@ -1,5 +1,3 @@
-KNOWN BUG:
-- Redirection to AccessDenied on app launch (was fixed at some point, but appears to be non-functional agin), being looked into
                          
                          >>=============================================================<<
                         ||      ____                                ____      _        ||
