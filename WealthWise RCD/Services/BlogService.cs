@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using WealthWise_RCD.Models;
 using WealthWise_RCD.Models.DatabaseModels;
 
@@ -6,11 +7,12 @@ namespace WealthWise_RCD.Services
 {
     public class BlogService
     {
-
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public BlogService(ApplicationDbContext context) 
-        {  
+        public BlogService(UserManager<ApplicationUser> userManager, ApplicationDbContext context) 
+        {
+            _userManager = userManager;
             _context = context; 
         }
 
@@ -41,6 +43,10 @@ namespace WealthWise_RCD.Services
                 }
             }
             await _context.SaveChangesAsync();
+        }
+        public async Task<ApplicationUser> GetBlogPostAuthorAsync(Blog post)
+        {
+            return await _userManager.FindByIdAsync(post.AdvisorId);
         }
     }
 }

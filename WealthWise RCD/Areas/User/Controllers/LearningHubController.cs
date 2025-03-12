@@ -24,6 +24,10 @@ namespace WealthWise_RCD.Areas.User.Controllers
         public async Task<IActionResult> BlogPosts()
         {
             var blogPosts = await _blogService.GetAllBlogPostsAsync();
+            foreach (var blogPost in blogPosts)
+            {
+                blogPost.Advisor = await _blogService.GetBlogPostAuthorAsync(blogPost);
+            }
             return View(blogPosts);
         }
 
@@ -36,7 +40,7 @@ namespace WealthWise_RCD.Areas.User.Controllers
             {
                 return NotFound();
             }
-
+            blog.Advisor = await _blogService.GetBlogPostAuthorAsync(blog);
             return View(blog);
         }
 
