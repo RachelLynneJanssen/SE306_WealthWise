@@ -5,6 +5,7 @@ using Microsoft.DiaSymReader;
 using System.Security.Claims;
 using WealthWise_RCD.Models;
 using WealthWise_RCD.Models.DatabaseModels;
+using WealthWise_RCD.Services;
 
 namespace WealthWise_RCD.Areas.Advisor.Controllers
 {
@@ -12,11 +13,13 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
     [Authorize(Roles = "Advisor,Admin")]
     public class LearningHubController : Controller
     {
+        private readonly BlogService _blogService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public LearningHubController(UserManager<ApplicationUser> userManager)
+        public LearningHubController(UserManager<ApplicationUser> userManager, BlogService blogService)
         {
             _userManager = userManager;
+            _blogService = blogService; 
         }
 
         public IActionResult Index()
@@ -24,22 +27,16 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
             return View();
         }
 
-        private static List<Blog> dummyBlogPosts = new List<Blog>
+        public async Task<IActionResult> BlogPosts()
         {
-            // To be removed later
-            new Blog { Id = 1, Title = "Advisor Blog Post 1", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 1." },
-            new Blog { Id = 2, Title = "Advisor Blog Post 2", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 2." },
-            new Blog { Id = 3, Title = "Advisor Blog Post 3", Topic = "Topic", PublicationDate= DateTime.Now, Content = "This is the content of Blog Post 3." },
-        };
-
-        public IActionResult BlogPosts()
-        {
-            return View(dummyBlogPosts);
+            var blogPosts = await _blogService.GetAllBlogPostsAsync();
+            return View(blogPosts);
         }
 
-        public IActionResult BlogDetails(int id)
+        public async Task<IActionResult> BlogDetails(int id)
         {
-            var blog = dummyBlogPosts.FirstOrDefault(b => b.Id == id);
+            var blogPosts = await _blogService.GetAllBlogPostsAsync();
+            var blog = blogPosts.FirstOrDefault(b => b.Id == id); // will fix later
 
             if (blog is null)
             {
@@ -95,18 +92,26 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
                 Title = titleClaim.Value,
                 Topic = topicClaim.Value,
                 Content = contentClaim.Value,
-                PublicationDate = DateTime.Now
+                PublicationDate = DateTime.Now,
+                AdvisorId = user.Id,
+                Advisor = user,
             };
 
-            // Save to database or simulate saving to list
-            dummyBlogPosts.Add(blog);
+            // Attempt to save to database
+            try
+            {
+                await _blogService.UpsertBlogPostAsync(blog);
+                // Optionally remove claims after posting (if you don't want to retain draft data)
+                await _userManager.RemoveClaimAsync(user, titleClaim);
+                await _userManager.RemoveClaimAsync(user, topicClaim);
+                await _userManager.RemoveClaimAsync(user, contentClaim);
 
-            // Optionally remove claims after posting (if you don't want to retain draft data)
-            await _userManager.RemoveClaimAsync(user, titleClaim);
-            await _userManager.RemoveClaimAsync(user, topicClaim);
-            await _userManager.RemoveClaimAsync(user, contentClaim);
-
-            return Ok("Blog posted!");
+                return Ok("Blog posted!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");            
+            }
         }
 
         public IActionResult BlogCreator()

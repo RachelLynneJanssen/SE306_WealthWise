@@ -38,9 +38,9 @@ async Task CreateRolesandUsers(IServiceProvider serviceProvider)    // Role crea
     }
 
     // Deafault Users
-    await CreateUserIfNotExisting(userManager, dbContext, "admin@admin.com", "admin@admin.com", "RCD_se306", "Admin", "Admin", "User", "306");
-    await CreateUserIfNotExisting(userManager, dbContext, "testAdvisor@advisor.com", "0000000", "testAdvisor_123", "Advisor", "Test", "Advisor", "1");
-    await CreateUserIfNotExisting(userManager, dbContext, "testUser@user.com", "testUser@user.com", "testUser_123", "User", "Test", "User", "1");
+    await CreateUserIfNotExisting(userManager, dbContext, "admin@test.com", "admin@admin.com", "Test_123", "Admin", "Admin", "User", "306");
+    await CreateUserIfNotExisting(userManager, dbContext, "advisor@test.com", "00000", "Test_123", "Advisor", "Test", "Advisor", "1");
+    await CreateUserIfNotExisting(userManager, dbContext, "user@test.com", "user@test.com", "Test_123", "User", "Test", "User", "1");
 }
 async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, string email, string username, string password,
                                    string role, string firstName, string lastName, string age)
@@ -77,6 +77,11 @@ async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, App
             await userManager.AddToRoleAsync(user, role);
         }
     }
+    else // Used for debugging
+    {
+        //await userManager.DeleteAsync(user);
+        
+    }
 }
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -94,6 +99,11 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Identity/Account/Login";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+
+    options.Cookie.HttpOnly = true;
+    options.Cookie.Expiration = null; // Expire on browsing close
+    options.SlidingExpiration = false; // Prevent extending session
+    options.Cookie.IsEssential = true; // Ensure it is deleted on logout
 });
 
 // Add session for temporary blog data (Commented out for testing auth)
@@ -108,16 +118,22 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllersWithViews(options =>
 {
-    // Apply a global authorization policy to require authentication
-    var policy = new AuthorizationPolicyBuilder()
-                     .RequireAuthenticatedUser()
-                     .Build();
-    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
+var policy = new AuthorizationPolicyBuilder()
+                 .RequireAuthenticatedUser()
+                 .Build();
+options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
+}).AddRazorPagesOptions(options =>
+{
+    options.Conventions.AllowAnonymousToPage("/Identity/Account/Login");
+    options.Conventions.AllowAnonymousToPage("/Identity/Account/Register");
 });
 
+
+#region Services
 // Add email sender service
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
-
+builder.Services.AddScoped<BlogService>();
+#endregion
 
 // Add services to the container.
 builder.Services.AddRazorPages()
@@ -148,6 +164,23 @@ using (var scope = app.Services.CreateScope())
     await CreateRolesandUsers(services);
 }
 
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path == "/Identity/Account/AccessDenied" && context.User.Identity.IsAuthenticated)
+    {
+        if (context.User.IsInRole("Advisor"))
+        {
+            context.Response.Redirect("/Advisor/Home/Index");
+            return;
+        }
+        else if (context.User.IsInRole("User") || context.User.IsInRole("Admin"))
+        {
+            context.Response.Redirect("/User/Home/Index");
+            return;
+        }
+    }
+    await next();
+});
 
 app.UseEndpoints(endpoints =>
 {
@@ -169,40 +202,12 @@ app.UseEndpoints(endpoints =>
     // Default route
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}"
+        pattern: "{area=Identity}/{controller=Account}/{action=Login}/{id?}"
     );
 });
 
 
-app.Use(async (context, next) =>
-{
-    if (context.Request.Path == "/")
-    {
-        var user = context.User;
 
-        if (!user.Identity.IsAuthenticated)
-        {
-            context.Response.Redirect("/Identity/Account/Login");
-            return;
-        }
-        else if (user.IsInRole("Advisor"))
-        {
-            context.Response.Redirect("/Advisor/Home/Index");
-            return;
-        }
-        else if (user.IsInRole("User") || user.IsInRole("Admin"))
-        {
-            context.Response.Redirect("/User/Home/Index");
-            return;
-        }
-        else
-        {
-            context.Response.Redirect("/Shared/Home"); // Default fallback
-            return;
-        }
-    }
-    await next();
-});
 
 app.MapRazorPages();
 
