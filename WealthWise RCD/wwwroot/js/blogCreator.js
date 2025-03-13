@@ -83,11 +83,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById('postButton').addEventListener('click', function () {
+        const title = document.getElementById('blogTitle').value.trim();
+        const topic = document.getElementById('blogTopic').value.trim();
+        const content = quill.root.innerHTML.trim();
+
+        if (!title || !topic || !content || content === "<p><br></p>") {
+            alert('Please fill in all fields before posting.');
+            return;
+        }
+
+        console.log("TITLE: ", title);
+        console.log("TOPIC: ", topic);
+
+        const blogData = {
+            Title: title,
+            Topic: topic,
+            Content: content
+        };
+
         fetch('/Advisor/LearningHub/PostBlog', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify(blogData)
         })
         .then(response => {
             if (!response.ok) {
@@ -102,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch((error) => {
             console.error('Error:', error);
-            alert("Failed to post blog. Make sure you have saved your blog first.");
+            alert("Failed to post blog. Please try again.");
         });
 
     });
