@@ -43,7 +43,7 @@
                     <ul class="img-fluid" style="align-content: end" >
                         <li class="nav-item dropdown" style="display: flex; list-style-type: none">
                             <a class="nav-link" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="~/images/Cat Coins/PP1.jpg" alt="Profile icon" width="45" height="45" style="border-radius: 50%; border: 1px solid #ccc; margin-top: 10px; margin-bottom: 0px" />
+                                <img src="@GetProfilePicBasedOnRole()" alt="Profile icon" width="45" height="45" style="border-radius: 50%; border: 1px solid #ccc; margin-top: 10px; margin-bottom: 0px" />
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                                 <li><a class="dropdown-item" asp-area="@GetAreaBasedOnRole()" asp-controller="Account" asp-action="Index">Profile</a></li>
@@ -122,6 +122,23 @@
         else
         {
             return "User"; // Start in user for admins
+        }
+    }
+    string GetProfilePicBasedOnRole(){
+        if (User.IsInRole("Advisor"))
+        {
+            return Url.Content("~/images/Cat Coins/PP4.jpg");
+        }
+        else if (User.IsInRole("User")) // May be able to adjust to selected pic
+        {
+            return Url.Content("~/images/Cat Coins/PP1.jpg");
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            return Url.Content("~/images/Cat Coins/PP11.jpg");
+        }
+        else{
+            return Url.Content("~/images/Cat Coins/PP1.jpg");
         }
     }
 }

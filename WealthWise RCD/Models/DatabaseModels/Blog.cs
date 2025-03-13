@@ -22,5 +22,9 @@ namespace WealthWise_RCD.Models.DatabaseModels
         [ForeignKey(nameof(AdvisorId))]
         public ApplicationUser Advisor { get; set; } = null!;
 
+        public Blog()
+        {
+
+        }
     }
 }

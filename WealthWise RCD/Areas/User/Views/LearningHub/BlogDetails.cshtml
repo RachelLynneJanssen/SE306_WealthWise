@@ -15,7 +15,7 @@
     <!-- Single Blog Content -->
     <div class="container flex-column justify-content-between align-items-center mb-5 px-5" id="blog-content">
         <h1 style="margin-top: 15px;">@Model.Title</h1>
-        <p class="text-muted">Author: Advisor Name | Published: @Model.PublicationDate</p>
+        <p class="text-muted">Author: @Model.Advisor.FirstName @Model.Advisor.LastName | Published: @Model.PublicationDate</p>
         <hr />
         <p>@Html.Raw(Model.Content)</p>
         <hr />
