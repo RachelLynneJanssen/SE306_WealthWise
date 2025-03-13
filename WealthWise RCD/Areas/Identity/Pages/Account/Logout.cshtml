@@ -2,6 +2,12 @@
 @model LogoutModel
 @{
     ViewData["Title"] = "Log out";
+
+}
+@using WealthWise_RCD.Models
+@{
+    // use the nav bar from the shared layout
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <header>
@@ -16,8 +22,8 @@
     @{
         if (User.Identity?.IsAuthenticated ?? false)
         {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" style="justify-self: center; align-self: center; margin: 20px;">
+                <button type="submit" class="nav-link btn btn-primary">Click here to Logout</button>
             </form>
         }
         else

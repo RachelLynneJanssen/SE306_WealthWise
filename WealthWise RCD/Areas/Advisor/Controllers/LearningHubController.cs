@@ -77,44 +77,32 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
 
         [HttpPost]
         [Route("/Advisor/LearningHub/PostBlog")]
-        public async Task<IActionResult> PostBlog()
+        public async Task<IActionResult> PostBlog([FromBody] Blog blog)
         {
-            // Get the current user's claims to retrieve the saved blog draft
-            var user = await _userManager.GetUserAsync(User);
-
-            var titleClaim = (await _userManager.GetClaimsAsync(user)).FirstOrDefault(c => c.Type == "TempBlogTitle");
-            var topicClaim = (await _userManager.GetClaimsAsync(user)).FirstOrDefault(c => c.Type == "TempBlogTopic");
-            var contentClaim = (await _userManager.GetClaimsAsync(user)).FirstOrDefault(c => c.Type == "TempBlogContent");
-
-            if (titleClaim == null || topicClaim == null || contentClaim == null)
+            if (blog == null || string.IsNullOrWhiteSpace(blog.Title) || string.IsNullOrWhiteSpace(blog.Topic) || string.IsNullOrWhiteSpace(blog.Content))
             {
-                return BadRequest("Not enough blog information saved to post.");
+                return BadRequest("Blog Title, Topic, and Content are required.");
             }
 
-            var blog = new Blog
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
             {
-                Title = titleClaim.Value,
-                Topic = topicClaim.Value,
-                Content = contentClaim.Value,
-                PublicationDate = DateTime.Now,
-                AdvisorId = user.Id,
-                Advisor = user,
-            };
+                return Unauthorized("User not found.");
+            }
 
-            // Attempt to save to database
+            blog.PublicationDate = DateTime.Now;
+            blog.AdvisorId = user.Id;
+            blog.Advisor = user;
+
+            // save blog to database
             try
             {
                 await _blogService.UpsertBlogPostAsync(blog);
-                // Optionally remove claims after posting (if you don't want to retain draft data)
-                await _userManager.RemoveClaimAsync(user, titleClaim);
-                await _userManager.RemoveClaimAsync(user, topicClaim);
-                await _userManager.RemoveClaimAsync(user, contentClaim);
-
-                return Ok("Blog posted!");
+                return Ok("Blog posted successfully.");
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error: {ex.Message}");            
+                return BadRequest("Failed to post blog. Error: " + ex.Message);
             }
         }
 
