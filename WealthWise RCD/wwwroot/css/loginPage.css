@@ -85,14 +85,14 @@ form {
     text-align: center;
 }
 
-input {
+/*input {
     background-color: #eee;
     border: none;
     padding: 12px 15px;
     margin-top: 8px;
     margin-bottom: 8px;
     width: 100%;
-}
+}*/
 
 .container {
     background-color: #f1eee8;

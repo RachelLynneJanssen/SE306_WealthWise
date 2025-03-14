@@ -83,13 +83,14 @@ namespace WealthWise_RCD.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
 
                     var user = await _userManager.FindByNameAsync(Input.Username);
-                    if (user != null) 
+                    if (user != null)
                     {
-                        if(await _userManager.IsInRoleAsync(user, "Admin") || await _userManager.IsInRoleAsync(user, "User"))
+                        if (await _userManager.IsInRoleAsync(user, "Admin") || await _userManager.IsInRoleAsync(user, "User"))
                         {
                             return RedirectToAction("Index", "Home", new { area = "User" });
                         }
-                        else if(await _userManager.IsInRoleAsync(user, "Advisor")){
+                        else if (await _userManager.IsInRoleAsync(user, "Advisor"))
+                        {
                             return RedirectToAction("Index", "Home", new { area = "Advisor" });
                         }
                         else
@@ -97,7 +98,7 @@ namespace WealthWise_RCD.Areas.Identity.Pages.Account
                             return LocalRedirect(returnUrl);
                         }
                     }
-                   
+
                 }
                 if (result.RequiresTwoFactor)
                 {
