@@ -38,8 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const topic = document.getElementById('blogTopic').value;
         const content = quill.root.innerHTML;
 
-        if (!title || !topic || !content) {
-            alert('Please fill in all fields before saving.');
+        clearErrors();
+
+        if (!missingField(title, topic, content)) {
             return;
         }
 
@@ -87,13 +88,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const topic = document.getElementById('blogTopic').value.trim();
         const content = quill.root.innerHTML.trim();
 
-        if (!title || !topic || !content || content === "<p><br></p>") {
-            alert('Please fill in all fields before posting.');
+        clearErrors();
+
+        if (!missingField(title, topic, content)) {
             return;
         }
 
-        console.log("TITLE: ", title);
-        console.log("TOPIC: ", topic);
+        const confirmpost = confirm("Are you sure you would like to post?");
+
+        if (!confirmpost) {
+            return;
+        }
 
         const blogData = {
             Title: title,
@@ -123,6 +128,39 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error('Error:', error);
             alert("Failed to post blog. Please try again.");
         });
-
     });
-})
+});
+
+function missingField(title, topic, content)
+{
+    // Missing field alerts
+    const titleError = document.getElementById('missingTitle');
+    const topicError = document.getElementById('missingTopic');
+    const contentError = document.getElementById('missingContent');
+
+    let isValid = true;
+
+    if (!title) {
+        missingTitle.textContent = "Title is required.";
+        missingTitle.style.visibility = "visible";
+        isValid = false;
+    }
+    if (!topic) {
+        missingTopic.textContent = "Topic is required.";
+        missingTopic.style.visibility = "visible";
+        isValid = false;
+    }
+    if (!content || content === "<p><br></p>") {
+        missingContent.textContent = "Content is required.";
+        missingContent.style.visibility = "visible";
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+function clearErrors() {
+    missingTitle.style.visibility = 'hidden';
+    missingTopic.style.visibility = 'hidden';
+    missingContent.style.visibility = 'hidden';
+}
