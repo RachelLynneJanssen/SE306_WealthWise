@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace WealthWise_RCD.Migrations
 {
     /// <inheritdoc />
-    public partial class DatabaseReinitialization : Migration
+    public partial class ReInitDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
