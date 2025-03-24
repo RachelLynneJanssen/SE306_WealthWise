@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 ['bold', 'italic', 'underline'],
                 [{ list: 'ordered' }, { list: 'bullet' }],
                 ['clean'],
-                ['save']
             ],
             history: true,
         },
