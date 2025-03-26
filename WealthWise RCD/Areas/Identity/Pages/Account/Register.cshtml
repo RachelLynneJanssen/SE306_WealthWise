@@ -4,86 +4,106 @@
     ViewData["Title"] = "Register";
 }
 @using WealthWise_RCD.Models.DatabaseModels;
-<h1>@ViewData["Title"]</h1>
+<h1 style="text-align: center">Start your financial journey here!</h1>
 
-<div class="card">
-    <div class="col-md-4">
+<div>
+    <div class="justify-content-center align-content-center" style="justify-items: center; align-items: center;">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <!-- Custom Attributes -->
-            <h3>Personal Information</h3>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.FirstName" class="form-control" autocomplete="first-name" aria-required="true" placeholder="firstname" />
-                <label asp-for="Input.FirstName">First Name</label>
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LastName" class="form-control" autocomplete="last-name" aria-required="true" placeholder="lastname" />
-                <label asp-for="Input.LastName">Last Name</label>
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Age" class="form-control" autocomplete="age" aria-required="true" placeholder="age" />
-                <label asp-for="Input.Age">Age</label>
-                <span asp-validation-for="Input.Age" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Gender"></label>
-                <select asp-for="Input.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control">
-                    <option value="">Select Gender</option>
-                </select>
-                <span asp-validation-for="Input.Gender" class="text-danger"></span>
-            </div>
+            <div class="d-xxl-grid">
+                <h2 class="card-header">Create a new account.</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                            <label asp-for="Input.Email">Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                            <label asp-for="Input.Password">Password</label>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                            <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            
+                </br>
+
+                <!-- Custom Attributes -->
+                <h3 class="card-header">Personal Information</h3>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.FirstName" class="form-control" autocomplete="first-name" aria-required="true" placeholder="firstname" />
+                            <label asp-for="Input.FirstName">First Name</label>
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.LastName" class="form-control" autocomplete="last-name" aria-required="true" placeholder="lastname" />
+                            <label asp-for="Input.LastName">Last Name</label>
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Age" class="form-control" autocomplete="age" aria-required="true" placeholder="age" />
+                            <label asp-for="Input.Age">Age</label>
+                            <span asp-validation-for="Input.Age" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Gender"></label>
+                            <select asp-for="Input.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control">
+                                <option value="">Select Gender</option>
+                            </select>
+                            <span asp-validation-for="Input.Gender" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </br>
 
             <!-- Address -->
-            <h4>Address Information</h4>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.StreetName" class="form-control" autocomplete="street-name" aria-required="true" placeholder="100mainst" />
-                <label asp-for="Input.StreetName">Line 1</label>
-                <span asp-validation-for="Input.StreetName" class="text-danger"></span>
+            <h4 class="card-header">Address Information</h4>
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.StreetName" class="form-control" autocomplete="street-name" aria-required="true" placeholder="100mainst" />
+                        <label asp-for="Input.StreetName">Line 1</label>
+                        <span asp-validation-for="Input.StreetName" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.SecondLine" class="form-control" autocomplete="line-two" aria-required="false" placeholder="apt1" />
+                        <label asp-for="Input.SecondLine">Line 2</label>
+                        <span asp-validation-for="Input.SecondLine" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.City" class="form-control" autocomplete="city" aria-required="true" placeholder="city" />
+                        <label asp-for="Input.City">City</label>
+                        <span asp-validation-for="Input.City" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 2.5%">
+                        <label asp-for="Input.State"></label>
+                        <select asp-for="Input.State" asp-items="Html.GetEnumSelectList<AddressState>()" class="form-control">
+                            <option value="">Select State</option>
+                        </select>
+                        <span asp-validation-for="Input.State" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Zipcode" class="form-control" autocomplete="zipcod" aria-required="true" placeholder="zipcode" />
+                        <label asp-for="Input.Zipcode">Zipcode</label>
+                        <span asp-validation-for="Input.Zipcode" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.SecondLine" class="form-control" autocomplete="line-two" aria-required="false" placeholder="apt1" />
-                <label asp-for="Input.SecondLine">Line 2</label>
-                <span asp-validation-for="Input.SecondLine" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.City" class="form-control" autocomplete="city" aria-required="true" placeholder="city" />
-                <label asp-for="Input.City">City</label>
-                <span asp-validation-for="Input.City" class="text-danger"></span>
-            </div>
-            <div class="form-group" style="margin-bottom: 2.5%">
-                <label asp-for="Input.State"></label>
-                <select asp-for="Input.State" asp-items="Html.GetEnumSelectList<AddressState>()" class="form-control">
-                    <option value="">Select State</option>
-                </select>
-                <span asp-validation-for="Input.State" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Zipcode" class="form-control" autocomplete="zipcod" aria-required="true" placeholder="zipcode" />
-                <label asp-for="Input.Zipcode">Zipcode</label>
-                <span asp-validation-for="Input.Zipcode" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+
+            </br>
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary" style="align-self: center">Register</button>
             <p>
-                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Sign in as an existing user.</a>
+                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" style="text-align: center">Sign in as an existing user.</a>
             </p>
 
         </form>
@@ -93,3 +113,21 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<style>
+    .card {
+        width: 100%;
+    }
+
+    body {
+        background: #f6f5f7;
+        background-color: #e6e2d6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        font-family: 'Times New Roman';
+        height: 100vh;
+        margin: -20px 0 50px;
+    }
+</style>
