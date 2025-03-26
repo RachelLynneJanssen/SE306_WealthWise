@@ -83,6 +83,10 @@ async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, App
         if (result.Succeeded)
         {
             await userManager.AddToRoleAsync(user, role);
+            if(role == "Advisor")
+            {
+               await SeedInitBlogPosts(userManager, dbContext, user);
+            }
         }
     }
     else // Used for debugging
@@ -91,6 +95,43 @@ async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, App
         
     }
 }
+async Task SeedInitBlogPosts(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, ApplicationUser advisor)
+{
+    Blog post1 = new() { Id = 1, Title = "Time spent with cats is never wasted.", Topic = "Topic", PublicationDate = DateTime.Now, Content = "Pulled from the database (Quote by Sigmund Freud)!", AdvisorId = advisor.Id };
+    Blog post2 = new() { Id = 2, Title = "You can never be truly at home without a cat.", Topic = "Topic", PublicationDate = DateTime.Now, Content = "Pulled from the database (Quote by Mark Twain)!", AdvisorId = advisor.Id };
+    Blog post3 = new() {
+        Id = 3,
+        Title = "The smallest feline is a masterpiece. - Leonardo Da Vinci",
+        Topic = "Topic",
+        PublicationDate = DateTime.Now,
+        Content = @"<p>Soft as twilight, sleek as night,</p>
+                    <p>A shadow drifts in silver light.</p>
+                    <p>Silent steps on wooden floors,</p>
+                    <p>A ghost that slips through open doors.</p>
+                    <p><br></p>
+                    <p>Eyes like lanterns, gleam and glow,</p>
+                    <p>Holding secrets none may know.</p>
+                    <p>A fleeting brush, a velvet sigh,</p>
+                    <p>Then gone—like wind, like lullabies.</p>
+                    <p><br></p>
+                    <p>Curled in sunlight, lost in dreams,</p>
+                    <p>Of silent hunts by moonlit streams.</p>
+                    <p>No chains, no ties—just fleeting grace,</p>
+                    <p>A traveler in time and space.</p>
+                    <p><br></p>
+                    <p>And when you sleep, beneath the stars,</p>
+                    <p>A whisper hums from realms afar.</p>
+                    <p>A cat’s soft purr, a sacred song,</p>
+                    <p>Reminding you—you do belong.</p>",
+        AdvisorId = advisor.Id
+    };
+    dbContext.BlogPosts.Add(post1);
+    dbContext.BlogPosts.Add(post2);
+    dbContext.BlogPosts.Add(post3);
+    
+}
+
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings

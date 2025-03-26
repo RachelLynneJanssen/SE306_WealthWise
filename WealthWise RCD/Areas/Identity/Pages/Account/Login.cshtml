@@ -1,79 +1,54 @@
 ﻿@page
 @model LoginModel
-
 @{
-    ViewData["Title"] = "Log in";
-    string contentPostion = "d-flex align-self-center";
+    Layout = null;
 }
 
-<div class="row @contentPostion">
-    <h1>@ViewData["Title"]</h1>
-    <div class="col-md-5">
-        <section>
-            <form id="account" method="post">
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Username" class="form-label">Username</label>
-                    <span asp-validation-for="Input.Username" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.Password" class="form-label">Password</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="checkbox mb-3">
-                    <label asp-for="Input.RememberMe" class="form-label">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMe)
-                    </label>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <div>
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-@*                     <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p> *@
-                </div>
-            </form>
-        </section>
+<head>
+    <link rel="stylesheet" href="~/css/loginPage.css" asp-append-version="true" />
+</head>
+
+<div class="container" id="container">
+    <div class="form-container user-container">
+        <form method="post" asp-page="./Login" class="common">
+            <h1 style="color: #3f3f2f">Log In</h1>
+            @await Html.PartialAsync("_LoginFormPartial", Model, new ViewDataDictionary(ViewData) { { "Role", "user" } })
+        </form>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    contentPostion = "d-flex justify-content-center";
-                }
-                else
-                {
-                    contentPostion = "d-flex justify-content-start";
-                    <h3>Use another service to log in.</h3>
-                    <hr />
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
+    <div class="form-container advisor-container">
+        <form method="post" asp-page="./Login" class="common">
+            <h1 style="color: #3f3f2f">Log In</h1>
+            @await Html.PartialAsync("_LoginFormPartial", Model, new ViewDataDictionary(ViewData) { { "Role", "advisor" } })
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1 style="margin-bottom: 4px">Welcome Back, User!</h1>
+                <p style ="margin-top: 0px; border-top: 0px;">Sign in here to continue the learning journey!</p>
+                <button class="ghost" id="userSignIn" style="margin-top: 117.5px;">Sign In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1 style="margin-bottom: 4px">Hello, Advisor!</h1>
+                <p style="margin-top: 0px; border-top: 0px;">Sign in here to advise your clients!</p>
+                <button class="ghost" id="advisorSignIn" style="margin-top: 117.5px;">Sign In</button>
+            </div>
+        </div>
     </div>
 </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+<script>
+    const userSignIn = document.getElementById('userSignIn');
+    const advisorSignIn = document.getElementById('advisorSignIn');
+    const container = document.getElementById('container');
+
+    userSignIn.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+
+    advisorSignIn.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+</script>
+

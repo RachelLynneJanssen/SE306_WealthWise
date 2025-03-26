@@ -1,40 +1,59 @@
 ﻿@model WealthWise_RCD.Areas.Identity.Pages.Account.LoginModel
 @{
     var role = ViewData["Role"] as string;
-    var label = role == "advisor" ? "Advisor ID" : "Email";
-    var placeholder = role == "advisor" ? "ID Number" : "name@example.com";
+    var label = role == "advisor" ? "Company ID" : "Email";
+    var placeholder = role == "advisor" ? "00000" : "name@example.com";
+    var passPlaceholder = role == "advisor" ? "Password" : "password";
 }
-<form id="account" method="post">
-    <hr />
-    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-    <div class="form-floating mb-3">
-        <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-        <label asp-for="Input.Username" class="form-label">Username</label>
-        <span asp-validation-for="Input.Username" class="text-danger"></span>
-    </div>
-    <div class="form-floating mb-3">
-        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-        <label asp-for="Input.Password" class="form-label">Password</label>
-        <span asp-validation-for="Input.Password" class="text-danger"></span>
-    </div>
-    <div class="checkbox mb-3">
-        <label asp-for="Input.RememberMe" class="form-label">
-            <input class="form-check-input" asp-for="Input.RememberMe" />
-            @Html.DisplayNameFor(m => m.Input.RememberMe)
-        </label>
-    </div>
-    <div>
-        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-    </div>
-    <div>
-        <p>
-            <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-        </p>
-        <p>
-            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-        </p>
-        @*                     <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p> *@
-    </div>
-</form>
+<section>
+    <form id="account" method="post">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="form-group mb-3">
+            <label asp-for="Input.Username" class="form-label">@label</label>
+            <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="@placeholder" />
+            <span asp-validation-for="Input.Username" class="text-danger"></span>
+        </div>
+        <hr style="border: none; margin: 3px 0;">
+        <div class="form-group mb-3">
+            <label asp-for="Input.Password" class="form-label">Password</label>
+            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="@passPlaceholder" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <hr style="border: none; margin: 30px 0;">
+        <div class="checkbox mb-3">
+            <label asp-for="Input.RememberMe" class="form-label">
+                <input class="form-check-input" asp-for="Input.RememberMe" />
+                @Html.DisplayNameFor(m => m.Input.RememberMe)
+            </label>
+        </div>
+        <hr style="border: none; margin: 2px 0;">
+        <div>
+            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+        </div>
+        @if (role != "advisor")
+        {
+            <div id="lock-to-bottom">
+                <p style="line-height: 1.2px; margin: 0px;">
+                    <a id="forgot-password" asp-page="./ForgotPassword" style="display: block; margin-bottom: 2px;">Forgot your password?</a>
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" style="display: block;">Register as a new user</a>
+                </p>
+            </div>
+        }
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    #lock-to-bottom {
+        position: absolute;
+        margin-bottom: 0;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+    }
+</style>

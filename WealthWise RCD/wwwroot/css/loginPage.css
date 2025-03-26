@@ -165,8 +165,8 @@ form {
 
 .overlay {
     background: #814c4c;
-    background: -webkit-linear-gradient(to right, #733d3d, #814c4c);
-    background: linear-gradient(to right,#733d3d, #814c4c);
+    background: -webkit-linear-gradient(to right, #673636 20%, #815050 30%, #815050 70%, #673636 80%);
+    background: linear-gradient(to right,#673636, #815050);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
@@ -242,15 +242,41 @@ footer {
     z-index: 999;
 }
 
-    footer p {
-        margin: 10px 0;
-    }
+footer p {
+    margin: 10px 0;
+}
 
-    footer i {
-        color: red;
-    }
+footer i {
+    color: red;
+}
 
-    footer a {
-        color: #3c97bf;
-        text-decoration: none;
-    }
+footer a {
+    color: #3c97bf;
+    text-decoration: none;
+}
+
+#lock-to-bottom {
+    position: absolute;
+    margin-bottom: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px; 
+}
+
+.form-label {
+    width: 120px; 
+    text-align: right;
+    left: 20%;
+}
+
+.form-control {
+    width: 150px;
+}
+
