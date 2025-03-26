@@ -2,6 +2,7 @@
 using WealthWise_RCD.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics;
 
 namespace WealthWise_RCD.Areas.User.Controllers
 {
@@ -18,25 +19,31 @@ namespace WealthWise_RCD.Areas.User.Controllers
         [HttpPost]
         public IActionResult Index(FinancialCalculator model)
         {
-            if (model.CalculateInterest())
+            ViewData["ActiveTab"] = model.activeTab;
+            
+            if (model.activeTab == "interest")
             {
-                ViewData["ActiveTab"] = "investment";
-                ViewData["InterestAmount"] = model.InterestAmount;
-            }
-            else
-            {
-                ViewData["InterestAmount"] = "Invalid input";
+                if (model.CalculateInterest())
+                {
+                    ViewData["InterestAmount"] = model.InterestAmount;
+                }
+                else
+                {
+                    ViewData["InterestAmount"] = "Invalid input";
+                }
             }
 
-            if (model.CalculateRetirement())
+            if (model.activeTab == "retirement")
             {
-                ViewData["ActiveTab"] = "retirement";
-                ViewData["RetirementAmount"] = model.RetirementAmount;
-                ViewData["YearlySavings"] = model.YearlySavings;
-            }
-            else
-            {
-                ViewData["RetirementAmount"] = "Invalid input";
+                if (model.CalculateRetirement())
+                {
+                    ViewData["RetirementAmount"] = model.RetirementAmount;
+                    ViewData["YearlySavings"] = model.YearlySavings;
+                }
+                else
+                {
+                    ViewData["RetirementAmount"] = "Invalid input";
+                }
             }
 
             return View(model);

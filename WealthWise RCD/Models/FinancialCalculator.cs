@@ -2,6 +2,7 @@
 {
     public class FinancialCalculator
     {
+        public string activeTab { get; set; }
         public double InitialAmount { get; set; }
         public double InterestRate { get; set; }
         public double NumberOfPayments { get; set; }
@@ -39,6 +40,7 @@
                 double SavingsThisYear = AnnualIncome * RetirementSavings;
                 YearlySavings[i] = Math.Round((SavingsThisYear+YearlySavings[i-1]) * Math.Pow(1+ (SavingsInterestRate / 12), 12*1), 2);
             }
+            YearlySavings.Remove(0);
             RetirementAmount = YearlySavings[RetirementAge];
             return true;
         }
