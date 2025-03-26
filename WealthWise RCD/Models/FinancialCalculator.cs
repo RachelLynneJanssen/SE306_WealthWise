@@ -41,8 +41,6 @@
             }
             RetirementAmount = YearlySavings[RetirementAge];
             return true;
-            
         }
-
     }
 }

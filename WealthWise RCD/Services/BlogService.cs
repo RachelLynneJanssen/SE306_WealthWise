@@ -48,5 +48,9 @@ namespace WealthWise_RCD.Services
         {
             return await _userManager.FindByIdAsync(post.AdvisorId);
         }
+        public Task<List<Blog>> GetAllAdvisorPostsAsync(ApplicationUser advisor)
+        {
+            return _context.BlogPosts.Where(b => b.AdvisorId == advisor.Id).ToListAsync();
+        }
     }
 }
