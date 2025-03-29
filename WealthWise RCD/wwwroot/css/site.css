@@ -82,9 +82,10 @@ a {
 .sidebar {
     position: fixed;
     top: var(--navbar-height, 60px); /* Automatically adjust below the topbar */
+    bottom: var(--footer-height, 60px);
     left: 0;
     width: 500px;
-    height: calc(100vh - var(--navbar-height, 60px)); /* Adjust height dynamically */
+    height: calc(100vh - var(--navbar-height, 60px) - var(--footer-height, 60px)); /* Adjust height dynamically */
     background: #bab1a1;
     color: #fff;
     padding: 0px;

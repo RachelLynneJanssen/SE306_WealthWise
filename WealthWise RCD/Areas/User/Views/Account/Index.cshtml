@@ -1,22 +1,24 @@
 ﻿@using WealthWise_RCD.Models
 @{
-
+    var links = new List<SidebarLink>
+    {
+        new SidebarLink{Title = "Profile", Url = Url.Action("LoadProfilePartial", "Account", new {AreaAttribute = "User"})!},
+        new SidebarLink{Title = "Appointments", Url = Url.Action("LoadAppointmentsPartial", "Account", new {AreaAttribute = "User"})!},
+        new SidebarLink{Title = "Subscription", Url = Url.Action("LoadSubscriptionPartial", "Account", new {AreaAttribute = "User"})!},
+        new SidebarLink{Title = "Saved Payment Methods", Url = Url.Action("LoadPaymentMethodsPartial", "Account", new {AreaAttribute = "User"})!}
+    };
 }
+
 <!-- Link for the font awesome library -->
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
 </head>
+<partial name="Account/_AccountSidebarPartial" for="@links"/>
 
-@Html.Partial("_AccountSidebar")
-
-<!-- Main content -->
-<div class="container mt-5">
-    <!-- Title and tag line of learning hub -->
-    <div class="text-center">
-        <h1 class="display-4">Account</h1>
-@*         <i class="fa-solid fa-book-skull fa-2xl" style="color: #7a7a52; font-size: 200px; margin-top: 100px"></i>
- *@    </div>
-
+<!-- Default main content -->
+<!-- Container for the dynamic partial content -->
+<div id="content-container" class="content-wrapper">
+    <partial name="Account/_ProfilePartial" />
 </div>
 <script>
     window.addEventListener('DOMContentLoaded', () => {
@@ -43,4 +45,19 @@
     });
 </script>
 
-
+<!-- Dynamically loads main content -->
+<script>
+    function loadPartial(url) {
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('content-container').innerHTML = html;
+        })
+        .catch(error => console.error('Error loading content:', error));
+    }
+</script>

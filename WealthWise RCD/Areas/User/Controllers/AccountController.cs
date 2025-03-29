@@ -21,13 +21,28 @@ namespace WealthWise_RCD.Areas.User.Controllers
             _userManager = userManager;
             _context = context;
         }
-
         
         public IActionResult Index()
         {
             return View();
         }
 
+        public IActionResult LoadProfilePartial()
+        {
+            return PartialView("Account/_ProfilePartial");
+        }
+        public IActionResult LoadAppointmentsPartial()
+        {
+            return PartialView("Account/_AppointmentsPartial");
+        }
+        public IActionResult LoadSubscriptionPartial()
+        {
+            return PartialView("Account/_SubscriptionPartial");
+        }
+        public IActionResult LoadPaymentMethodsPartial()
+        {
+            return PartialView("Account/_PaymentMethodsPartial");
+        }
         // var user = _userService.GetUserAsync(User);
         // await _userManager.UpdateAsync(user);
     }
