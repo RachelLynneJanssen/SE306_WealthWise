@@ -7,6 +7,9 @@
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
 </head>
 
+@Html.Partial("_AccountSidebar")
+
+<!-- Main content -->
 <div class="container mt-5">
     <!-- Title and tag line of learning hub -->
     <div class="text-center">
@@ -15,4 +18,29 @@
  *@    </div>
 
 </div>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const navbar = document.querySelector('.navbar');
+        const footer = document.querySelector('.footer');
+        const sidebar = document.querySelector('.sidebar');
+        const content = document.querySelector('.content-wrapper');
+
+        function adjustLayout() {
+            const navbarHeight = navbar.offsetHeight;
+            const footerHeight = footer.offsetHeight;
+            // Adjust the sidebar and content margin based on navbar height
+            sidebar.style.top = `${navbarHeight}px`;
+            sidebar.style.height = `calc(100vh - ${navbarHeight}px - ${footerHeight}px)`;
+            content.style.marginTop = `${navbarHeight}px`;
+            // Adjust the sidebar and content margin based on navbar height
+            sidebar.style.bottom = `${footerHeight}px`;
+            content.style.marginBottom = `${footerHeight}px`;
+        }
+
+        // Run on load and on resize
+        adjustLayout();
+        window.addEventListener('resize', adjustLayout);
+    });
+</script>
+
 

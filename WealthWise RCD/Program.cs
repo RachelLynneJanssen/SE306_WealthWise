@@ -182,6 +182,7 @@ options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(p
 // Add email sender service
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddScoped<BlogService>();
+builder.Services.AddScoped<UserService>();
 #endregion
 
 // Add services to the container.

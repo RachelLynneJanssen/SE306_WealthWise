@@ -77,3 +77,39 @@ a {
     text-decoration: none !important; /* Removes underline */
     color: inherit; /* Inherits the text color from parent */
 }
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: var(--navbar-height, 60px); /* Automatically adjust below the topbar */
+    left: 0;
+    width: 500px;
+    height: calc(100vh - var(--navbar-height, 60px)); /* Adjust height dynamically */
+    background: #bab1a1;
+    color: #fff;
+    padding: 0px;
+    z-index: 1020;
+    overflow-y: auto;
+}
+
+/* Sidebar links */
+    .sidebar a {
+        display: block;
+        color: #e4e4e4;
+        padding: 35px 15px;
+        text-decoration: none;
+        font-size: 35px; /* Larger font size */
+    }
+
+.sidebar a:hover {
+    background: #adad85;
+    color: white;
+}
+
+/* Content wrapper */
+.content-wrapper {
+    margin-left: 250px;  
+    margin-top: var(--navbar-height, 60px);  /* Prevent overlap */
+    padding: 20px;
+    transition: margin-left 0.3s;
+}
