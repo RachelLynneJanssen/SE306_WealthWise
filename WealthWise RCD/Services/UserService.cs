@@ -16,8 +16,10 @@ namespace WealthWise_RCD.Services
             _context = context;
         }
 
-        public async Task<List<Appointment>> GetAllAppointmentsAsync(ApplicationUser user)
+        public async Task<List<Appointment>> GetAllAppointmentsAsync(string userId)
         {
+            ApplicationUser user = await _userManager.FindByIdAsync(userId);
+            
             if (await _userManager.IsInRoleAsync(user, "User"))
             {
                 return _context.Appointments.Where(a => a.User == user).ToList();

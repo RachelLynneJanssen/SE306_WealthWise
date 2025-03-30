@@ -15,11 +15,13 @@ namespace WealthWise_RCD.Areas.User.Controllers
         private readonly UserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
+        private string CurrentUserId;
         public AccountController(UserService userService, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _userService = userService;
             _userManager = userManager;
             _context = context;
+            CurrentUserId = _userManager.GetUserId(User)!;
         }
         
         public IActionResult Index()
@@ -27,23 +29,26 @@ namespace WealthWise_RCD.Areas.User.Controllers
             return View();
         }
 
-        public IActionResult LoadProfilePartial()
+        public async Task<IActionResult> LoadProfilePartial()
         {
-            return PartialView("Account/_ProfilePartial");
+            ApplicationUser currentUser = await _userManager.FindByIdAsync(CurrentUserId);
+            return PartialView("Account/_ProfilePartial", currentUser);
         }
-        public IActionResult LoadAppointmentsPartial()
+        public async Task<IActionResult> LoadAppointmentsPartial()
         {
-            return PartialView("Account/_AppointmentsPartial");
+            List<Appointment> userAppointments = await _userService.GetAllAppointmentsAsync(CurrentUserId);
+            return PartialView("Account/_AppointmentsPartial", userAppointments);
         }
-        public IActionResult LoadSubscriptionPartial()
+        public async Task<IActionResult> LoadSubscriptionPartial()
         {
-            return PartialView("Account/_SubscriptionPartial");
+            ApplicationUser currentUser = await _userManager.FindByIdAsync(CurrentUserId);
+            return PartialView("Account/_SubscriptionPartial", currentUser?.Subscription);
         }
-        public IActionResult LoadPaymentMethodsPartial()
+        public async Task<IActionResult> LoadPaymentMethodsPartial()
         {
-            return PartialView("Account/_PaymentMethodsPartial");
+            ApplicationUser currentUser = await _userManager.FindByIdAsync(CurrentUserId);
+            return PartialView("Account/_PaymentMethodsPartial", currentUser?.PaymentMethods);
         }
-        // var user = _userService.GetUserAsync(User);
         // await _userManager.UpdateAsync(user);
     }
 }

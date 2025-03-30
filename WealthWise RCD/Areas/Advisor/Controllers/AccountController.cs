@@ -14,11 +14,13 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
         private readonly UserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
+        private string CurrentUserId;
         public AccountController(UserService userService, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _userService = userService;
             _userManager = userManager;
             _context = context;
+            CurrentUserId = _userManager.GetUserId(User)!;
         }
 
         public IActionResult Index()
@@ -26,19 +28,20 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
             return View();
         }
 
-        public IActionResult LoadProfilePartial()
+        public async Task<IActionResult> LoadProfilePartial()
         {
-            return PartialView("Account/_ProfilePartial");
+            ApplicationUser currentUser = await _userManager.FindByIdAsync(CurrentUserId);
+            return PartialView("Account/_ProfilePartial", currentUser);
         }
-        public IActionResult LoadAppointmentsPartial()
+        public async Task<IActionResult> LoadAppointmentsPartial()
         {
-            return PartialView("Account/_AppointmentsPartial");
+            List<Appointment> userAppointments = await _userService.GetAllAppointmentsAsync(CurrentUserId);
+            return PartialView("Account/_AppointmentsPartial", userAppointments);
         }
         public IActionResult LoadBlogPostsPartial()
         {
             return PartialView("Account/_BlogPostsPartial");
         }
-        // var user = _userService.GetUserAsync(User);
         // await _userManager.UpdateAsync(user);
     }
 }
