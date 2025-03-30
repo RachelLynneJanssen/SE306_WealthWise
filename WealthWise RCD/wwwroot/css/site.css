@@ -3,6 +3,17 @@ html {
   font-family: 'Times New Roman';
 }
 
+a {
+    text-decoration: none;
+    margin: 15px 0;
+}
+
+    a:hover {
+        text-decoration: underline;
+        color: #815050;
+        transition: all .25s ease-in-out;
+    }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
