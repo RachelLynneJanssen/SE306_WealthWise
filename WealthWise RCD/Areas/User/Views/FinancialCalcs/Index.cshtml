@@ -48,6 +48,7 @@
                     <label for="interestRate">Interest Rate (%):</label>
                     <input type="number" class="form-control" id="interestRate" name="InterestRate" placeholder="Enter interest rate" step="0.01">
                 </div>
+                <input type="hidden" name="activeTab" value="interest" />
                 <br />
                 <button type="submit" class="btn btn-primary">Calculate</button>
             </form>
@@ -90,6 +91,7 @@
                     <label for="savingsInterestRate">Savings Annual Interest Rate (%):</label>
                     <input type="number" class="form-control" id="savingsInterestRate" name="SavingsInterestRate" placeholder="Enter the interest rate of your savings" step="0.01">
                 </div>
+                <input type="hidden" name="activeTab" value="retirement" />
                 <br />
                 <button type="submit" class="btn btn-primary">Calculate</button>
             </form>
