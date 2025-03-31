@@ -5,7 +5,6 @@ html {
 
 a {
     text-decoration: none;
-    margin: 15px 0;
 }
 
     a:hover {
@@ -31,25 +30,25 @@ body {
     color: #FFFFFF; /* white text */
 }
 
-.btn:hover {
-    background-color: #8a8a5c; /* darker olive green */
-    border-color: #7a7a52; /* darker darker olive green */
-    color: #FFFFFF; /* white text */
-}
+    .btn:hover {
+        background-color: #8a8a5c; /* darker olive green */
+        border-color: #7a7a52; /* darker darker olive green */
+        color: #FFFFFF; /* white text */
+    }
 
-.btn:active {
-    background-color: #8a8a5c; /* darker olive green */
-    border-color: #7a7a52; /* darker darker olive green */
-    color: #FFFFFF; /* white text */
-    box-shadow: 0 0 0 0.2rem #adad85;
-}
+    .btn:active {
+        background-color: #8a8a5c; /* darker olive green */
+        border-color: #7a7a52; /* darker darker olive green */
+        color: #FFFFFF; /* white text */
+        box-shadow: 0 0 0 0.2rem #adad85;
+    }
 
-.btn:focus {
-    background-color: #8a8a5c; /* darker olive green */
-    border-color: #7a7a52; /* darker darker olive green */
-    color: #FFFFFF; /* white text */
-    box-shadow:0 0 0 0.2rem #adad85;
-}
+    .btn:focus {
+        background-color: #8a8a5c; /* darker olive green */
+        border-color: #7a7a52; /* darker darker olive green */
+        color: #FFFFFF; /* white text */
+        box-shadow:0 0 0 0.2rem #adad85;
+    }
 
 
 html {
