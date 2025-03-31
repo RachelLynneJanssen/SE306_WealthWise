@@ -48,5 +48,10 @@ namespace WealthWise_RCD.Areas.User.Controllers
 
             return View(model);
         }
+
+        public IActionResult MonthlyBudgetCreator()
+        {
+            return View();
+        }
     }
 }

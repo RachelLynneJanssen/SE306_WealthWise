@@ -1,0 +1,21 @@
+﻿@using WealthWise_RCD.Models
+@{
+    var interestAmount = ViewData["InterestAmount"]?.ToString() ?? " ";
+    var retirementAmount = ViewData["RetirementAmount"]?.ToString() ?? " ";
+    var activeTab = ViewData["ActiveTab"]?.ToString() ?? "interest";
+    var yearlySavings = ViewData["YearlySavings"] as Dictionary<int, double>; // Assuming yearly savings is a dictionary with year as key and savings as value
+}
+
+<head>
+    <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
+</head>
+
+<!-- Back Button -->
+<a asp-area="User" asp-controller="FinancialCalcs" asp-action="Index">
+    <i class="fa-solid fa-arrow-left fa-xl" style="color: #828282;"></i>
+</a>
+
+<div class="text-center">
+    <h1 class="display-4" style="text-align: center">Monthly Budget Planner</h1>
+    <p class="lead text-muted">Create a new monthly budget!</p>
+</div>
