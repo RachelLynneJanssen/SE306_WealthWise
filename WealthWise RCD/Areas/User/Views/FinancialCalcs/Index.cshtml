@@ -5,6 +5,11 @@
     var activeTab = ViewData["ActiveTab"]?.ToString() ?? "interest";
     var yearlySavings = ViewData["YearlySavings"] as Dictionary<int, double>; // Assuming yearly savings is a dictionary with year as key and savings as value
 }
+<!-- Link for the font awesome library -->
+<head>
+    <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
+</head>
+
 <div class="container mt-5">
     <div class="text-center">
         <h1 class="display-4">Financial Calculators</h1>
@@ -115,12 +120,23 @@
         <div class="tab-pane @(activeTab is "planner" ? "active show" : "fade")" id="budget-planner" role="tabpanel" aria-labelledby="budget-planner-tab">
             <!-- Monthly Budget Planner Content -->
             <h3>Monthly Budget Planner</h3>
-            <form method="post">
+            <div class="d-grid gap-5 d-md-flex justify-content-md-center">
                 <!-- Add your form fields here -->
-            </form>
+                <a asp-area="User" asp-controller="FinancialCalcs" asp-action="MonthlyBudgetCreator">
+                    <div class="link-box">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-book-open fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
+                        </div>
+                        <div class="name-box">
+                            <h3 style="text-align: center">Learning Resources</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 </div>
+
 @section Scripts {
     <script>
         $(function () {
@@ -175,6 +191,33 @@
         -webkit-text-fill-color: #8a8a5c;
         text-align: left;
         padding: 10px;
+    }
+
+    .link-box 
+    {
+        display: inline-block;
+        width: 200px;
+        height: 200px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        margin: 20px;
+        background-color: white;
+    }
+
+    .icon-box 
+    {
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .name-box 
+    {
+        margin-top: 30px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #7a7a52;
     }
 
     .position-relative {
