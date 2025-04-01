@@ -27,17 +27,25 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
             return View();
         }
 
-        public IActionResult LoadProfilePartial()
+        public async Task<IActionResult> LoadProfilePartial()
         {
-            return PartialView("Account/_ProfilePartial", User);
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            var getAddress = _userService.GetAddressAsync(user);
+            getAddress.Wait();
+            user.Address = getAddress.Result;
+            return PartialView("Account/_ProfilePartial", user);
         }
         public IActionResult LoadAppointmentsPartial()
         {
             return PartialView("Account/_AppointmentsPartial");
         }
-        public IActionResult LoadBlogPostsPartial()
+        public async Task<IActionResult> LoadBlogPostsPartial()
         {
-            return PartialView("Account/_BlogPostsPartial");
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            var getBlogPosts = _userService.GetAllAdvisorPostsAsync(user);
+            getBlogPosts.Wait();
+            List<Blog> blogPosts = getBlogPosts.Result;
+            return PartialView("Account/_BlogPostsPartial", blogPosts);
         }
         // var user = _userService.GetUserAsync(User);
         // await _userManager.UpdateAsync(user);
