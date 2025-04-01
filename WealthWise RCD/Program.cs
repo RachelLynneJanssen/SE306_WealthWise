@@ -23,7 +23,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
 // Add Identity services
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {options.SignIn.RequireConfirmedEmail = false; })   //disable email confirmation
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -163,6 +162,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 //});
 
 // Add controllers and views
+
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllersWithViews(options =>
