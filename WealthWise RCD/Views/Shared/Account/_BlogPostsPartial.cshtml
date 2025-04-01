@@ -1,8 +1,32 @@
-﻿<div class="container mt-5">
-    <!-- Title and tag line of learning hub -->
-    <div class="text-center">
-        <h1 class="display-4">Blog Posts</h1>
-        @*         <i class="fa-solid fa-book-skull fa-2xl" style="color: #7a7a52; font-size: 200px; margin-top: 100px"></i>
- *@    </div>
+﻿@using WealthWise_RCD.Models.DatabaseModels;
+@model List<Blog>
+<div class="container mt-5">
+    <!-- Blog Posts -->
+    <div class="container mt-5" style="width: 65%">
+        @foreach (var blog in Model)
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title fw-bold" id="blog-title">
+                        <a asp-area="User" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id" class="text-dark">
+                            @blog.Title
+                        </a>
+                    </h3>
+                    <p class="card-text">Topic: @blog.Topic</p>
+                    <p class="card-text text-muted">@blog.Advisor.FirstName @blog.Advisor.LastName -- Published: @blog.PublicationDate</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <style>
+        #blog-title {
+            text-decoration: none;
+        }
+
+            #blog-title:hover {
+                text-decoration: underline;
+            }
+    </style>
 
 </div>
