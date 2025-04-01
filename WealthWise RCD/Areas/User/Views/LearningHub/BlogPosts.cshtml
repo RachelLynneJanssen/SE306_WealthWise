@@ -19,11 +19,17 @@
 <!-- Header -->
 <div class="text-center">
     <h1 class="display-4" style="text-align: center">Learning Hub: Blog Posts</h1>
-    <p class="lead text-muted">Explore Advisor Posts!</p>
+    <p class="lead text-muted">Explore Advisor's Posts!</p>
 </div>
 
-<!-- Search bar and Sort bar drop down -->
-<div class="mb-3 text-right" style="justify-self: flex-end; padding-right: 5.6%">
+<!-- Create Blog Post button, Search Bar, Sort Dropdown-->
+<div class="d-flex justify-content-between align-items-center mb-5 px-5">
+    <!-- Left side: Create Blog Post -->
+    <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogCreator" class="btn btn-primary" style="margin-left: 10%">
+        Create New Post
+    </a>
+
+    <!-- Right side: Search Bar and Sort Dropdown -->
     <div class="d-flex align-items-center">
         <input type="text" id="searchBar" class="form-control w-50" placeholder="Search blog posts..." />
         <button class="btn btn-primary ml-2" style="margin: 10px" id="searchButton"><i class="fas fa-search"></i></button>
@@ -44,12 +50,12 @@
         <div class="card mb-4 shadow-sm">
             <div class="card-body">
                 <h3 class="card-title fw-bold" id="blog-title">
-                    <a asp-area="User" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id" class="text-dark">
+                    <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id">
                         @blog.Title
                     </a>
                 </h3>
                 <p class="card-text">Topic: @blog.Topic</p>
-                <p class="card-text text-muted">@blog.Advisor.FirstName @blog.Advisor.LastName -- Published: @blog.PublicationDate</p>
+                <p class="card-text text-muted">Author @blog.Advisor.FirstName @blog.Advisor.LastName  -- Published: @blog.PublicationDate</p>
             </div>
         </div>
     }
@@ -62,5 +68,7 @@
 
         #blog-title:hover {
             text-decoration: underline;
+            color: #815050;
+            transition: all .25s ease-in-out;
         }
 </style>
