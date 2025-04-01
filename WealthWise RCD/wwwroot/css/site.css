@@ -3,6 +3,16 @@ html {
   font-family: 'Times New Roman';
 }
 
+a {
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+        color: #815050;
+        transition: all .25s ease-in-out;
+    }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -20,25 +30,25 @@ body {
     color: #FFFFFF; /* white text */
 }
 
-.btn:hover {
-    background-color: #8a8a5c; /* darker olive green */
-    border-color: #7a7a52; /* darker darker olive green */
-    color: #FFFFFF; /* white text */
-}
+    .btn:hover {
+        background-color: #8a8a5c; /* darker olive green */
+        border-color: #7a7a52; /* darker darker olive green */
+        color: #FFFFFF; /* white text */
+    }
 
-.btn:active {
-    background-color: #8a8a5c; /* darker olive green */
-    border-color: #7a7a52; /* darker darker olive green */
-    color: #FFFFFF; /* white text */
-    box-shadow: 0 0 0 0.2rem #adad85;
-}
+    .btn:active {
+        background-color: #8a8a5c; /* darker olive green */
+        border-color: #7a7a52; /* darker darker olive green */
+        color: #FFFFFF; /* white text */
+        box-shadow: 0 0 0 0.2rem #adad85;
+    }
 
-.btn:focus {
-    background-color: #8a8a5c; /* darker olive green */
-    border-color: #7a7a52; /* darker darker olive green */
-    color: #FFFFFF; /* white text */
-    box-shadow:0 0 0 0.2rem #adad85;
-}
+    .btn:focus {
+        background-color: #8a8a5c; /* darker olive green */
+        border-color: #7a7a52; /* darker darker olive green */
+        color: #FFFFFF; /* white text */
+        box-shadow:0 0 0 0.2rem #adad85;
+    }
 
 
 html {
