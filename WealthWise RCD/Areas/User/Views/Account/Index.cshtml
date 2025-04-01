@@ -7,6 +7,7 @@
         new SidebarLink{Title = "Subscription", Url = Url.Action("LoadSubscriptionPartial", "Account", new {AreaAttribute = "User"})!},
         new SidebarLink{Title = "Saved Payment Methods", Url = Url.Action("LoadPaymentMethodsPartial", "Account", new {AreaAttribute = "User"})!}
     };
+
 }
 
 <!-- Link for the font awesome library -->
@@ -18,6 +19,7 @@
 <!-- Default main content -->
 <!-- Container for the dynamic partial content -->
 <div id="content-container" class="content-wrapper">
+
     <partial name="Account/_ProfilePartial" />
 </div>
 <script>
