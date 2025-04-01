@@ -53,6 +53,13 @@ namespace WealthWise_RCD.Services
             }
             await _context.SaveChangesAsync();
         }
+        public async Task<Address> GetAddressAsync(ApplicationUser user)
+        {
+            //ApplicationUser user = await _userManager.FindByIdAsync(userId);
+            // Address address = await _context.Addresses.FindAsync(user.AddressId);
+            return await _context.Addresses.FindAsync(user.AddressId);
+        }
+
         public async Task UpsertAddressAsync(Address address)
         {
             if (address.Id == 0)

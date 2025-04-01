@@ -1,10 +1,26 @@
-﻿@using WealthWise_RCD.Models.DatabaseModels;
-@model ApplicationUser;
+﻿@using Microsoft.AspNetCore.Identity;
+@using WealthWise_RCD.Models.DatabaseModels;
+@* @inject UserManager<ApplicationUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var userId = user?.Id;
+    var email = user?.Email;
+   // Address address = user.Address;
+} *@
+@model ApplicationUser
 <div class="container mt-5">
     <!-- Title and tag line of learning hub -->
     <div class="text-center">
         <h1 class="display-4">Profile</h1>
-        @*         <i class="fa-solid fa-book-skull fa-2xl" style="color: #7a7a52; font-size: 200px; margin-top: 100px"></i>
- *@    </div>
+        <h3>@Model?.FirstName</h3>
+        <h3>@Model?.LastName</h3>
+        <h3>@Model?.AddressId</h3>
+
+    </div>
+    <div class="text-center">
+               <h3>@Model?.Address.StreetName</h3>
+        @*<h3>@address.ExtraInfo</h3>
+        <h3>@address.City, @address.State @address.ZipCode</h3> *@
+    </div>
 
 </div>
