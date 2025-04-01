@@ -1,4 +1,9 @@
-﻿@using WealthWise_RCD.Models
+﻿@using Microsoft.AspNetCore.Identity
+@using WealthWise_RCD.Models
+@using WealthWise_RCD.Models.DatabaseModels
+@using WealthWise_RCD.Services
+@inject UserManager<ApplicationUser> UserManager
+@inject UserService UserService
 @{
     var links = new List<SidebarLink>
     {
@@ -7,7 +12,10 @@
         new SidebarLink{Title = "Subscription", Url = Url.Action("LoadSubscriptionPartial", "Account", new {AreaAttribute = "User"})!},
         new SidebarLink{Title = "Saved Payment Methods", Url = Url.Action("LoadPaymentMethodsPartial", "Account", new {AreaAttribute = "User"})!}
     };
-
+    ApplicationUser currentUser = await UserManager.GetUserAsync(User);
+    var getAddress = UserService.GetAddressAsync(currentUser);
+    getAddress.Wait();
+    currentUser.Address = getAddress.Result;
 }
 
 <!-- Link for the font awesome library -->
@@ -20,7 +28,7 @@
 <!-- Container for the dynamic partial content -->
 <div id="content-container" class="content-wrapper">
 
-    <partial name="Account/_ProfilePartial" />
+    <partial name="Account/_ProfilePartial" for="@currentUser"/>
 </div>
 <script>
     window.addEventListener('DOMContentLoaded', () => {
