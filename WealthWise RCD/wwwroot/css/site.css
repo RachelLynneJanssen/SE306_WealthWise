@@ -3,13 +3,13 @@ html {
   font-family: 'Times New Roman';
 }
 
-a {
+.maroon-on-hover {
     text-decoration: none;
 }
 
-    a:hover {
+    .maroon-on-hover:hover {
         text-decoration: underline;
-        color: #815050;
+        -webkit-text-fill-color: #673636;
         transition: all .25s ease-in-out;
     }
 
