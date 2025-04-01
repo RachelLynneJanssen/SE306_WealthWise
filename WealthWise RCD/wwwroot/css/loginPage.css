@@ -43,10 +43,10 @@ a {
     text-decoration: none;
     margin: 15px 0;
 }
-a:hover {
-    text-decoration: underline;
-    transition: all 1s ease-in-out;
-}
+    a:hover {
+        text-decoration: underline;
+        transition: all 1s ease-in-out;
+    }
 
 button {
     border-radius: 20px;
@@ -61,18 +61,23 @@ button {
     transition: transform 80ms ease-in;
 }
 
-button:active {
-    transform: scale(0.95);
-}
+    button:active {
+        transform: scale(0.95);
+    }
 
-button:focus {
-    outline: none;
-}
+    button:hover {
+        text-decoration: underline;
+        transition: all 1s ease-in-out;
+    }
 
-button.ghost {
-    background-color: transparent;
-    border-color: #FFFFFF;
-}
+    button:focus {
+        outline: none;
+    }
+
+    button.ghost {
+        background-color: transparent;
+        border-color: #FFFFFF;
+    }
 
 form {
     background-color: #f1eee8;

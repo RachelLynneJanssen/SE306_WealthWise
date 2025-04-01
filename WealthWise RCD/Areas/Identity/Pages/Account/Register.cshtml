@@ -4,12 +4,17 @@
     ViewData["Title"] = "Register";
 }
 @using WealthWise_RCD.Models.DatabaseModels;
-<h1 style="text-align: center">Start your financial journey here!</h1>
+@{
+    // use the nav bar from the shared layout
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<h1 style="text-align: center;" >Start your financial journey here!</h1>
 
 <div>
-    <div class="justify-content-center align-content-center" style="justify-items: center; align-items: center;">
+    <div class="align-content-center" style="align-items: center;">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <div class="d-xxl-grid">
+            <div>
                 <h2 class="card-header">Create a new account.</h2>
                 <div class="card">
                     <div class="card-body">
@@ -35,7 +40,7 @@
                 </br>
 
                 <!-- Custom Attributes -->
-                <h3 class="card-header">Personal Information</h3>
+                <h2 class="card-header">Personal Information</h2>
                 <div class="card">
                     <div class="card-body">
                         <div class="form-floating mb-3">
@@ -65,7 +70,7 @@
             </br>
 
             <!-- Address -->
-            <h4 class="card-header">Address Information</h4>
+            <h2 class="card-header">Address Information</h2>
             <div class="card">
                 <div class="card-body">
                     <div class="form-floating mb-3">
@@ -102,9 +107,10 @@
             </br>
 
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary" style="align-self: center">Register</button>
-            <p>
-                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" style="text-align: center">Sign in as an existing user.</a>
-            </p>
+            <div style="text-align: center; margin-top: 10px;">
+                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Sign in as an existing user.</a>
+            </div>
+
 
         </form>
     </div>
@@ -115,19 +121,50 @@
 }
 
 <style>
-    .card {
-        width: 100%;
-    }
-
     body {
         background: #f6f5f7;
-        background-color: #e6e2d6;
+        background-color: #f1eee8;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         font-family: 'Times New Roman';
-        height: 100vh;
         margin: -20px 0 50px;
+    }
+
+    .card {
+        width: 60%;
+        margin: 20px auto; /* Centers the card */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        border-top: 0px;
+        margin-top: 0px;
+    }
+
+    .card-header {
+        width: 60%;
+        margin: 20px auto; /* Centers the card */
+        background-color: #e6e2d8;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom: 0px;
+        margin-bottom: 0px;
+    }
+
+    .card-body {
+        padding-top: 0px;
+        padding: 20px;
+    }
+
+    #registerSubmit {
+        width: 50%; /* Makes the button half the size of the card */
+        max-width: 300px; /* Prevents it from getting too large */
+        display: block;
+        margin: 20px auto; /* Centers the button */
+        padding: 10px;
+        font-size: 18px;
+        border-radius: 5px;
+        text-align: center;
     }
 </style>

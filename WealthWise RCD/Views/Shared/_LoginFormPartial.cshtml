@@ -35,8 +35,8 @@
         {
             <div id="lock-to-bottom">
                 <p style="line-height: 1.2px; margin: 0px;">
-                    <a id="forgot-password" asp-page="./ForgotPassword" style="display: block; margin-bottom: 2px;">Forgot your password?</a>
-                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" style="display: block;">Register as a new user</a>
+@*                     <a id="forgot-password" asp-page="./ForgotPassword" style="display: block; margin-bottom: 2px;">Forgot your password?</a>
+ *@                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" style="display: block;">Register as a new user</a>
                 </p>
             </div>
         }
@@ -50,7 +50,7 @@
 <style>
     #lock-to-bottom {
         position: absolute;
-        margin-bottom: 0;
+        margin-bottom: 7px;
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
