@@ -9,13 +9,17 @@
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-<h1 style="text-align: center;" >Start your financial journey here!</h1>
+<!-- Header -->
+<div class="text-center">
+    <h1 class="display-4" style="text-align: center">Register for an Account</h1>
+    <p class="lead text-muted">Start your financial journey here!</p>
+</div>
 
 <div>
-    <div class="align-content-center" style="align-items: center;">
+    <div class="align-content-center" style="align-items: center; margin-top: 15px;">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <div>
-                <h2 class="card-header">Create a new account.</h2>
+                <h2 class="card-header">Account Information</h2>
                 <div class="card">
                     <div class="card-body">
                         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
@@ -108,7 +112,7 @@
 
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary" style="align-self: center">Register</button>
             <div style="text-align: center; margin-top: 10px;">
-                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Sign in as an existing user.</a>
+                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="maroon-on-hover">Sign in as an existing user.</a>
             </div>
 
 
