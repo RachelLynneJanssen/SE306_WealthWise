@@ -22,14 +22,25 @@
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
 </head>
-<partial name="Account/_AccountSidebarPartial" for="@links"/>
 
-<!-- Default main content -->
-<!-- Container for the dynamic partial content -->
-<div id="content-container" class="content-wrapper">
+<!-- Bootstrap Sidebar (Always Visible) -->
+<div class="d-flex">
+    <nav class="sidebar">
+        <h1 style="-webkit-text-fill-color: #673636; padding-left: 11px;">My Account</h1>
+        @foreach (var link in links)
+        {
+            <a href="#" class="d-block py-2" onclick="loadPartial('@link.Url')">
+                @link.Title
+            </a>
+        }
+    </nav>
 
-    <partial name="Account/_ProfilePartial" for="@currentUser"/>
+    <!-- Container for dynamic content -->
+    <div id="content-container" class="flex-grow-1 p-4">
+        <partial name="Account/_ProfilePartial" for="@currentUser" />
+    </div>
 </div>
+
 <script>
     window.addEventListener('DOMContentLoaded', () => {
         const navbar = document.querySelector('.navbar');
@@ -73,21 +84,39 @@
 </script>
 
 <style>
-    .sidebar {
-        position: fixed;
+    /* Sidebar Styling */
+    nav.sidebar {
+        background-color: #f9f8f5; /* Light Bootstrap background */
+        width: 350px;
+        border-right: 1px solid #ddd; /* Subtle border */
+        padding: 20px;
+        position: absolute; /* Fix it to the left */
+        top: 0;
         left: 0;
-        top: 60px; /* Adjust based on navbar height */
-        width: 275px; /* Reduce width */
-        height: calc(100vh - 120px); /* Adjust height dynamically */
-        font-size: 14px; /* Smaller font */
-        overflow-y: auto; /* Allow scrolling if needed */
-        padding: 10px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow effect */
+        overflow-y: auto; /* Scroll if content overflows */
     }
 
-    .content-wrapper {
-        margin-left: 220px; /* Ensure content does not overlap */
-        padding: 15px;
+        /* Sidebar Links */
+        nav.sidebar a {
+            display: block;
+            color: #673636;
+            text-decoration: none;
+            text-align: left;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+            nav.sidebar a:hover {
+                background-color: #adad85; /* Bootstrap primary color */
+                color: white;
+            }
+
+    /* Main Content Area */
+    #content-container {
+        margin-left: 270px; /* Offset to match sidebar width */
+        padding: 20px;
     }
 
 </style>
