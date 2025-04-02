@@ -71,3 +71,23 @@
         .catch(error => console.error('Error loading content:', error));
     }
 </script>
+
+<style>
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 60px; /* Adjust based on navbar height */
+        width: 275px; /* Reduce width */
+        height: calc(100vh - 120px); /* Adjust height dynamically */
+        font-size: 14px; /* Smaller font */
+        overflow-y: auto; /* Allow scrolling if needed */
+        padding: 10px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow effect */
+    }
+
+    .content-wrapper {
+        margin-left: 220px; /* Ensure content does not overlap */
+        padding: 15px;
+    }
+
+</style>
