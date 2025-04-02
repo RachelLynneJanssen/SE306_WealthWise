@@ -23,12 +23,7 @@
 </div>
 
 <!-- Create Blog Post button, Search Bar, Sort Dropdown-->
-<div class="d-flex justify-content-between align-items-center mb-5 px-5">
-    <!-- Left side: Create Blog Post -->
-    <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogCreator" class="btn btn-primary" style="margin-left: 10%">
-        Create New Post
-    </a>
-
+<div class="mb-3 text-right" style="justify-self: flex-end; padding-right: 5.6%">
     <!-- Right side: Search Bar and Sort Dropdown -->
     <div class="d-flex align-items-center">
         <input type="text" id="searchBar" class="form-control w-50" placeholder="Search blog posts..." />
@@ -50,7 +45,7 @@
         <div class="card mb-4 shadow-sm">
             <div class="card-body">
                 <h3 class="card-title fw-bold" id="blog-title">
-                    <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id">
+                    <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id" class="maroon-on-hover">
                         @blog.Title
                     </a>
                 </h3>
