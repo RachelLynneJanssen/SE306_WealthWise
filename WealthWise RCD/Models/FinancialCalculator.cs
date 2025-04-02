@@ -46,7 +46,7 @@
         }
     }
 
-    public class MothlyBudgetCalculator
+    public class MonthlyBudgetCalculator
     {
         public decimal Income { get; set; }
         public decimal Expense { get; set; }

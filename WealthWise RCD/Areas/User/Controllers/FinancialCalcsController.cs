@@ -3,6 +3,8 @@ using WealthWise_RCD.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
+using WealthWise_RCD.Services;
+using WealthWise_RCD.Models.DatabaseModels;
 
 namespace WealthWise_RCD.Areas.User.Controllers
 {
@@ -10,6 +12,13 @@ namespace WealthWise_RCD.Areas.User.Controllers
     [Authorize(Roles = "User,Admin")]
     public class FinancialCalcsController : Controller
     {
+        private readonly MonthlyBudgetService _monthlyBudgetService;
+
+        /*public FinancialCalcsController(MonthlyBudgetService monthlyBudgetService)
+        {
+            _monthlyBudgetService = monthlyBudgetService;
+        }*/
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -60,14 +69,23 @@ namespace WealthWise_RCD.Areas.User.Controllers
         }
 
         [HttpPost]
-        public IActionResult MonthlyBudgetUpdater(MothlyBudgetCalculator model)
+        public IActionResult MonthlyBudgetUpdater(MonthlyBudgetCalculator model)
         {
-            if(!ModelState.IsValid || !model.checkInput())
+            if (!ModelState.IsValid || !model.checkInput())
             {
                 // Return the view with the model to show validation errors
                 ViewData["ErrorMessage"] = "Please check your inputs. Income, Expense and Savings must be greater than 0.";
                 return View(model);
             }
+
+            MonthlyBudget monthlyBudget = _monthlyBudgetService.GetLatestMonthlyBudgetAsync().Result;
+
+            monthlyBudget.Income += model.Income;
+            monthlyBudget.Expense += model.Expense;
+            monthlyBudget.Savings += model.Savings;
+
+            _monthlyBudgetService.UpsertMonthlyBudgetPostAsync(monthlyBudget);
+
             return View(model); 
         }
     }
