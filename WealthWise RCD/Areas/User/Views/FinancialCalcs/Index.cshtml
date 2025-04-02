@@ -130,7 +130,18 @@
                             <i class="fa-solid fa-book-open fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
                         </div>
                         <div class="name-box">
-                            <h3 style="text-align: center">Update Monthly Budget</h3>
+                            <h3 style="text-align: center">Update Current Monthly Budget</h3>
+                        </div>
+                    </div>
+                </a>
+
+                <a asp-area="User" asp-controller="FinancialCalcs" asp-action="MonthlyBudgetViewer">
+                    <div class="link-box">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-book-open fa-2xl" style="color: #7a7a52; font-size: 100px"></i>
+                        </div>
+                        <div class="name-box">
+                            <h3 style="text-align: center">View Past Monthly Budgets</h3>
                         </div>
                     </div>
                 </a>
@@ -165,24 +176,6 @@
                 }
             });
         });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const inputField = document.querySelector(".money-input-retirement");
-            const dollarSign = document.querySelector(".dollar-sign-retirement");
-
-            inputField.addEventListener("input", function() {
-                if (inputField.value.trim() !== "")
-                {
-                    dollarSign.style.opacity = "1";
-                    inputField.style.paddingLeft = "20px";
-                }
-                else
-                {
-                    dollarSign.style.opacity = "0";
-                    inputField.style.paddingLeft = "10px";
-                }
-            });
-        });
     </script>
 }
 
@@ -198,8 +191,8 @@
     .link-box 
     {
         display: inline-block;
-        width: 200px;
-        height: 200px;
+        width: 250px;
+        height: 250px;
         border: 1px solid #ddd;
         border-radius: 10px;
         padding: 20px;

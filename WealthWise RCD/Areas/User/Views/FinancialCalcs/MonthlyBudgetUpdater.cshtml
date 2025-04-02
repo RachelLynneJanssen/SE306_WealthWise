@@ -1,9 +1,6 @@
 ﻿@using WealthWise_RCD.Models
 @{
-    var interestAmount = ViewData["InterestAmount"]?.ToString() ?? " ";
-    var retirementAmount = ViewData["RetirementAmount"]?.ToString() ?? " ";
-    var activeTab = ViewData["ActiveTab"]?.ToString() ?? "interest";
-    var yearlySavings = ViewData["YearlySavings"] as Dictionary<int, double>; // Assuming yearly savings is a dictionary with year as key and savings as value
+    var errorMessage = ViewData["ErrorMessage"]?.ToString() ?? null;
 }
 
 <head>
@@ -18,34 +15,70 @@
 <div class="container mt-5">
     <div class="text-center">
         <h1 class="display-4" style="text-align: center">Monthly Budget Planner</h1>
-        <p class="lead text-muted">Create a new monthly budget!</p>
+        <p class="lead text-muted">Update your monthly budget!</p>
     </div>
 
     <form method="post">
         <div class="form-group">
-            <label for="Initial Amount">Initial Amount:</label>
+            <label for="expense">Add an Expense:</label>
             <div class="position-relative">
-                <input type="number" class="form-control money-input-interest" id="initialAmount" name="InitialAmount" placeholder="Enter initial amount" step="0.01">
+                <input type="number" class="form-control money-input-interest" id="expense" name="Expense" placeholder="Enter an Expense" step="0.01">
                 <span class="dollar-sign-interest">$</span>
             </div>
         </div>
         <div class="form-group">
-            <label for="numberOfPayments">Number of Payments:</label>
-            <input type="number" class="form-control" id="numberOfPayments" name="NumberOfPayments" placeholder="Enter number of payments" step="1">
+            <label for="income">Add Income:</label>
+            <div class="position-relative">
+                <input type="number" class="form-control money-input-interest" id="income" name="Income" placeholder="Enter an Income" step=".01">
+                <span class="dollar-sign-interest">$</span>
+            </div>
         </div>
         <div class="form-group">
-            <label for="time">Time:</label>
-            <input type="number" class="form-control" id="time" name="Time" placeholder="Enter the times you want to compound" step="1">
+            <label for="saving">Add Savings:</label>
+            <div class="position-relative">
+                <input type="number" class="form-control money-input-interest" id="saving" name="Savings" placeholder="Enter a Saving" step=".01">
+                <span class="dollar-sign-interest">$</span>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="interestRate">Interest Rate (%):</label>
-            <input type="number" class="form-control" id="interestRate" name="InterestRate" placeholder="Enter interest rate" step="0.01">
-        </div>
-        <input type="hidden" name="activeTab" value="interest" />
         <br />
         <button type="submit" class="btn btn-primary">Calculate</button>
+        @if (@errorMessage != null)
+        {
+            <div class="alert alert-info mt-3" id="calculatedAmountBox">
+                <strong>@errorMessage</strong>
+            </div>
+        }
     </form>
 </div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#myTab a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputField = document.querySelector(".money-input-interest");
+            const dollarSign = document.querySelector(".dollar-sign-interest");
+
+            inputField.addEventListener("input", function() {
+                if (inputField.value.trim() !== "")
+                {
+                    dollarSign.style.opacity = "1";
+                    inputField.style.paddingLeft = "20px";
+                }
+                else
+                {
+                    dollarSign.style.opacity = "0";
+                    inputField.style.paddingLeft = "10px";
+                }
+            });
+        });
+    </script>
+}
 
 <style>
     #calculatedAmountBox {
@@ -118,70 +151,3 @@
     }
 </style>
 
-<style>
-    #calculatedAmountBox {
-        background-color: white;
-        border-color: lightgrey;
-        -webkit-text-fill-color: #8a8a5c;
-        text-align: left;
-        padding: 10px;
-    }
-
-    .link-box {
-        display: inline-block;
-        width: 200px;
-        height: 200px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-        margin: 20px;
-        background-color: white;
-    }
-
-    .icon-box {
-        margin-top: 50px;
-        margin-bottom: 30px;
-    }
-
-    .name-box {
-        margin-top: 30px;
-        font-size: 18px;
-        font-weight: bold;
-        color: #7a7a52;
-    }
-
-    .position-relative {
-        position: relative;
-    }
-
-    .dollar-sign-interest {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 1rem;
-        color: lightgray;
-        opacity: 0;
-        transition: opacity 0.2s ease-in;
-    }
-
-    .money-input-interest {
-        padding-left: 10px;
-    }
-
-    .dollar-sign-retirement {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 1rem;
-        color: lightgray;
-        opacity: 0;
-        transition: opacity 0.2s ease-in;
-    }
-
-    .money-input-retirement {
-        padding-left: 10px;
-    }
-</style>

@@ -53,5 +53,22 @@ namespace WealthWise_RCD.Areas.User.Controllers
         {
             return View();
         }
+
+        public IActionResult MonthlyBudgetViewer()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult MonthlyBudgetUpdater(MothlyBudgetCalculator model)
+        {
+            if(!ModelState.IsValid || !model.checkInput())
+            {
+                // Return the view with the model to show validation errors
+                ViewData["ErrorMessage"] = "Please check your inputs. Income, Expense and Savings must be greater than 0.";
+                return View(model);
+            }
+            return View(model); 
+        }
     }
 }
