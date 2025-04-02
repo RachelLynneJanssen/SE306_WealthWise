@@ -120,6 +120,28 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
         {
             return View();
         }
+        public IActionResult InvestmentTips()
+        {
+            return View("TipsPages/InvestmentTips");
+        }
 
+        public IActionResult SavingsTips()
+        {
+            return View("TipsPages/SavingsTips");
+        }
+
+        public IActionResult MortgageTips()
+        {
+            return View("TipsPages/MortgageTips");
+        }
+
+        public IActionResult CardTips()
+        {
+            return View("TipsPages/CardTips");
+        }
+        public IActionResult TipsCreator()
+        {
+            return View("TipsPages/TipsCreator");
+        }
     }
 }

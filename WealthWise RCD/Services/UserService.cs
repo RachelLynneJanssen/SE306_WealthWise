@@ -18,6 +18,7 @@ namespace WealthWise_RCD.Services
 
         public async Task<List<Appointment>> GetAllAppointmentsAsync(ApplicationUser user)
         {
+            
             if (await _userManager.IsInRoleAsync(user, "User"))
             {
                 return _context.Appointments.Where(a => a.User == user).ToList();
@@ -51,6 +52,10 @@ namespace WealthWise_RCD.Services
             }
             await _context.SaveChangesAsync();
         }
+        public async Task<Address> GetAddressAsync(ApplicationUser user)
+        {
+            return await _context.Addresses.FindAsync(user.AddressId);
+        }
         public async Task UpsertAddressAsync(Address address)
         {
             if (address.Id == 0)
@@ -70,6 +75,10 @@ namespace WealthWise_RCD.Services
                 }
             }
             await _context.SaveChangesAsync();
+        }
+        public Task<List<Blog>> GetAllAdvisorPostsAsync(ApplicationUser advisor)
+        {
+            return _context.BlogPosts.Where(b => b.AdvisorId == advisor.Id).ToListAsync();
         }
     }
 }

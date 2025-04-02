@@ -50,7 +50,7 @@
         <div class="card mb-4 shadow-sm">
             <div class="card-body">
                 <h3 class="card-title fw-bold" id="blog-title">
-                    <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id" class="text-dark">
+                    <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id" class="maroon-on-hover">
                         @blog.Title
                     </a>
                 </h3>
@@ -68,5 +68,7 @@
 
         #blog-title:hover {
             text-decoration: underline;
+            color: #815050;
+            transition: all .25s ease-in-out;
         }
 </style>

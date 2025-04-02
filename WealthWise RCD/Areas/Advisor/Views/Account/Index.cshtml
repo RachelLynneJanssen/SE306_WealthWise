@@ -1,18 +1,71 @@
-﻿@using WealthWise_RCD.Models
+﻿@using Microsoft.AspNetCore.Identity
+@using WealthWise_RCD.Models
+@using WealthWise_RCD.Models.DatabaseModels
+@using WealthWise_RCD.Services
+@inject UserManager<ApplicationUser> UserManager
+@inject UserService UserService
 @{
-
+    var links = new List<SidebarLink>
+    {
+        new SidebarLink{Title = "Profile", Url = Url.Action("LoadProfilePartial", "Account", new {AreaAttribute = "Advisor"})!},
+        new SidebarLink{Title = "Appointments", Url = Url.Action("LoadAppointmentsPartial", "Account", new {AreaAttribute = "Advisor"})!},
+        new SidebarLink{Title = "Blog Posts", Url = Url.Action("LoadBlogPostsPartial", "Account", new {AreaAttribute = "Advisor"})!},
+    };
+    ApplicationUser currentUser = await UserManager.GetUserAsync(User);
+    var getAddress = UserService.GetAddressAsync(currentUser);
+    getAddress.Wait();
+    currentUser.Address = getAddress.Result;
 }
+
 <!-- Link for the font awesome library -->
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
 </head>
+<partial name="Account/_AccountSidebarPartial" for="@links" />
 
-<div class="container mt-5">
-    <!-- Title and tag line of learning hub -->
-    <div class="text-center">
-        <h1 class="display-4">Advisor Account</h1>
-        <i class="fa-solid fa-book-skull fa-2xl" style="color: #7a7a52; font-size: 200px; margin-top: 100px"></i>
-    </div>
-
+<!-- Default main content -->
+<!-- Container for the dynamic partial content -->
+<div id="content-container" class="content-wrapper">
+    <partial name="Account/_ProfilePartial" for="@currentUser"/>
 </div>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const navbar = document.querySelector('.navbar');
+        const footer = document.querySelector('.footer');
+        const sidebar = document.querySelector('.sidebar');
+        const content = document.querySelector('.content-wrapper');
 
+        function adjustLayout() {
+            const navbarHeight = navbar.offsetHeight;
+            const footerHeight = footer.offsetHeight;
+            // Adjust the sidebar and content margin based on navbar height
+            sidebar.style.top = `${navbarHeight}px`;
+            sidebar.style.height = `calc(100vh - ${navbarHeight}px - ${footerHeight}px)`;
+            content.style.marginTop = `${navbarHeight}px`;
+            // Adjust the sidebar and content margin based on navbar height
+            sidebar.style.bottom = `${footerHeight}px`;
+            content.style.marginBottom = `${footerHeight}px`;
+        }
+
+        // Run on load and on resize
+        adjustLayout();
+        window.addEventListener('resize', adjustLayout);
+    });
+</script>
+
+<!-- Dynamically loads main content -->
+<script>
+    function loadPartial(url) {
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('content-container').innerHTML = html;
+        })
+        .catch(error => console.error('Error loading content:', error));
+    }
+</script>
