@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 using WealthWise_RCD.Services;
 using WealthWise_RCD.Models.DatabaseModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace WealthWise_RCD.Areas.User.Controllers
 {
@@ -13,9 +14,12 @@ namespace WealthWise_RCD.Areas.User.Controllers
     public class FinancialCalcsController : Controller
     {
         private readonly MonthlyBudgetService _monthlyBudgetService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public FinancialCalcsController(MonthlyBudgetService monthlyBudgetService)
+        public FinancialCalcsController(MonthlyBudgetService monthlyBudgetService, 
+            UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _monthlyBudgetService = monthlyBudgetService;
         }
 
@@ -82,6 +86,10 @@ namespace WealthWise_RCD.Areas.User.Controllers
 
             MonthlyBudget monthlyBudget = _monthlyBudgetService.GetLatestMonthlyBudgetAsync().Result;
 
+            var getUser = _userManager.GetUserAsync(User);
+            getUser.Wait(); 
+            ApplicationUser applicationUser = getUser.Result;
+
             if(monthlyBudget == null)
             {
                 // If no monthly budget exists, create a new one
@@ -90,6 +98,7 @@ namespace WealthWise_RCD.Areas.User.Controllers
                     Income = model.Income,
                     Expense = model.Expense,
                     Savings = model.Savings,
+                    UserID = applicationUser.Id, 
                     Total = model.Income - model.Expense - model.Savings,
                     CreatedDate = DateTime.Now
                 };
