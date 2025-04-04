@@ -114,7 +114,7 @@ namespace WealthWise_RCD.Areas.User.Controllers
 
             await _monthlyBudgetService.UpsertMonthlyBudgetPostAsync(monthlyBudget);
 
-            ViewData["CurrentBudget"] = "Monthly Budget Updated Successfully! <br/> " +
+            ViewData["CurrentBudget"] = "Monthly Budget Updated Successfully! \n " +
                 $"Current Income: {monthlyBudget.Income}, Current Expense: {monthlyBudget.Expense}, Current Savings: {monthlyBudget.Savings}";
 
             return View(model); 
