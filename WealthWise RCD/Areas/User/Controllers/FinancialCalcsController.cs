@@ -14,10 +14,10 @@ namespace WealthWise_RCD.Areas.User.Controllers
     {
         private readonly MonthlyBudgetService _monthlyBudgetService;
 
-        /*public FinancialCalcsController(MonthlyBudgetService monthlyBudgetService)
+        public FinancialCalcsController(MonthlyBudgetService monthlyBudgetService)
         {
             _monthlyBudgetService = monthlyBudgetService;
-        }*/
+        }
 
         [HttpGet]
         public IActionResult Index()
@@ -85,6 +85,9 @@ namespace WealthWise_RCD.Areas.User.Controllers
             monthlyBudget.Savings += model.Savings;
 
             _monthlyBudgetService.UpsertMonthlyBudgetPostAsync(monthlyBudget);
+
+            ViewData["CurrentBudget"] = "Monthly Budget Updated Successfully! <br/> " +
+                $"Current Income: {monthlyBudget.Income}, Current Expense: {monthlyBudget.Expense}, Current Savings: {monthlyBudget.Savings}";
 
             return View(model); 
         }

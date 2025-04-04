@@ -1,6 +1,7 @@
 ﻿@using WealthWise_RCD.Models
 @{
     var errorMessage = ViewData["ErrorMessage"]?.ToString() ?? null;
+	var currentBudget = ViewData["CurrentBudget"]?.ToString() ?? null;
 }
 
 <head>
@@ -46,6 +47,12 @@
         {
             <div class="alert alert-info mt-3" id="calculatedAmountBox">
                 <strong>@errorMessage</strong>
+            </div>
+        }
+        @if (currentBudget != null)
+        {
+            <div class="alert alert-info mt-3" id="calculatedAmountBox">
+                <strong>@currentBudget</strong>
             </div>
         }
     </form>

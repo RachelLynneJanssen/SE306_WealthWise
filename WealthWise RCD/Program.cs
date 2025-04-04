@@ -127,6 +127,7 @@ async Task SeedInitBlogPosts(UserManager<ApplicationUser> userManager, Applicati
     dbContext.BlogPosts.Add(post1);
     dbContext.BlogPosts.Add(post2);
     dbContext.BlogPosts.Add(post3);
+
     
 }
 
@@ -184,6 +185,7 @@ options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(p
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddScoped<BlogService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<MonthlyBudgetService>(); 
 #endregion
 
 // Add services to the container.
