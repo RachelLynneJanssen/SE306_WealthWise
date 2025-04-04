@@ -1,9 +1,7 @@
 ﻿@using WealthWise_RCD.Models
+@using WealthWise_RCD.Models.DatabaseModels
 @{
-    var interestAmount = ViewData["InterestAmount"]?.ToString() ?? " ";
-    var retirementAmount = ViewData["RetirementAmount"]?.ToString() ?? " ";
-    var activeTab = ViewData["ActiveTab"]?.ToString() ?? "interest";
-    var yearlySavings = ViewData["YearlySavings"] as Dictionary<int, double>; // Assuming yearly savings is a dictionary with year as key and savings as value
+    var monthlyBudgets = ViewData["MonthlyBudgets"] as List<MonthlyBudget>; // Assuming the controller passes this data
 }
 
 <head>
@@ -17,34 +15,46 @@
 
 <div class="container mt-5">
     <div class="text-center">
-        <h1 class="display-4" style="text-align: center">Monthly Budget Planner</h1>
-        <p class="lead text-muted">Create a new monthly budget!</p>
+        <h1 class="display-4" style="text-align: center">Monthly Budget Viewer</h1>
+        <p class="lead text-muted">View all your past monthly budgets!</p>
     </div>
 
-    <form method="post">
-        <div class="form-group">
-            <label for="Initial Amount">Initial Amount:</label>
-            <div class="position-relative">
-                <input type="number" class="form-control money-input-interest" id="initialAmount" name="InitialAmount" placeholder="Enter initial amount" step="0.01">
-                <span class="dollar-sign-interest">$</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="numberOfPayments">Number of Payments:</label>
-            <input type="number" class="form-control" id="numberOfPayments" name="NumberOfPayments" placeholder="Enter number of payments" step="1">
-        </div>
-        <div class="form-group">
-            <label for="time">Time:</label>
-            <input type="number" class="form-control" id="time" name="Time" placeholder="Enter the times you want to compound" step="1">
-        </div>
-        <div class="form-group">
-            <label for="interestRate">Interest Rate (%):</label>
-            <input type="number" class="form-control" id="interestRate" name="InterestRate" placeholder="Enter interest rate" step="0.01">
-        </div>
-        <input type="hidden" name="activeTab" value="interest" />
-        <br />
-        <button type="submit" class="btn btn-primary">Calculate</button>
-    </form>
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Created Date</th>
+                <th>Income</th>
+                <th>Expense</th>
+                <th>Savings</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (monthlyBudgets != null && monthlyBudgets.Any())
+            {
+                int index = 1;
+                foreach (var budget in monthlyBudgets)
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@budget.CreatedDate.ToString("yyyy-MM-dd")</td>
+                        <td>@budget.Income</td>
+                        <td>@budget.Expense</td>
+                        <td>@budget.Savings</td>
+                        <td>@budget.Total</td>
+                    </tr>
+                    index++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center">No monthly budgets found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 <style>

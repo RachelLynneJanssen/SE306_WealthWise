@@ -65,11 +65,13 @@ namespace WealthWise_RCD.Areas.User.Controllers
 
         public IActionResult MonthlyBudgetViewer()
         {
+            ViewData["MonthlyBudgets"] = _monthlyBudgetService.GetAllMonthlyBudgetsAsync().Result; // Get all monthly budgets to display in the view
+            
             return View();
         }
 
         [HttpPost]
-        public IActionResult MonthlyBudgetUpdater(MonthlyBudgetCalculator model)
+        public async Task<IActionResult> MonthlyBudgetUpdater(MonthlyBudgetCalculator model)
         {
             if (!ModelState.IsValid || !model.checkInput())
             {
@@ -80,11 +82,28 @@ namespace WealthWise_RCD.Areas.User.Controllers
 
             MonthlyBudget monthlyBudget = _monthlyBudgetService.GetLatestMonthlyBudgetAsync().Result;
 
-            monthlyBudget.Income += model.Income;
-            monthlyBudget.Expense += model.Expense;
-            monthlyBudget.Savings += model.Savings;
+            if(monthlyBudget == null)
+            {
+                // If no monthly budget exists, create a new one
+                monthlyBudget = new MonthlyBudget
+                {
+                    Income = model.Income,
+                    Expense = model.Expense,
+                    Savings = model.Savings,
+                    Total = model.Income - model.Expense - model.Savings,
+                    CreatedDate = DateTime.Now
+                };
+            }
+            else 
+            {
+                monthlyBudget.Income += model.Income;
+                monthlyBudget.Expense += model.Expense;
+                monthlyBudget.Savings += model.Savings;
+            }
 
-            _monthlyBudgetService.UpsertMonthlyBudgetPostAsync(monthlyBudget);
+
+
+            await _monthlyBudgetService.UpsertMonthlyBudgetPostAsync(monthlyBudget);
 
             ViewData["CurrentBudget"] = "Monthly Budget Updated Successfully! <br/> " +
                 $"Current Income: {monthlyBudget.Income}, Current Expense: {monthlyBudget.Expense}, Current Savings: {monthlyBudget.Savings}";
