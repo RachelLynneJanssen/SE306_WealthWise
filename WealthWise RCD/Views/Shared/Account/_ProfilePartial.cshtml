@@ -1,12 +1,22 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using WealthWise_RCD.Models.DatabaseModels;
-@* @inject UserManager<ApplicationUser> UserManager
 @{
-    var user = await UserManager.GetUserAsync(User);
-    var userId = user?.Id;
-    var email = user?.Email;
-   // Address address = user.Address;
-} *@
+    string GetAreaBasedOnRole()
+    {
+        if (User.IsInRole("Advisor"))
+        {
+            return "Advisor"; 
+        }
+        else if (User.IsInRole("User"))
+        {
+            return "User";
+        }
+        else
+        {
+            return "User"; // Start in user for admins
+        }
+    } 
+}
 
 @model ApplicationUser
 <div class="container mt-5">
@@ -18,7 +28,7 @@
  *@                <h3>@Model?.FirstName @Model?.LastName</h3>
                 <p class="text-muted">@Model?.Email</p>
                 <div class="d-flex justify-content-center gap-3 mt-3">
-                    <button class="btn btn-primary" onclick="loadPartial('@Url.Action("LoadEditProfilePartial", "Account", new { Area = "User" })')">Edit Profile</button>
+                    <button class="btn btn-primary" onclick="loadPartial('@Url.Action("LoadEditProfilePartial", "Account", new { Area = GetAreaBasedOnRole() })')">Edit Profile</button>
                     <a href="/Identity/Account/Manage/ChangePassword" class="btn btn-primary">Change Password</a>
                 </div>
             </div>
