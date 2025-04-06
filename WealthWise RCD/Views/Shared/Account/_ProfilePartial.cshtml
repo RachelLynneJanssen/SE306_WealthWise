@@ -1,26 +1,66 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using WealthWise_RCD.Models.DatabaseModels;
-@* @inject UserManager<ApplicationUser> UserManager
 @{
-    var user = await UserManager.GetUserAsync(User);
-    var userId = user?.Id;
-    var email = user?.Email;
-   // Address address = user.Address;
-} *@
+    string GetAreaBasedOnRole()
+    {
+        if (User.IsInRole("Advisor"))
+        {
+            return "Advisor"; 
+        }
+        else if (User.IsInRole("User"))
+        {
+            return "User";
+        }
+        else
+        {
+            return "User"; // Start in user for admins
+        }
+    } 
+}
+
 @model ApplicationUser
 <div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <!-- Profile Header -->
+            <div class="card text-center p-4">
+@*                 <img src="https://via.placeholder.com/150" class="rounded-circle mx-auto d-block mb-3" alt="Profile Picture">
+ *@                <h3>@Model?.FirstName @Model?.LastName</h3>
+                <p class="text-muted">@Model?.Email</p>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                    <button class="btn btn-primary" onclick="loadPartial('@Url.Action("LoadEditProfilePartial", "Account", new { Area = GetAreaBasedOnRole() })')">Edit Profile</button>
+                    <a href="/Identity/Account/Manage/ChangePassword" class="btn btn-primary">Change Password</a>
+                </div>
+            </div>
+
+            <!-- Profile Details -->
+            <div class="card mt-4 p-4">
+                <h2 class="mb-3">Profile Details</h2>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>First Name:</strong> @Model?.FirstName</li>
+                    <li class="list-group-item"><strong>Last Name:</strong> @Model?.LastName</li>
+                    <li class="list-group-item"><strong>Street Address:</strong> @Model?.Address.StreetName</li>
+                    <li class="list-group-item"><strong>City:</strong> @Model?.Address.City</li>
+                    <li class="list-group-item"><strong>State:</strong> @Model?.Address.State</li>
+                    <li class="list-group-item"><strong>Zip Code:</strong> @Model?.Address.ZipCode</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <div class="container mt-5">
+ 
     <!-- Title and tag line of learning hub -->
     <div class="text-center">
         <h1 class="display-4">Profile</h1>
         <h3>@Model?.FirstName</h3>
         <h3>@Model?.LastName</h3>
-        <h3>@Model?.AddressId</h3>
-
     </div>
     <div class="text-center">
-               <h3>@Model?.Address.StreetName</h3>
-        @*<h3>@address.ExtraInfo</h3>
-        <h3>@address.City, @address.State @address.ZipCode</h3> *@
+        <h3>@Model?.Address.StreetName</h3>
+        <h3>@Model?.Address.ExtraInfo</h3>
+        <h3>@Model?.Address.City, @Model?.Address.State @Model?.Address.ZipCode</h3>
     </div>
 
-</div>
+</div> *@

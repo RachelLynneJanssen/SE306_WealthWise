@@ -21,35 +21,45 @@
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
 </head>
-<partial name="Account/_AccountSidebarPartial" for="@links" />
 
-<!-- Default main content -->
-<!-- Container for the dynamic partial content -->
-<div id="content-container" class="content-wrapper">
-    <partial name="Account/_ProfilePartial" for="@currentUser"/>
+<!-- Bootstrap Sidebar (Always Visible) -->
+<div class="d-flex">
+    <nav class="sidebar">
+        @* Break word and such to allow for longer names ** KNOWN BUG ** *@
+        <h1 style="-webkit-text-fill-color: #673636; padding-left: 11px;">Hello, @currentUser.FirstName @currentUser.LastName</h1>
+        @foreach (var link in links)
+        {
+            <a href="#" class="d-block py-2" onclick="loadPartial('@link.Url')">
+                @link.Title
+            </a>
+        }
+    </nav>
+
+    <!-- Container for dynamic content -->
+    <div id="content-container" class="flex-grow-1 p-4">
+        <partial name="Account/_ProfilePartial" for="@currentUser" />
+    </div>
 </div>
+
 <script>
     window.addEventListener('DOMContentLoaded', () => {
         const navbar = document.querySelector('.navbar');
         const footer = document.querySelector('.footer');
         const sidebar = document.querySelector('.sidebar');
-        const content = document.querySelector('.content-wrapper');
 
-        function adjustLayout() {
-            const navbarHeight = navbar.offsetHeight;
-            const footerHeight = footer.offsetHeight;
-            // Adjust the sidebar and content margin based on navbar height
+        function adjustSidebarHeight() {
+            const navbarHeight = navbar ? navbar.offsetHeight : 0;
+            const footerHeight = footer ? footer.offsetHeight : 0;
+            const windowHeight = window.innerHeight;
+
+            // Set sidebar height dynamically
             sidebar.style.top = `${navbarHeight}px`;
-            sidebar.style.height = `calc(100vh - ${navbarHeight}px - ${footerHeight}px)`;
-            content.style.marginTop = `${navbarHeight}px`;
-            // Adjust the sidebar and content margin based on navbar height
-            sidebar.style.bottom = `${footerHeight}px`;
-            content.style.marginBottom = `${footerHeight}px`;
+            sidebar.style.height = `${windowHeight - navbarHeight - footerHeight}`;
         }
 
-        // Run on load and on resize
-        adjustLayout();
-        window.addEventListener('resize', adjustLayout);
+        // Adjust on load and on window resize
+        adjustSidebarHeight();
+        window.addEventListener('resize', adjustSidebarHeight);
     });
 </script>
 
@@ -69,3 +79,43 @@
         .catch(error => console.error('Error loading content:', error));
     }
 </script>
+
+<style>
+    /* Sidebar Styling */
+    nav.sidebar {
+        background-color: #f1eee8 /*# f9f8f5 */;
+        width: 350px;
+        position: absolute;
+        top: 0; /* Start from the top */
+        left: 0;
+        bottom: 0; /* Stretch to the bottom */
+        border-right: 2px solid #ddd;
+        padding: 20px;
+        overflow-y: auto; /* Enables scrolling if needed */
+    }
+
+        /* Sidebar Links */
+        nav.sidebar a {
+            display: block;
+            color: #673636;
+            text-decoration: none;
+            text-align: left;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+            nav.sidebar a:hover {
+                background-color: #adad85;
+                color: white;
+            }
+
+    /* Main Content Area */
+    #content-container {
+        margin-left: 350px; /* Matches sidebar width */
+        padding: 20px;
+        min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+        overflow-x: hidden;
+    }
+</style>

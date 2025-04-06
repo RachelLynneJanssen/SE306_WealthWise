@@ -1,122 +1,100 @@
-@using WealthWise_RCD.Models
 @{
+    ViewData["Title"] = "Scheduler";
 }
 <div class="container mt-5">
     <div class="text-center">
         <h1 class="display-4">Scheduler</h1>
         <p class="lead text-muted">Schedule appointments with Users or Advisors!</p>
     </div>
-</div> 
+</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <h2>Welcome, @ViewBag.UserName</h2>
+}
+else
+{
+    <p>Please log in to view your appointments.</p>
+}
 
-<div>
-    <div>
-        <h2>User Information</h1>
+@if (ViewBag.UpcomingAppointments != null && ViewBag.UpcomingAppointments.Count > 0)
+{
+    <div class="card p-3 mt-4">
+        <h4 class="fw-bold">Upcoming Appointments</h4>
+        <hr />
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Appointment Date</th>
+                    <th>Advisor Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var appointment in ViewBag.UpcomingAppointments)
+                {
+                    <tr>
+                        <td>Title</td>
+                        <td>@appointment.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@appointment.Advisor?.FullName</td>
+                        <td>
+                            <button class="btn btn-secondary">Change Advisor</button>
+                            <button class="btn btn-secondary">Change Date</button>
+                            <button class="btn btn-danger"><i class="bi bi-trash"></i> Cancel</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
+}
+else
+{
+    <p>No upcoming appointments.</p>
+}
+
+<!-- Advisor Information -->
+<div class="card p-3 mt-4">
+    <h4 class="fw-bold">Current Financial Advisor</h4>
+    <img src="~/images/avatar.jpg" alt="profile-pic" />
+    <div class="row align-items-center">
+        <p>Advisor Name</p>
+    </div>   
 </div>
 
-<div>
-    <p>Name: </p>
-    <p>Current Advisor: </p>
-</div>
-<div class="card p-2 mt-2 no-border">
-    <h5>Upcoming appointments</h5>
-    <table class="table table-striped custom-table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Advisor</th>
-            </tr>
-        </thead>
-        <tbody class="custom-body">
-            <td>February 26, 2025</td>
-            <td>3:00 PM</td>
-            <td>Your Mom</td>
-            <td><button class="btn btn danger btn-sm">Cancel</button></td>
-        </tbody>
-    </table>
-</div>
-@* <div class="row">
-<div class="col-sml-6">
-<div class="schedule-table"> *@
-<h2 class="timeline">Appointment Timeline</h2>
-<table class="table table-sm"> 
-    <thead>
-        <tr>
-            <th scope="col">Time</th>
-            <th scope="col">Monday</th>
-            <th scope="col">Tuesday</th>
-            <th scope="col">Wednesday</th>
-            <th scope="col">Thursday</th>
-            <th scope="col">Friday</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">8:00 AM</th>
-        </tr>
-        <tr>
-            <th scope="row">9:00 AM</th>
-        </tr>
-        <tr>
-            <th scope="row">10:00 AM</th>
-        </tr>
-        <tr>
-            <th scope="row">11:00 AM</th>
-        </tr>
-        <tr>
-            <th scope="row">12:00 PM</th>
-        </tr>
-        <tr>
-            <th scope="row">1:00 PM</th>
-        </tr>
-        <tr>
-            <th scope="row">2:00 PM</th>
-        </tr>
-        <tr>
-            <th scope="row">3:00 PM</th>
-        </tr>
-        <tr>
-            <th scope="row">4:00 PM</th>
-        </tr>
-        <tr>
-            <th scope="row">5:00 PM</th>
-        </tr>
-    </tbody>
-</table>
+<!-- Change Advisor Form -->
+@* <div class="card p-3 mt-4"> *@
+@*     <h5 class="fw-bold">Change Advisor</h5> *@
+@*     <hr /> *@
+@*     <form method="post" asp-action="ChangeAdvisor"> *@
+@*         <div class="form-group"> *@
+@*             <label for="changeAdvisor">Select New Advisor</label> *@
+@*             <input type="search" class="form-control" id="changeAdvisor" name="ChangeAdvisor" placeholder="Enter Advisor Name"> *@
+@*         </div> *@
+@*         <div class="form-group mt-2"> *@
+@*             <label for="reason">Reason for Advisor Change</label> *@
+@*             <textarea class="form-control" id="reason" name="Reason" placeholder="State your reason"></textarea> *@
+@*         </div> *@
+@*         <button type="submit" class="btn btn-primary mt-3">Submit</button> *@
+@*     </form> *@
+@* </div> *@
 
-<div class="change-advisor"></div>
-    <form method="=post">
-        <div class="form-group">
-            <label class="change-advisor" for="Change Advisor">Change Advisor</label>
-            <div class="position-relative">
-                <input type="search" class="form-control" id="changeAdvisor" name="ChangeAdvisor" placeholder="Enter Advisor Name">
-            </div> 
-        </div>
-        <div class="reason-advisor-change">
-            <label for="reason-advisor-change">Reason for Advisor Change</label>
-            <input type="textarea" class="form-control" id="reason" name="reason-advisor-change" placeholder="State your reason for changing advisors">
-        </div>
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
-    </form>
-</div>
-
+<!-- Styles -->
 <style>
-    .custom-table th, .custom-table td, .custom-body{
-        padding:  5x !important;
-        background-color: transparent !important;
+    .table th, .table td {
+        padding: 10px;
     }
-    .no-border {
-        background-color: transparent !important;
-        border: none;
-        box-shadow: none;
+
+    .btn-danger i {
+        margin-right: 5px;
     }
-    h5 {
-        padding-top: 1rem;
-    }
-    .change-advisor, .reason-advisor-change {
-        padding-top:1rem;
-        font: size 2rem;;
-        font-weight: 1000;
+
+    img {
+        /* border-radius: 10%; */
+        clip-path: circle();
+        width: 10%;
+        height: 10%;
+        padding-left: 0.5rem;
     }
 </style>
+

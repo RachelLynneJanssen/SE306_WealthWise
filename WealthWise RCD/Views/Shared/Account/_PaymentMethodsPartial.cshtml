@@ -1,8 +1,90 @@
-﻿<div class="container mt-5">
-    <!-- Title and tag line of learning hub -->
-    <div class="text-center">
-        <h1 class="display-4">Payment Methods</h1>
-        @*         <i class="fa-solid fa-book-skull fa-2xl" style="color: #7a7a52; font-size: 200px; margin-top: 100px"></i>
- *@    </div>
+﻿@using Microsoft.AspNetCore.Identity;
+@using WealthWise_RCD.Models.DatabaseModels
+@{
+    var dummyPayments = new List<Payment>
+    {
+        new Payment
+        {
+            Id = 1,
+            Name = "Personal Visa",
+            Type = PaymentType.CreditCard,
+            CardNumber = "**** **** **** 4242",
+            CardholderName = "John Doe",
+            ExpDate = new DateOnly(2026, 12, 1)
+        },
+        new Payment
+        {
+            Id = 2,
+            Name = "PayPal Main",
+            Type = PaymentType.PayPal,
+            AccountName = "johndoe@email.com"
+        }
+    };
+}
 
+@model ApplicationUser
+<head>
+    <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
+</head>
+
+<div class="container mt-5">
+    <!-- Title and tag line of learning hub -->
+    <div class="text-left">
+        <h1 class="display-4">Saved Payment Methods</h1>
+        <p>You can edit or add payment methods to your account here.</p>
+    </div>
+    <div class="row">
+        @foreach(var payment in dummyPayments)
+        {
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">@payment.Name</h5>
+                        <div>
+                            <button class="btn btn-outline-primary btn-sm me-2">Edit</button>
+                            <button class="btn btn-sm delete-button" style="border: none; background: transparent;">
+                                <i class="fa-solid fa-trash fa-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@payment.Name</h5>
+                        <p class="card-text">
+                            @if (payment.Type == PaymentType.CreditCard)
+                            {
+                                <span><strong>Type:</strong> Credit Card</span>
+
+                                <br />
+                                <span><strong>Cardholder:</strong> @payment.CardholderName</span>
+
+                                <br />
+                                <span><strong>Number:</strong> @payment.CardNumber</span>
+
+                                <br />
+                                <span><strong>Expires:</strong> @payment.ExpDate?.ToString("MM/yyyy")</span>
+                            }
+                            else if (payment.Type == PaymentType.PayPal)
+                            {
+                                <span><strong>Type:</strong> PayPal</span>
+
+                                <br />
+                                <span><strong>Account:</strong> @payment.AccountName</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+<style>
+    .delete-button i {
+        color: #828282;
+        transition: color 0.3s ease;
+    }
+
+    .delete-button:hover i {
+        color: #ff0000;
+    }
+</style>

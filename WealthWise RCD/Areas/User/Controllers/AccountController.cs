@@ -47,7 +47,36 @@ namespace WealthWise_RCD.Areas.User.Controllers
         {
             return PartialView("Account/_PaymentMethodsPartial");
         }
-        // var user = _userService.GetUserAsync(User);
-        // await _userManager.UpdateAsync(user);
+
+        public async Task<IActionResult> LoadEditProfilePartial()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user == null) { return NotFound(); }
+
+            var getAddress = _userService.GetAddressAsync(user);
+            getAddress.Wait();
+            user.Address = getAddress.Result;
+            return PartialView("Account/_EditProfilePartial", user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(ApplicationUser model)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user == null) { return NotFound(); }
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.Address = await _userService.GetAddressAsync(user);
+
+            user.Address.StreetName = model.Address.StreetName;
+            user.Address.City = model.Address.City;
+            user.Address.State = model.Address.State;
+            user.Address.ZipCode = model.Address.ZipCode;
+
+            await _userManager.UpdateAsync(user);
+            return RedirectToAction("Index");
+        }
     }
 }
