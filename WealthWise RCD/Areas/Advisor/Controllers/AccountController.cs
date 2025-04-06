@@ -68,17 +68,15 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.Email = model.Email;
-            /*user.Address.StreetName = model.Address.StreetName;
+            user.Address = await _userService.GetAddressAsync(user);
+
+            user.Address.StreetName = model.Address.StreetName;
             user.Address.City = model.Address.City;
             user.Address.State = model.Address.State;
-            user.Address.ZipCode = model.Address.ZipCode;*/
+            user.Address.ZipCode = model.Address.ZipCode;
 
             await _userManager.UpdateAsync(user);
-            /*            await _userService.UpsertAddressAsync(user.Address);
-            */
             return RedirectToAction("Index");
         }
-        // var user = _userService.GetUserAsync(User);
-        // await _userManager.UpdateAsync(user);
     }
 }
