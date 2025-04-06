@@ -26,7 +26,8 @@
 <!-- Bootstrap Sidebar (Always Visible) -->
 <div class="d-flex">
     <nav class="sidebar">
-        <h1 style="-webkit-text-fill-color: #673636; padding-left: 11px;">My Account</h1>
+        @* Break word and such to allow for longer names ** KNOWN BUG ** *@
+        <h1 style="-webkit-text-fill-color: #673636; padding-left: 11px;">Hello, @currentUser.FirstName @currentUser.LastName</h1>
         @foreach (var link in links)
         {
             <a href="#" class="d-block py-2" onclick="loadPartial('@link.Url')">
@@ -46,23 +47,20 @@
         const navbar = document.querySelector('.navbar');
         const footer = document.querySelector('.footer');
         const sidebar = document.querySelector('.sidebar');
-        const content = document.querySelector('.content-wrapper');
 
-        function adjustLayout() {
-            const navbarHeight = navbar.offsetHeight;
-            const footerHeight = footer.offsetHeight;
-            // Adjust the sidebar and content margin based on navbar height
+        function adjustSidebarHeight() {
+            const navbarHeight = navbar ? navbar.offsetHeight : 0;
+            const footerHeight = footer ? footer.offsetHeight : 0;
+            const windowHeight = window.innerHeight;
+
+            // Set sidebar height dynamically
             sidebar.style.top = `${navbarHeight}px`;
-            sidebar.style.height = `calc(100vh - ${navbarHeight}px - ${footerHeight}px)`;
-            content.style.marginTop = `${navbarHeight}px`;
-            // Adjust the sidebar and content margin based on navbar height
-            sidebar.style.bottom = `${footerHeight}px`;
-            content.style.marginBottom = `${footerHeight}px`;
+            sidebar.style.height = `${windowHeight - navbarHeight - footerHeight}`;
         }
 
-        // Run on load and on resize
-        adjustLayout();
-        window.addEventListener('resize', adjustLayout);
+        // Adjust on load and on window resize
+        adjustSidebarHeight();
+        window.addEventListener('resize', adjustSidebarHeight);
     });
 </script>
 
@@ -86,14 +84,15 @@
 <style>
     /* Sidebar Styling */
     nav.sidebar {
-        background-color: #f9f8f5; /* Light Bootstrap background */
+        background-color: #f1eee8 /*# f9f8f5 */;
         width: 350px;
-        border-right: 1px solid #ddd; /* Subtle border */
-        padding: 20px;
-        position: absolute; /* Fix it to the left */
-        top: 0;
+        position: absolute;
+        top: 0; /* Start from the top */
         left: 0;
-        overflow-y: auto; /* Scroll if content overflows */
+        bottom: 0; /* Stretch to the bottom */
+        border-right: 2px solid #ddd;
+        padding: 20px;
+        overflow-y: auto; /* Enables scrolling if needed */
     }
 
         /* Sidebar Links */
@@ -109,14 +108,15 @@
         }
 
             nav.sidebar a:hover {
-                background-color: #adad85; /* Bootstrap primary color */
+                background-color: #adad85;
                 color: white;
             }
 
     /* Main Content Area */
     #content-container {
-        margin-left: 270px; /* Offset to match sidebar width */
+        margin-left: 350px; /* Matches sidebar width */
         padding: 20px;
+        min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+        overflow-x: hidden;
     }
-
 </style>

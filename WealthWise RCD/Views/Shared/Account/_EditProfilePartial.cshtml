@@ -1,0 +1,43 @@
+﻿@using WealthWise_RCD.Models.DatabaseModels;
+@model ApplicationUser
+<div class="container mt-5">
+    <h2>Edit Profile</h2>
+    <form asp-action="UpdateProfile" method="post">
+        <div class="mb-3">
+            <label asp-for="FirstName" class="form-label"></label>
+            <input asp-for="FirstName" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="LastName" class="form-label"></label>
+            <input asp-for="LastName" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" /> @* readonly /> *@
+        </div>
+
+        <h4>Address</h4>
+        <div class="mb-3">
+            <label asp-for="Address.StreetName" class="form-label"></label>
+            <input asp-for="Address.StreetName" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Address.ExtraInfo" class="form-label"></label>
+            <input asp-for="Address.ExtraInfo" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Address.City" class="form-label"></label>
+            <input asp-for="Address.City" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Address.State" class="form-label"></label>
+            <input asp-for="Address.State" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Address.ZipCode" class="form-label"></label>
+            <input asp-for="Address.ZipCode" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
