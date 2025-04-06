@@ -7,8 +7,40 @@
     var email = user?.Email;
    // Address address = user.Address;
 } *@
+
 @model ApplicationUser
 <div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <!-- Profile Header -->
+            <div class="card text-center p-4">
+@*                 <img src="https://via.placeholder.com/150" class="rounded-circle mx-auto d-block mb-3" alt="Profile Picture">
+ *@                <h3>@Model?.FirstName @Model?.LastName</h3>
+                <p class="text-muted">@Model?.Email</p>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                    <button class="btn btn-primary" onclick="loadPartial('@Url.Action("LoadEditProfilePartial", "Account", new { Area = "User" })')">Edit Profile</button>
+                    <a href="/Identity/Account/Manage/ChangePassword" class="btn btn-primary">Change Password</a>
+                </div>
+            </div>
+
+            <!-- Profile Details -->
+            <div class="card mt-4 p-4">
+                <h2 class="mb-3">Profile Details</h2>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>First Name:</strong> @Model?.FirstName</li>
+                    <li class="list-group-item"><strong>Last Name:</strong> @Model?.LastName</li>
+                    <li class="list-group-item"><strong>Street Address:</strong> @Model?.Address.StreetName</li>
+                    <li class="list-group-item"><strong>City:</strong> @Model?.Address.City</li>
+                    <li class="list-group-item"><strong>State:</strong> @Model?.Address.State</li>
+                    <li class="list-group-item"><strong>Zip Code:</strong> @Model?.Address.ZipCode</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <div class="container mt-5">
+ 
     <!-- Title and tag line of learning hub -->
     <div class="text-center">
         <h1 class="display-4">Profile</h1>
@@ -21,4 +53,4 @@
         <h3>@Model?.Address.City, @Model?.Address.State @Model?.Address.ZipCode</h3>
     </div>
 
-</div>
+</div> *@
