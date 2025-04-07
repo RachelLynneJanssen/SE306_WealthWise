@@ -1,0 +1,197 @@
+﻿@using WealthWise_RCD.Models
+@using WealthWise_RCD.Models.DatabaseModels
+@{
+    var monthlyBudgets = ViewData["MonthlyBudgets"] as List<MonthlyBudget>; // Assuming the controller passes this data
+}
+
+<head>
+    <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
+</head>
+
+<!-- Back Button -->
+<a asp-area="User" asp-controller="FinancialCalcs" asp-action="Index">
+    <i class="fa-solid fa-arrow-left fa-xl" style="color: #828282;"></i>
+</a>
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4" style="text-align: center">Monthly Budget Viewer</h1>
+        <p class="lead text-muted">View all your past monthly budgets!</p>
+    </div>
+
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Created Date</th>
+                <th>Income</th>
+                <th>Expense</th>
+                <th>Savings</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (monthlyBudgets != null && monthlyBudgets.Any())
+            {
+                int index = 1;
+                foreach (var budget in monthlyBudgets)
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@budget.CreatedDate.ToString("yyyy-MM-dd")</td>
+                        <td>@budget.Income</td>
+                        <td>@budget.Expense</td>
+                        <td>@budget.Savings</td>
+                        <td>@budget.Total</td>
+                    </tr>
+                    index++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center">No monthly budgets found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    #calculatedAmountBox {
+        background-color: white;
+        border-color: lightgrey;
+        -webkit-text-fill-color: #8a8a5c;
+        text-align: left;
+        padding: 10px;
+    }
+
+    .link-box 
+    {
+        display: inline-block;
+        width: 200px;
+        height: 200px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        margin: 20px;
+        background-color: white;
+    }
+
+    .icon-box 
+    {
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .name-box 
+    {
+        margin-top: 30px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #7a7a52;
+    }
+
+    .position-relative {
+        position: relative;
+    }
+
+    .dollar-sign-interest  {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: lightgray;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
+    }
+
+    .money-input-interest {
+        padding-left: 10px;
+    }
+
+    .dollar-sign-retirement {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: lightgray;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
+    }
+
+    .money-input-retirement {
+        padding-left: 10px;
+    }
+</style>
+
+<style>
+    #calculatedAmountBox {
+        background-color: white;
+        border-color: lightgrey;
+        -webkit-text-fill-color: #8a8a5c;
+        text-align: left;
+        padding: 10px;
+    }
+
+    .link-box {
+        display: inline-block;
+        width: 200px;
+        height: 200px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        margin: 20px;
+        background-color: white;
+    }
+
+    .icon-box {
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .name-box {
+        margin-top: 30px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #7a7a52;
+    }
+
+    .position-relative {
+        position: relative;
+    }
+
+    .dollar-sign-interest {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: lightgray;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
+    }
+
+    .money-input-interest {
+        padding-left: 10px;
+    }
+
+    .dollar-sign-retirement {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: lightgray;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
+    }
+
+    .money-input-retirement {
+        padding-left: 10px;
+    }
+</style>
