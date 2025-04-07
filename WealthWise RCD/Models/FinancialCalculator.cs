@@ -45,4 +45,17 @@
             return true;
         }
     }
+
+    public class MonthlyBudgetCalculator
+    {
+        public decimal Income { get; set; }
+        public decimal Expense { get; set; }
+        public decimal Savings { get; set; }
+        public bool checkInput()
+        {
+            if (Income > 0 && Expense >= 0 && Savings >= 0)
+                return true;
+            return false;
+        }
+    }
 }
