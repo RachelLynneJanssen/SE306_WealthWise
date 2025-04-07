@@ -18,7 +18,7 @@
     const quill = new Quill('#editor', options);
 
     // Set the character limit
-    const MAX_LENGTH = 1000;
+    const MAX_LENGTH = 200;
 
     quill.on('text-change', function (delta, oldDelta, source) {
         let text = quill.getText().trim();
@@ -79,7 +79,7 @@
                 return response.text();
             })
             .then(data => {
-                alert('Blog saved successfully.');
+                alert('Tip saved successfully.');
                 const lastSavedTime = document.getElementById('lastSaved');
                 if (lastSavedTime) {
                     const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -88,7 +88,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert("Failed to save blog draft. Check the console for details.");
+                alert("Failed to save tip draft. Check the console for details.");
             });
     });
 
@@ -127,12 +127,12 @@
                 return response.text();
             })
             .then(data => {
-                alert('Blog posted successfully.');
-                window.location.href = '/Advisor/LearningHub/BlogPosts';
+                alert('Tip posted successfully.');
+                window.location.href = '/Advisor/LearningHub/TipsAndTricks';
             })
             .catch((error) => {
                 console.error('Error:', error);
-                alert("Failed to post blog. Please try again.");
+                alert("Failed to post tip. Please try again.");
             });
     });
 });
@@ -154,8 +154,8 @@ function missingField(title, topic, content, plainText) {
         topicError.style.visibility = "visible";
         isValid = false;
     }
-    if (!plainText || plainText === "" || plainText.length > 1000) {
-        contentError.textContent = "Content must be between 1 and 1000 characters.";
+    if (!plainText || plainText === "" || plainText.length > 200) {
+        contentError.textContent = "Content must be between 1 and 200 characters.";
         contentError.style.visibility = "visible";
         isValid = false;
     }

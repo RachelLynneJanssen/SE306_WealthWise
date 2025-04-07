@@ -40,6 +40,10 @@
                     <li class="list-group-item"><strong>First Name:</strong> @Model?.FirstName</li>
                     <li class="list-group-item"><strong>Last Name:</strong> @Model?.LastName</li>
                     <li class="list-group-item"><strong>Street Address:</strong> @Model?.Address.StreetName</li>
+                    @if(Model?.Address.ExtraInfo != null)
+                    {
+                        <li class="list-group-item"><strong>Address Line 2:</strong> @Model?.Address.ExtraInfo</li>
+                    }
                     <li class="list-group-item"><strong>City:</strong> @Model?.Address.City</li>
                     <li class="list-group-item"><strong>State:</strong> @Model?.Address.State</li>
                     <li class="list-group-item"><strong>Zip Code:</strong> @Model?.Address.ZipCode</li>
