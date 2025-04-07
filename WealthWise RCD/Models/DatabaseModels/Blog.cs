@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WealthWise_RCD.Models.DatabaseModels
 {
+    public enum Topics
+    {
+        Interest, Savings, Mortgage, CreditCard 
+    }
     public class Blog
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -32,22 +32,31 @@
     </div>
 
     <!-- Main Topic input -->
+    <!-- Main Topic dropdown -->
     <div style="display: flex; align-items: center; margin-top: 0px; margin-bottom: 15px;">
         <p class="lead" id="fieldName">Main Topic:</p>
-        <input type="text" class="form-control justify-content-start inputField" id="blogTopic" placeholder="EX: Money Management"
-               aria-label="Topic" aria-describedby="basic-addon1">
+        <select class="form-control justify-content-start inputField" id="blogTopic" aria-label="Topic">
+            <option value="" disabled selected>Select a topic</option>
+            <option value="Interest Advice">Interest Advice</option>
+            <option value="Savings Advice">Savings Advice</option>
+            <option value="Mortgage Advice">Mortgage Advice</option>
+            <option value="Credit Card Advice">Credit Card Advice</option>
+        </select>
         <span class="missing-field" id="missingTopic"></span>
     </div>
+
 
     <!-- Create the editor container -->
     <div id="editor" style="background: white;">
     </div>
     <span class="missing-field" id="missingContent"></span>
 
-    <!-- Last saved time -->
-    <div class="d-flex justify-content-end">
-        <p id="lastSaved" class="text-muted"></p>
+    <!-- Character Limit and Last Saved on Same Row -->
+    <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+        <p id="charCount" class="text-muted mb-0">Character Limit: 0 / 200</p>
+        <p id="lastSaved" class="text-muted mb-0"></p>
     </div>
+
 
     <!-- Source input -->
     <div style="display: flex; align-items: center">
@@ -65,7 +74,7 @@
 
 
 
-<script src="~/js/blogCreator.js"></script>
+<script src="~/js/tipCreator.js"></script>
 
 <style>
     #fieldName {

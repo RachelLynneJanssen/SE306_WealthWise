@@ -4,11 +4,11 @@
     <h2>Edit Profile</h2>
     <form asp-action="UpdateProfile" method="post">
         <div class="mb-3">
-            <label asp-for="FirstName" class="form-label"></label>
+            <label asp-for="FirstName" class="form-label">First Name</label>
             <input asp-for="FirstName" class="form-control" />
         </div>
         <div class="mb-3">
-            <label asp-for="LastName" class="form-label"></label>
+            <label asp-for="LastName" class="form-label">Last Name</label>
             <input asp-for="LastName" class="form-control" />
         </div>
         <div class="mb-3">
@@ -18,11 +18,11 @@
 
         <h4>Address</h4>
         <div class="mb-3">
-            <label asp-for="Address.StreetName" class="form-label"></label>
+            <label asp-for="Address.StreetName" class="form-label">Street Name</label>
             <input asp-for="Address.StreetName" class="form-control" />
         </div>
         <div class="mb-3">
-            <label asp-for="Address.ExtraInfo" class="form-label"></label>
+            <label asp-for="Address.ExtraInfo" class="form-label">Line 2</label>
             <input asp-for="Address.ExtraInfo" class="form-control" />
         </div>
         <div class="mb-3">
@@ -30,11 +30,12 @@
             <input asp-for="Address.City" class="form-control" />
         </div>
         <div class="mb-3">
-            <label asp-for="Address.State" class="form-label"></label>
-            <input asp-for="Address.State" class="form-control" />
+            <label asp-for="Address.State"></label>
+            <select asp-for="Address.State" asp-items="Html.GetEnumSelectList<AddressState>()" class="form-control">
+            </select>
         </div>
         <div class="mb-3">
-            <label asp-for="Address.ZipCode" class="form-label"></label>
+            <label asp-for="Address.ZipCode" class="form-label">Zip Code</label>
             <input asp-for="Address.ZipCode" class="form-control" />
         </div>
 
