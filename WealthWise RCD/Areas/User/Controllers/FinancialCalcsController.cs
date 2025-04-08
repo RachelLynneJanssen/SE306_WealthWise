@@ -3,6 +3,9 @@ using WealthWise_RCD.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
+using WealthWise_RCD.Services;
+using WealthWise_RCD.Models.DatabaseModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace WealthWise_RCD.Areas.User.Controllers
 {
@@ -10,6 +13,16 @@ namespace WealthWise_RCD.Areas.User.Controllers
     [Authorize(Roles = "User,Admin")]
     public class FinancialCalcsController : Controller
     {
+        private readonly MonthlyBudgetService _monthlyBudgetService;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public FinancialCalcsController(MonthlyBudgetService monthlyBudgetService, 
+            UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+            _monthlyBudgetService = monthlyBudgetService;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -49,9 +62,62 @@ namespace WealthWise_RCD.Areas.User.Controllers
             return View(model);
         }
 
-        public IActionResult MonthlyBudgetCreator()
+        public IActionResult MonthlyBudgetUpdater()
         {
             return View();
+        }
+
+        public IActionResult MonthlyBudgetViewer()
+        {
+            ViewData["MonthlyBudgets"] = _monthlyBudgetService.GetAllMonthlyBudgetsAsync().Result; // Get all monthly budgets to display in the view
+            
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MonthlyBudgetUpdater(MonthlyBudgetCalculator model)
+        {
+            if (!ModelState.IsValid || !model.checkInput())
+            {
+                // Return the view with the model to show validation errors
+                ViewData["ErrorMessage"] = "Please check your inputs. Income, Expense and Savings must be greater than 0.";
+                return View(model);
+            }
+
+            MonthlyBudget monthlyBudget = _monthlyBudgetService.GetLatestMonthlyBudgetAsync().Result;
+
+            var getUser = _userManager.GetUserAsync(User);
+            getUser.Wait(); 
+            ApplicationUser applicationUser = getUser.Result;
+
+            if(monthlyBudget == null)
+            {
+                // If no monthly budget exists, create a new one
+                monthlyBudget = new MonthlyBudget
+                {
+                    Income = model.Income,
+                    Expense = model.Expense,
+                    Savings = model.Savings,
+                    UserID = applicationUser.Id, 
+                    Total = model.Income - model.Expense - model.Savings,
+                    CreatedDate = DateTime.Now
+                };
+            }
+            else 
+            {
+                monthlyBudget.Income += model.Income;
+                monthlyBudget.Expense += model.Expense;
+                monthlyBudget.Savings += model.Savings;
+            }
+
+
+
+            await _monthlyBudgetService.UpsertMonthlyBudgetPostAsync(monthlyBudget);
+
+            ViewData["CurrentBudget"] = "Monthly Budget Updated Successfully! \n " +
+                $"Current Income: {monthlyBudget.Income}, Current Expense: {monthlyBudget.Expense}, Current Savings: {monthlyBudget.Savings}";
+
+            return View(model); 
         }
     }
 }

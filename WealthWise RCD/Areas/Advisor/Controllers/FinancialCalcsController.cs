@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WealthWise_RCD.Models;
+using WealthWise_RCD.Services;
 
 namespace WealthWise_RCD.Areas.Advisor.Controllers
 {
@@ -8,6 +9,7 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
     [Authorize(Roles = "Advisor,Admin")]
     public class FinancialCalcsController : Controller
     {
+
         [HttpGet]
         public IActionResult Index()
         {

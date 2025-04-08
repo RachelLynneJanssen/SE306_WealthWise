@@ -1,10 +1,80 @@
-﻿@using WealthWise_RCD.Models.DatabaseModels;
-@model List<Appointment>
+﻿@using WealthWise_RCD.Models.DatabaseModels
+@{
+    var mockAppointments = new List<Appointment>
+    {
+        new Appointment
+        {
+            Id = 1,
+            DateTime = DateTime.Now.AddDays(2).AddHours(10),
+            Advisor = new ApplicationUser { FirstName = "Sarah", LastName = "Connor", Email = "s.connor@wealthwise.com" },
+            AdvisorId = "advisor-001",
+            User = new ApplicationUser { FirstName = "John", LastName = "Doe", Email = "john.doe@email.com" },
+            UserId = "user-001"
+        },
+        new Appointment
+        {
+            Id = 2,
+            DateTime = DateTime.Now.AddDays(5).AddHours(14),
+            Advisor = new ApplicationUser { FirstName = "Michael", LastName = "Smith", Email = "m.smith@wealthwise.com" },
+            AdvisorId = "advisor-002",
+            User = new ApplicationUser { FirstName = "Jane", LastName = "Roe", Email = "jane.roe@email.com" },
+            UserId = "user-002"
+        }
+    };
+}
+@* @model List<Appointment> *@
+
+<head>
+    <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
+</head>
+<body>
 <div class="container mt-5">
     <!-- Title and tag line of learning hub -->
-    <div class="text-center">
+    <div class="text-left">
         <h1 class="display-4">Appointments</h1>
-        @*         <i class="fa-solid fa-book-skull fa-2xl" style="color: #7a7a52; font-size: 200px; margin-top: 100px"></i>
- *@    </div>
-
+        <p>Manage your appointments here.</p>
+    </div>
+    <div>
+        <div class="row">
+            @foreach (var appointment in mockAppointments)
+            {
+                string cardId = $"appointment-card-{appointment.Id}";
+                <div class="col-md-6">
+                    <div class="card mb-3" id="@cardId">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Date: @appointment.DateTime.Day / @appointment.DateTime.Month / @appointment.DateTime.Year</h5>
+                            <div>
+                                <button class="btn btn-sm" onclick="deleteAppointment('@cardId')">
+                                    <i class="fa fa-trash"></i> Cancel
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <strong>Time:</strong> @appointment.DateTime.Hour:@appointment.DateTime.Minute @appointment.DateTime.ToString("tt").ToUpper()
+                            </p>
+                            <p class="card-text">
+                                <strong>Advisor:</strong> @appointment.Advisor.FirstName @appointment.Advisor.LastName
+                            </p>
+                            <p class="card-text">
+                                <strong>Advisor Email:</strong> @appointment.Advisor.Email
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+    <script>
+        function deleteAppointment(cardId) {
+            const card = document.getElementById(cardId);
+            if (card && confirm("Are you sure you want to delete this appointment?")) {
+                card.remove();
+            }
+        }
+    </script>
+</body>
+
+
+

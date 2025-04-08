@@ -71,6 +71,7 @@ namespace WealthWise_RCD.Areas.User.Controllers
             user.Address = await _userService.GetAddressAsync(user);
 
             user.Address.StreetName = model.Address.StreetName;
+            user.Address.ExtraInfo = model.Address.ExtraInfo;
             user.Address.City = model.Address.City;
             user.Address.State = model.Address.State;
             user.Address.ZipCode = model.Address.ZipCode;
