@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WealthWise_RCD.Models;
 using WealthWise_RCD.Models.DatabaseModels;
@@ -40,14 +41,14 @@ namespace WealthWise_RCD.Services
             }
             else
             {
-                var updatedAddress = await _context.Appointments.FindAsync(appt.Id);
-                if (updatedAddress != null)
+                var updatedAppt = await _context.Appointments.FindAsync(appt.Id);
+                if (updatedAppt != null)
                 {
-                    updatedAddress.DateTime = appt.DateTime;
-                    updatedAddress.AdvisorId = appt.AdvisorId;
-                    updatedAddress.Advisor = appt.Advisor;
-                    updatedAddress.UserId = appt.UserId;
-                    updatedAddress.User = appt.User;
+                    updatedAppt.ScheduledTime = appt.ScheduledTime;
+                    updatedAppt.AdvisorId = appt.AdvisorId;
+                    updatedAppt.Advisor = appt.Advisor;
+                    updatedAppt.UserId = appt.UserId;
+                    updatedAppt.User = appt.User;
                 }
             }
             await _context.SaveChangesAsync();
@@ -80,5 +81,22 @@ namespace WealthWise_RCD.Services
         {
             return _context.BlogPosts.Where(b => b.AdvisorId == advisor.Id).ToListAsync();
         }
+        //public async Task<IActionResult> SetAvailability(List<AvailabilitySlot> slots, string advisorId)
+        //{
+
+        //    // Remove old slots and add new
+        //    var oldSlots = _context.AvailabilitySlots.Where(s => s.AdvisorId == advisorId);
+        //    _context.AvailabilitySlots.RemoveRange(oldSlots);
+
+        //    foreach (var slot in slots)
+        //    {
+        //        slot.AdvisorId = advisorId;
+        //    }
+
+        //    await _context.AvailabilitySlots.AddRangeAsync(slots);
+        //    await _context.SaveChangesAsync();
+
+        //    return RedirectToAction("Availability");
+        //}
     }
 }

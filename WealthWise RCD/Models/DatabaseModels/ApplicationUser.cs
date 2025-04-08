@@ -34,7 +34,8 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public ICollection<Certificate>? Certificates { get; set; }
         public ICollection<AdvisorEvent>? AdvisorEvents { get; set; }
         public ICollection<Blog>? BlogPosts { get; set; }
-
+        public ICollection<AvailabilitySlot>? AvailabilitySlots { get; set; }
+        public ICollection<AvailabilityException>? AvailabilityExceptions { get; set; }
         public ApplicationUser() { }
     }
 }

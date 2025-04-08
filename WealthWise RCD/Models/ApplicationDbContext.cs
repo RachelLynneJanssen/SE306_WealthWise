@@ -18,6 +18,8 @@ namespace WealthWise_RCD.Models
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Reference> References { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<AvailabilityException> AvailabilityExceptions { get; set; }
+        public DbSet<AvailabilitySlot> AvailabilitySlots { get; set; }
         public ApplicationDbContext() { }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
