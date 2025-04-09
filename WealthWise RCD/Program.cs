@@ -48,6 +48,11 @@ async Task CreateRolesandUsers(IServiceProvider serviceProvider)    // Role crea
     await CreateUserIfNotExisting(userManager, dbContext, "admin@test.com", "admin@admin.com", "Test_123", "Admin", "Admin", "User", "306");
     await CreateUserIfNotExisting(userManager, dbContext, "advisor@test.com", "00000", "Test_123", "Advisor", "Test", "Advisor", "1");
     await CreateUserIfNotExisting(userManager, dbContext, "user@test.com", "user@test.com", "Test_123", "User", "Test", "User", "1");
+
+    // Additional Advisors
+    await CreateUserIfNotExisting(userManager, dbContext, "cd@test.com", "00001", "Test_123", "Advisor", "Charles", "Dickens", "1");
+    await CreateUserIfNotExisting(userManager, dbContext, "mt@test.com", "00002", "Test_123", "Advisor", "Mark", "Twain", "1");
+    await CreateUserIfNotExisting(userManager, dbContext, "js@test.com", "00003", "Test_123", "Advisor", "John", "Steinbeck", "1");
 }
 async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, string email, string username, string password,
                                    string role, string firstName, string lastName, string age)
@@ -84,7 +89,11 @@ async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, App
             await userManager.AddToRoleAsync(user, role);
             if(role == "Advisor")
             {
-               await SeedInitBlogPosts(userManager, dbContext, user);
+                await SetDefaultAvailability(userManager, dbContext, user);
+                if (username == "00000")
+                {
+                    await SeedInitBlogPosts(userManager, dbContext, user);
+                }
             }
         }
     }
@@ -130,7 +139,22 @@ async Task SeedInitBlogPosts(UserManager<ApplicationUser> userManager, Applicati
 
     
 }
-
+async Task SetDefaultAvailability(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, ApplicationUser advisor)
+{
+    TimeSpan defaultStart = new(8,0,0);
+    TimeSpan lunchStart = new(12, 0, 0);
+    TimeSpan lunchEnd = new(13, 0, 0);
+    TimeSpan defaultEnd = new(17, 0, 0);
+    List<AvailabilitySlot> availableSlots = new List<AvailabilitySlot>();
+    for (DayOfWeek day = DayOfWeek.Monday; day <= DayOfWeek.Friday; day++)
+    {
+        availableSlots.Add(new AvailabilitySlot() { AdvisorId = advisor.Id, Advisor = advisor, DayOfWeek = day, StartTime = defaultStart, EndTime = lunchStart });
+        availableSlots.Add(new AvailabilitySlot() { AdvisorId = advisor.Id, Advisor = advisor, DayOfWeek = day, StartTime = lunchEnd, EndTime = defaultEnd });
+    }
+    dbContext.AvailabilitySlots.AddRange(availableSlots);
+    advisor.AvailabilitySlots = availableSlots;
+    await dbContext.SaveChangesAsync();
+}
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

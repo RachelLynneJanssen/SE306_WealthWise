@@ -5,7 +5,7 @@
         new Appointment
         {
             Id = 1,
-            DateTime = DateTime.Now.AddDays(2).AddHours(10),
+            ScheduledTime = DateTime.Now.AddDays(2).AddHours(10),
             Advisor = new ApplicationUser { FirstName = "Sarah", LastName = "Connor", Email = "s.connor@wealthwise.com" },
             AdvisorId = "advisor-001",
             User = new ApplicationUser { FirstName = "John", LastName = "Doe", Email = "john.doe@email.com" },
@@ -14,7 +14,7 @@
         new Appointment
         {
             Id = 2,
-            DateTime = DateTime.Now.AddDays(5).AddHours(14),
+            ScheduledTime = DateTime.Now.AddDays(5).AddHours(14),
             Advisor = new ApplicationUser { FirstName = "Michael", LastName = "Smith", Email = "m.smith@wealthwise.com" },
             AdvisorId = "advisor-002",
             User = new ApplicationUser { FirstName = "Jane", LastName = "Roe", Email = "jane.roe@email.com" },
@@ -42,7 +42,7 @@
                 <div class="col-md-6">
                     <div class="card mb-3" id="@cardId">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Date: @appointment.DateTime.Day / @appointment.DateTime.Month / @appointment.DateTime.Year</h5>
+                                <h5 class="mb-0">Date: @appointment.ScheduledTime.Day / @appointment.ScheduledTime.Month / @appointment.ScheduledTime.Year</h5>
                             <div>
                                 <button class="btn btn-sm" onclick="deleteAppointment('@cardId')">
                                     <i class="fa fa-trash"></i> Cancel
@@ -51,7 +51,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">
-                                <strong>Time:</strong> @appointment.DateTime.Hour:@appointment.DateTime.Minute @appointment.DateTime.ToString("tt").ToUpper()
+                                    <strong>Time:</strong> @appointment.ScheduledTime.Hour:@appointment.ScheduledTime.Minute @appointment.ScheduledTime.ToString("tt").ToUpper()
                             </p>
                             <p class="card-text">
                                 <strong>Advisor:</strong> @appointment.Advisor.FirstName @appointment.Advisor.LastName

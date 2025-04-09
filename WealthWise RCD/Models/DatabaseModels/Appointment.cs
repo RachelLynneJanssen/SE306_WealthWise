@@ -6,7 +6,8 @@ namespace WealthWise_RCD.Models.DatabaseModels
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime ScheduledTime { get; set; }
+        public TimeSpan EndTime { get; set; }
         public string AdvisorId { get; set; }
         
         [ForeignKey(nameof(AdvisorId))]

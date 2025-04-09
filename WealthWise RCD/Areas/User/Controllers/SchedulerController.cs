@@ -35,13 +35,13 @@ namespace WealthWise_RCD.Controllers
 
             var testAppointments = new List<Appointment>
             {
-                new Appointment { Id = 1, UserId = currentUser.Id, DateTime = DateTime.Now.AddDays(1), AdvisorId = "10000"},
-                new Appointment { Id = 2, UserId = currentUser.Id, DateTime = DateTime.Now.AddDays(2), AdvisorId = "10001"}
+                new Appointment { Id = 1, UserId = currentUser.Id, ScheduledTime = DateTime.Now.AddDays(1), AdvisorId = "10000"},
+                new Appointment { Id = 2, UserId = currentUser.Id, ScheduledTime = DateTime.Now.AddDays(2), AdvisorId = "10001"}
             };
 
             var appointments = await _context.Appointments
                 .Where(a => a.UserId == currentUser.Id)
-                .OrderBy(a => a.DateTime)
+                .OrderBy(a => a.ScheduledTime)
                 .ToListAsync();
 
             ViewBag.UserName = currentUser.UserName;
