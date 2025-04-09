@@ -27,13 +27,13 @@ namespace WealthWise_RCD.Services
             }
             else
             {
-                var postEntry = await _context.MonthlyBudgets.FindAsync(monthlyBudget.Id);
-                if (postEntry != null)
+                var budgetEntry = await _context.MonthlyBudgets.FindAsync(monthlyBudget.Id);
+                if (budgetEntry != null)
                 {
-                    postEntry.Income = monthlyBudget.Income;
-                    postEntry.Savings = monthlyBudget.Savings;
-                    postEntry.Expense = monthlyBudget.Expense;
-                    postEntry.Total = monthlyBudget.Total;
+                    budgetEntry.Income = monthlyBudget.Income;
+                    budgetEntry.Savings = monthlyBudget.Savings;
+                    budgetEntry.Expense = monthlyBudget.Expense;
+                    budgetEntry.Total = monthlyBudget.Total;
                 }
             }
             await _context.SaveChangesAsync();
