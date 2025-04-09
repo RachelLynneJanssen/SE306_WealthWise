@@ -10,7 +10,7 @@ using WealthWise_RCD.Models.DatabaseModels;
 namespace WealthWise_RCD.Controllers
 {
     [Area("User")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User,Admin")]
     public class SchedulerController : Controller
     {
         private readonly ApplicationDbContext _context;
