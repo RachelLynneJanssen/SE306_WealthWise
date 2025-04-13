@@ -1,28 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using WealthWise_RCD.Models.DatabaseModels
-@{
-    var dummyPayments = new List<Payment>
-    {
-        new Payment
-        {
-            Id = 1,
-            Name = "Personal Visa",
-            Type = PaymentType.CreditCard,
-            CardNumber = "**** **** **** 4242",
-            CardholderName = "John Doe",
-            ExpDate = new DateOnly(2026, 12, 1)
-        },
-        new Payment
-        {
-            Id = 2,
-            Name = "PayPal Main",
-            Type = PaymentType.PayPal,
-            AccountName = "johndoe@email.com"
-        }
-    };
-}
 
-@model ApplicationUser
+
+@model List<Payment>
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
 </head>
@@ -34,7 +14,7 @@
         <p>You can edit or add payment methods to your account here.</p>
     </div>
     <div class="row">
-        @foreach(var payment in dummyPayments)
+        @foreach(var payment in Model)
         {
             <div class="col-md-6">
                 <div class="card">

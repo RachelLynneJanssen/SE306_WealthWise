@@ -43,9 +43,14 @@ namespace WealthWise_RCD.Areas.User.Controllers
         {
             return PartialView("Account/_SubscriptionPartial");
         }
-        public IActionResult LoadPaymentMethodsPartial()
+        public async Task<IActionResult> LoadPaymentMethodsPartial()
         {
-            return PartialView("Account/_PaymentMethodsPartial");
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            var getPaymentMethods = _userService.GetAllPaymentMethodsAsync(user);
+            getPaymentMethods.Wait();
+            List<Payment> paymentMethods = getPaymentMethods.Result;
+
+            return PartialView("Account/_PaymentMethodsPartial", paymentMethods);
         }
 
         public async Task<IActionResult> LoadEditProfilePartial()

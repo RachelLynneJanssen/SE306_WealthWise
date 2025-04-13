@@ -53,6 +53,8 @@ async Task CreateRolesandUsers(IServiceProvider serviceProvider)    // Role crea
     await CreateUserIfNotExisting(userManager, dbContext, "cd@test.com", "00001", "Test_123", "Advisor", "Charles", "Dickens", "1");
     await CreateUserIfNotExisting(userManager, dbContext, "mt@test.com", "00002", "Test_123", "Advisor", "Mark", "Twain", "1");
     await CreateUserIfNotExisting(userManager, dbContext, "js@test.com", "00003", "Test_123", "Advisor", "John", "Steinbeck", "1");
+
+    
 }
 async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, string email, string username, string password,
                                    string role, string firstName, string lastName, string age)
@@ -94,6 +96,12 @@ async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, App
                 {
                     await SeedInitBlogPosts(userManager, dbContext, user);
                 }
+            }
+
+            if(user.Email == "user@test.com")
+            {
+                // DATA SEEDING
+                await SeedPaymentMethods(userManager, dbContext);
             }
         }
     }
@@ -155,7 +163,39 @@ async Task SetDefaultAvailability(UserManager<ApplicationUser> userManager, Appl
     advisor.AvailabilitySlots = availableSlots;
     await dbContext.SaveChangesAsync();
 }
-
+async Task SeedPaymentMethods(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+{
+    var user = await userManager.FindByEmailAsync("user@test.com");
+    if(user != null)
+    {
+        var dummyPayments = new List<Payment>
+        {
+            new Payment
+            {
+                Name = "Personal Visa",
+                Type = PaymentType.CreditCard,
+                CardNumber = "**** **** **** 4242",
+                CardholderName = "John Doe",
+                ExpDate = new DateTime(2026, 12, 1),
+                UserId = user.Id,
+                User = user,
+            },
+            new Payment
+            {
+                Name = "PayPal Main",
+                Type = PaymentType.PayPal,
+                AccountName = "johndoe@email.com",
+                UserId = user.Id,
+                User = user,
+            }
+        };
+        dbContext.Payments.AddRange(dummyPayments);
+        await dbContext.SaveChangesAsync();
+        user.PaymentMethods = dummyPayments;
+        await userManager.UpdateAsync(user);
+    }
+    
+}
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings
