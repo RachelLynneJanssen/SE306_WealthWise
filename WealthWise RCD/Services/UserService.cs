@@ -53,6 +53,38 @@ namespace WealthWise_RCD.Services
             }
             await _context.SaveChangesAsync();
         }
+        public Task<List<Payment>> GetAllPaymentMethodsAsync(ApplicationUser user)
+        {
+            return _context.Payments.Where(p => p.UserId == user.Id).ToListAsync();
+        }
+        public async Task UpsertPaymentMethod(Payment paymentMethod)
+        {
+            if (paymentMethod.Id == 0)
+            {
+                _context.Payments.Add(paymentMethod);
+            }
+            else
+            {
+                var updatedPayment = await _context.Payments.FindAsync(paymentMethod.Id);
+                if (updatedPayment != null)
+                {
+                    updatedPayment.Name = paymentMethod.Name;
+                    switch (paymentMethod.Type)
+                    {
+                        case PaymentType.CreditCard:
+                            updatedPayment.CardNumber = paymentMethod.CardNumber;
+                            updatedPayment.CardholderName = paymentMethod.CardholderName;
+                            updatedPayment.ExpDate = paymentMethod.ExpDate;
+                            updatedPayment.Cvc = paymentMethod.Cvc;
+                            break;
+                        case PaymentType.PayPal:
+                            updatedPayment.AccountName = paymentMethod.AccountName;
+                            break;
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
+        }
         public async Task<Address> GetAddressAsync(ApplicationUser user)
         {
             return await _context.Addresses.FindAsync(user.AddressId);

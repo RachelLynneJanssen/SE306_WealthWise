@@ -37,7 +37,9 @@ namespace WealthWise_RCD.Models
                 .WithMany(e => e.AdvisorEvents)
                 .HasForeignKey(e => e.AdvisorId);
             });
-
+            modelBuilder.Entity<Payment>()
+                .Property(e => e.ExpDate)
+                .HasColumnType("date");
         }
     }
 }
