@@ -55,12 +55,12 @@
         var creditCardFields = document.getElementById("creditCardFields");
         var paypalFields = document.getElementById("paypalFields");
 
-        if (paymentType === "0") // enumeration of CreditCard
+        if (paymentType === "CreditCard") // enumeration of CreditCard
         {
             creditCardFields.style.display = "block";
             paypalFields.style.display = "none";
         } 
-        else if (paymentType === "1") // enumeration of PayPal
+        else if (paymentType === "PayPal") // enumeration of PayPal
         {
             creditCardFields.style.display = "none";
             paypalFields.style.display = "block";
