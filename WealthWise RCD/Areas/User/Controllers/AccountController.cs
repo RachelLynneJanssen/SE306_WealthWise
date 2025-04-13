@@ -64,6 +64,27 @@ namespace WealthWise_RCD.Areas.User.Controllers
             return PartialView("Account/_EditProfilePartial", user);
         }
 
+        public async Task<IActionResult> LoadEditPaymentMethodPartial(int id)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user == null) { return NotFound(); }
+
+            var paymentMethod = await _context.Payments.FindAsync(id);
+            if (paymentMethod == null || paymentMethod.UserId != user.Id)
+            {
+                return NotFound();
+            }
+
+            return PartialView("Account/_EditPaymentMethodPartial", paymentMethod);
+        }
+
+        public async Task<IActionResult> LoadAddPaymentMethodPartial()
+        {
+            var payment = new Payment();
+            return PartialView("Account/_AddPaymentMethodPartial");
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> UpdateProfile(ApplicationUser model)
         {
@@ -84,5 +105,60 @@ namespace WealthWise_RCD.Areas.User.Controllers
             await _userManager.UpdateAsync(user);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePaymentMethod(Payment model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user == null) { return NotFound(); }
+            var paymentMethod = await _context.Payments.FindAsync(model.Id);
+            if (paymentMethod == null || paymentMethod.UserId != user.Id) { return NotFound(); }
+
+            paymentMethod.Type = model.Type;
+            paymentMethod.Name = model.Name;
+            paymentMethod.User = user;
+            paymentMethod.UserId = user.Id;
+
+            if (model.Type == PaymentType.CreditCard)
+            {
+                paymentMethod.CardNumber = model.CardNumber;
+                paymentMethod.CardholderName = model.CardholderName;
+                paymentMethod.ExpDate = model.ExpDate;
+                paymentMethod.Cvc = model.Cvc;
+            }
+            else if (model.Type == PaymentType.PayPal)
+            {
+                paymentMethod.AccountName = model.AccountName;
+            }
+
+            await _userManager.UpdateAsync(user);
+            await _userService.UpsertPaymentMethod(paymentMethod);
+
+            return RedirectToAction("Index", user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPaymentMethod(Payment payment)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Account/_EditPaymentMethodPartial", payment);
+            }
+
+            // Set user and save logic here
+            var user = await _userManager.GetUserAsync(User);
+            payment.UserId = user.Id;
+
+            _context.Payments.Add(payment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("PaymentMethods"); // or however you want to handle the redirect
+        }
+
     }
 }

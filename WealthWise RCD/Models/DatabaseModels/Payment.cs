@@ -5,8 +5,8 @@ namespace WealthWise_RCD.Models.DatabaseModels
 {
     public enum PaymentType
     {
-        CreditCard,
-        PayPal
+        CreditCard = 0,
+        PayPal = 1
     }
 
     public class Payment
