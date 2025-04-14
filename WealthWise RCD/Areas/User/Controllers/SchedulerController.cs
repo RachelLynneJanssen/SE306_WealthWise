@@ -59,7 +59,7 @@ namespace WealthWise_RCD.Controllers
 
             ViewBag.UserName = currentUser.UserName;
             ViewBag.UpcomingAppointments = testAppointments;
-            ViewBag.AdvisorId = currentUser.AdvisorId;
+            ViewBag.AdvisorId = currentUser.advisorId;
 
             return View();
         }
