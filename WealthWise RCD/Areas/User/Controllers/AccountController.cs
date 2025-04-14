@@ -109,35 +109,37 @@ namespace WealthWise_RCD.Areas.User.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdatePaymentMethod(Payment model)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            //if(!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user == null) { return NotFound(); }
-            var paymentMethod = await _context.Payments.FindAsync(model.Id);
-            if (paymentMethod == null || paymentMethod.UserId != user.Id) { return NotFound(); }
+            //var paymentMethod = await _context.Payments.FindAsync(model.Id);
+            //if (paymentMethod == null || paymentMethod.UserId != user.Id) { return NotFound(); }
+            //paymentMethod.Type = model.Type;
+            //paymentMethod.Name = model.Name;
+            //paymentMethod.UserId = user.Id;
+            //paymentMethod.User = user;
+            
 
-            paymentMethod.Type = model.Type;
-            paymentMethod.Name = model.Name;
-            paymentMethod.User = user;
-            paymentMethod.UserId = user.Id;
-
-            if (model.Type == PaymentType.CreditCard)
-            {
-                paymentMethod.CardNumber = model.CardNumber;
-                paymentMethod.CardholderName = model.CardholderName;
-                paymentMethod.ExpDate = model.ExpDate;
-                paymentMethod.Cvc = model.Cvc;
-            }
-            else if (model.Type == PaymentType.PayPal)
-            {
-                paymentMethod.AccountName = model.AccountName;
-            }
+            //if (model.Type == PaymentType.CreditCard)
+            //{
+            //    paymentMethod.CardNumber = model.CardNumber;
+            //    paymentMethod.CardholderName = model.CardholderName;
+            //    paymentMethod.ExpDate = model.ExpDate;
+            //    paymentMethod.Cvc = model.Cvc;
+            //}
+            //else if (model.Type == PaymentType.PayPal)
+            //{
+            //    paymentMethod.AccountName = model.AccountName;
+            //}
+            model.UserId = user.Id;
+            model.User = user;
 
             await _userManager.UpdateAsync(user);
-            await _userService.UpsertPaymentMethod(paymentMethod);
+            await _userService.UpsertPaymentMethod(model);
 
             return RedirectToAction("Index", user);
         }
