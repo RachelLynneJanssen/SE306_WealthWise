@@ -80,8 +80,8 @@ namespace WealthWise_RCD.Areas.User.Controllers
 
         public async Task<IActionResult> LoadAddPaymentMethodPartial()
         {
-            var payment = new Payment();
-            return PartialView("Account/_AddPaymentMethodPartial");
+            var payment = new Payment { Type = PaymentType.CreditCard } ;
+            return PartialView("Account/_AddPaymentMethodPartial", payment);
         }
 
 
@@ -143,21 +143,23 @@ namespace WealthWise_RCD.Areas.User.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPaymentMethod(Payment payment)
+        public async Task<IActionResult> AddPaymentMethod(Payment model)
         {
             if (!ModelState.IsValid)
             {
-                return View("Account/_EditPaymentMethodPartial", payment);
+                return BadRequest(ModelState);
             }
 
-            // Set user and save logic here
             var user = await _userManager.GetUserAsync(User);
-            payment.UserId = user.Id;
+            if (user == null) return Unauthorized();
 
-            _context.Payments.Add(payment);
+            model.UserId = user.Id;
+            model.User = user;
+
+            _context.Payments.Add(model);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("PaymentMethods"); // or however you want to handle the redirect
+            return RedirectToAction("Index"); // Or wherever you list payment methods
         }
 
     }
