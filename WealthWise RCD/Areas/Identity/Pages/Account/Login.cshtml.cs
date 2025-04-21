@@ -77,7 +77,7 @@ namespace WealthWise_RCD.Areas.Identity.Pages.Account
                         {
                             return RedirectToAction("Index", "Home", new { area = "User" });
                         }
-                        else if (!await _userManager.IsInRoleAsync(user, "Advisor"))
+                        else if (await _userManager.IsInRoleAsync(user, "Advisor"))
                         {
                             return RedirectToAction("Index", "Home", new { area = "Advisor" });
                         }
