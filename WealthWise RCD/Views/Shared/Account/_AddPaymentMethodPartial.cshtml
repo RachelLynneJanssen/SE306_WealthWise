@@ -1,0 +1,82 @@
+﻿@*
+    Yes this has to be separate from the edit payment method because of the types
+    you would think they get to be the same but NoOo they don't because people are dumb
+*@
+@using WealthWise_RCD.Models.DatabaseModels;
+@model Payment
+
+<div class="container mt-5">
+    <h2>Add Payment Method</h2>
+    <form asp-action="AddPaymentMethod" method="post">
+        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="User" />
+
+        <div class="mb-3">
+            <label asp-for="Type" class="form-label">Payment Type</label>
+            <select asp-for="Type" asp-items="new SelectList(Enum.GetNames(typeof(PaymentType)))" class="form-control" id="paymentType">
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Payment Method Name</label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+
+        <!-- Always render both, hide dynamically -->
+        <div id="creditCardFields" class="mb-3" style="display:@(Model.Type.ToString() == "CreditCard" ? "block" : "none")">
+            <div class="mb-3">
+                <label asp-for="CardholderName" class="form-label">Name on Card</label>
+                <input asp-for="CardholderName" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="CardNumber" class="form-label">Card Number</label>
+                <input asp-for="CardNumber" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Cvc" class="form-label">CVC</label>
+                <input asp-for="Cvc" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="ExpDate" class="form-label">Expiration Date</label>
+                <input asp-for="ExpDate" class="form-control" />
+            </div>
+        </div>
+
+        <div id="paypalFields" class="mb-3" style="display:@(Model.Type.ToString() == "PayPal" ? "block" : "none")">
+            <label asp-for="AccountName" class="form-label">Account Name</label>
+            <input asp-for="AccountName" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Payment Method</button>
+    </form>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        // Match enum values used in <option value="x">
+        const PaymentType = {
+            CreditCard: "0",
+            PayPal: "1"
+        };
+
+        function togglePaymentFields() {
+            var selected = document.getElementById("paymentType").value;
+            var cc = document.getElementById("creditCardFields");
+            var pp = document.getElementById("paypalFields");
+
+            if (cc) cc.style.display = (selected === PaymentType.CreditCard) ? "block" : "none";
+            if (pp) pp.style.display = (selected === PaymentType.PayPal) ? "block" : "none";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            togglePaymentFields();
+            document.getElementById("paymentType").addEventListener("change", togglePaymentFields);
+        });
+    </script>
+
+}
+
+

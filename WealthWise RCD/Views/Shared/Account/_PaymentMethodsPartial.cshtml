@@ -1,28 +1,25 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using WealthWise_RCD.Models.DatabaseModels
 @{
-    var dummyPayments = new List<Payment>
+    string GetAreaBasedOnRole()
     {
-        new Payment
+        if (User.IsInRole("Advisor"))
         {
-            Id = 1,
-            Name = "Personal Visa",
-            Type = PaymentType.CreditCard,
-            CardNumber = "**** **** **** 4242",
-            CardholderName = "John Doe",
-            ExpDate = new DateOnly(2026, 12, 1)
-        },
-        new Payment
-        {
-            Id = 2,
-            Name = "PayPal Main",
-            Type = PaymentType.PayPal,
-            AccountName = "johndoe@email.com"
+            return "Advisor";
         }
-    };
+        else if (User.IsInRole("User"))
+        {
+            return "User";
+        }
+        else
+        {
+            return "User"; // Start in user for admins
+        }
+    }
 }
 
-@model ApplicationUser
+
+@model List<Payment>
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
 </head>
@@ -33,15 +30,18 @@
         <h1 class="display-4">Saved Payment Methods</h1>
         <p>You can edit or add payment methods to your account here.</p>
     </div>
+    <div style="margin: 5px;">
+        <button class="btn btn-primary" onclick="loadPartial('@Url.Action("LoadAddPaymentMethodPartial", "Account", new { Area = GetAreaBasedOnRole() })')">Add Payment Method</button>
+    </div>
     <div class="row">
-        @foreach(var payment in dummyPayments)
+        @foreach(var payment in Model)
         {
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">@payment.Name</h5>
                         <div>
-                            <button class="btn btn-outline-primary btn-sm me-2">Edit</button>
+                            <button class="btn btn-primary" onclick="loadPartial('@Url.Action("LoadEditPaymentMethodPartial", "Account", new { Area = GetAreaBasedOnRole() })?id=@payment.Id')">Edit</button>
                             <button class="btn btn-sm delete-button" style="border: none; background: transparent;">
                                 <i class="fa-solid fa-trash fa-lg"></i>
                             </button>

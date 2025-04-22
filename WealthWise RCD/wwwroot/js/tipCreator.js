@@ -18,18 +18,21 @@
     const quill = new Quill('#editor', options);
 
     // Set the character limit
-    const MAX_LENGTH = 200;
+    const MAX_CONTENT_LENGTH = 200;
 
     quill.on('text-change', function (delta, oldDelta, source) {
         let text = quill.getText().trim();
-        if (text.length > MAX_LENGTH) {
-            quill.deleteText(MAX_LENGTH, text.length); // fix typo here
+        let words = text.split(/\s+/).filter(w => w.length > 0);
+
+        if (words.length > MAX_CONTENT_LENGTH) {
+            quill.history.undo(); // Undo the last change that made the word limit over 200.
+            // KNOWN RISK: If user pastes over 200 words of text it will undo to nothing.
         }
 
         // show character count
         const charCount = document.getElementById('charCount');
         if (charCount) {
-            charCount.textContent = `Character Limit: ${Math.min(text.length, MAX_LENGTH)} / ${MAX_LENGTH}`;
+            charCount.textContent = `Word Limit: ${Math.min(words.length, MAX_CONTENT_LENGTH)} / ${MAX_CONTENT_LENGTH}`;
         }
     });
 
@@ -120,21 +123,31 @@
             },
             body: JSON.stringify(blogData)
         })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(text => { throw new Error(text); });
-                }
-                return response.text();
-            })
-            .then(data => {
-                alert('Tip posted successfully.');
-                window.location.href = '/Advisor/LearningHub/TipsAndTricks';
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert("Failed to post tip. Please try again.");
-            });
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text); });
+            }
+            return response.text();
+        })
+        .then(data => {
+            alert('Tip posted successfully.');
+            window.location.href = '/Advisor/LearningHub/TipsAndTricks';
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert("Failed to post tip. Please try again.");
+        });
     });
+
+    // Title Character Limit
+    const MAX_TITLE_LENGTH = 70;
+    const titleInput = document.getElementById('blogTitle');
+
+    titleInput.addEventListener('input', function () {
+        if (titleInput.value.length > MAX_TITLE_LENGTH) {
+            titleInput.value = titleInput.value.substring(0, MAX_TITLE_LENGTH);
+        }
+    })
 });
 
 function missingField(title, topic, content, plainText) {

@@ -43,9 +43,14 @@ namespace WealthWise_RCD.Areas.User.Controllers
         {
             return PartialView("Account/_SubscriptionPartial");
         }
-        public IActionResult LoadPaymentMethodsPartial()
+        public async Task<IActionResult> LoadPaymentMethodsPartial()
         {
-            return PartialView("Account/_PaymentMethodsPartial");
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            var getPaymentMethods = _userService.GetAllPaymentMethodsAsync(user);
+            getPaymentMethods.Wait();
+            List<Payment> paymentMethods = getPaymentMethods.Result;
+
+            return PartialView("Account/_PaymentMethodsPartial", paymentMethods);
         }
 
         public async Task<IActionResult> LoadEditProfilePartial()
@@ -58,6 +63,27 @@ namespace WealthWise_RCD.Areas.User.Controllers
             user.Address = getAddress.Result;
             return PartialView("Account/_EditProfilePartial", user);
         }
+
+        public async Task<IActionResult> LoadEditPaymentMethodPartial(int id)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user == null) { return NotFound(); }
+
+            var paymentMethod = await _context.Payments.FindAsync(id);
+            if (paymentMethod == null || paymentMethod.UserId != user.Id)
+            {
+                return NotFound();
+            }
+
+            return PartialView("Account/_EditPaymentMethodPartial", paymentMethod);
+        }
+
+        public async Task<IActionResult> LoadAddPaymentMethodPartial()
+        {
+            var payment = new Payment { Type = PaymentType.CreditCard } ;
+            return PartialView("Account/_AddPaymentMethodPartial", payment);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> UpdateProfile(ApplicationUser model)
@@ -79,5 +105,62 @@ namespace WealthWise_RCD.Areas.User.Controllers
             await _userManager.UpdateAsync(user);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePaymentMethod(Payment model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user == null) { return NotFound(); }
+            var paymentMethod = await _context.Payments.FindAsync(model.Id);
+            if (paymentMethod == null || paymentMethod.UserId != user.Id) { return NotFound(); }
+
+            paymentMethod.Type = model.Type;
+            paymentMethod.Name = model.Name;
+            paymentMethod.User = user;
+            paymentMethod.UserId = user.Id;
+
+            if (model.Type == PaymentType.CreditCard)
+            {
+                paymentMethod.CardNumber = model.CardNumber;
+                paymentMethod.CardholderName = model.CardholderName;
+                paymentMethod.ExpDate = model.ExpDate;
+                paymentMethod.Cvc = model.Cvc;
+            }
+            else if (model.Type == PaymentType.PayPal)
+            {
+                paymentMethod.AccountName = model.AccountName;
+            }
+
+            await _userManager.UpdateAsync(user);
+            await _userService.UpsertPaymentMethod(paymentMethod);
+
+            return RedirectToAction("Index", user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPaymentMethod(Payment model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Unauthorized();
+
+            model.UserId = user.Id;
+            model.User = user;
+
+            _context.Payments.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index"); // Or wherever you list payment methods
+        }
+
     }
 }

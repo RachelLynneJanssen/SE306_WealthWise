@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WealthWise_RCD.Models;
 
@@ -10,9 +11,11 @@ using WealthWise_RCD.Models;
 namespace WealthWise_RCD.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250413020816_FieldLimitUpdateOnCreditCardNumber")]
+    partial class FieldLimitUpdateOnCreditCardNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -603,7 +606,7 @@ namespace WealthWise_RCD.Migrations
                         .HasMaxLength(3)
                         .HasColumnType("varchar(3)");
 
-                    b.Property<DateTime?>("ExpDate")
+                    b.Property<DateOnly?>("ExpDate")
                         .HasColumnType("date");
 
                     b.Property<string>("Name")

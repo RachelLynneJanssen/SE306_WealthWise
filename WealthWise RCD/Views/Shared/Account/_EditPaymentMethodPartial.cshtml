@@ -1,0 +1,82 @@
+﻿@using WealthWise_RCD.Models.DatabaseModels;
+@model Payment
+
+<div class="container mt-5">
+    <h2>Edit Payment Method</h2>
+    <form asp-action="UpdatePaymentMethod" method="post">
+        @*Hiddent required field submissions to make the db happy*@
+        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="Id" />
+
+        <div>
+            <div class="mb-3">
+                <label asp-for="Type" class="form-label">Payment Type</label>
+                <input asp-for="Type" class="form-control" readonly/>
+            </div>
+@*             <label asp-for="Type"></label>
+            <select asp-for="Type" asp-items="Html.GetEnumSelectList<PaymentType>()" class="form-control" id="paymentType" onchange="togglePaymentFields()">
+            </select> *@
+        </div>
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Payment Method Name</label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div id="creditCardFields" class="mb-3" style="display:@(Model.Type == PaymentType.CreditCard ? "block" : "none")">
+            <div class="mb-3">
+                <label asp-for="CardholderName" class="form-label">Name on Card</label>
+                <input asp-for="CardholderName" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="CardNumber" class="form-label">Card Number</label>
+                <input asp-for="CardNumber" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Cvc" class="form-label">CVC</label>
+                <input asp-for="Cvc" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="ExpDate" class="form-label">Expiration Date</label>
+                <input asp-for="ExpDate" class="form-control" />
+            </div>
+        </div>
+        <div id="paypalFields" class="mb-3" style="display:@(Model.Type == PaymentType.PayPal ? "block" : "none")">
+            <div class="mb-3">
+                <label asp-for="AccountName" class="form-label">Account Name</label>
+                <input asp-for="AccountName" class="form-control" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        togglePaymentFields();
+    });
+
+    function togglePaymentFields() {
+        var paymentType = document.getElementById("paymentType").value;
+        var creditCardFields = document.getElementById("creditCardFields");
+        var paypalFields = document.getElementById("paypalFields");
+
+        if (paymentType === "CreditCard") // enumeration of CreditCard
+        {
+            creditCardFields.style.display = "block";
+            paypalFields.style.display = "none";
+        } 
+        else if (paymentType === "PayPal") // enumeration of PayPal
+        {
+            creditCardFields.style.display = "none";
+            paypalFields.style.display = "block";
+        }
+    }
+</script>
+
+
+
+<style>
+    #creditCardFields,
+    #paypalFields {
+        display: none;
+    }
+</style>

@@ -17,19 +17,22 @@
 
     const quill = new Quill('#editor', options);
 
-    // Set the character limit
+    // Set the word limit
     const MAX_LENGTH = 1000;
 
     quill.on('text-change', function (delta, oldDelta, source) {
         let text = quill.getText().trim();
-        if (text.length > MAX_LENGTH) {
-            quill.deleteText(MAX_LENGTH, text.length); // fix typo here
+        let words = text.split(/\s+/).filter(w => w.length > 0);
+
+        if (words.length > MAX_LENGTH) {
+            quill.history.undo(); // Undo the last change that made the word limit over 200.
+            // KNOWN RISK: If user pastes over 200 words of text it will undo to nothing.
         }
 
-        // show character count
+        // show word count
         const charCount = document.getElementById('charCount');
         if (charCount) {
-            charCount.textContent = `Character Limit: ${Math.min(text.length, MAX_LENGTH)} / ${MAX_LENGTH}`;
+            charCount.textContent = `Word Limit: ${Math.min(text.length, MAX_LENGTH)} / ${MAX_LENGTH}`;
         }
     });
 
@@ -135,6 +138,25 @@
                 alert("Failed to post blog. Please try again.");
             });
     });
+
+    // Title Character Limit
+    const MAX_FIELD_LENGTH = 70;
+    const titleInput = document.getElementById('blogTitle');
+
+    titleInput.addEventListener('input', function () {
+        if (titleInput.value.length > MAX_FIELD_LENGTH) {
+            titleInput.value = titleInput.value.substring(0, MAX_FIELD_LENGTH);
+        }
+    })
+
+    // Topic Character Limit
+    const topicInput = document.getElementById('blogTopic');
+
+    topicInput.addEventListener('input', function () {
+        if (topicInput.value.length > MAX_FIELD_LENGTH) {
+            topicInput.value = topicInput.value.substring(0, MAX_FIELD_LENGTH);
+        }
+    })
 });
 
 function missingField(title, topic, content, plainText) {
