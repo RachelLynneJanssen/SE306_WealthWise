@@ -1,6 +1,24 @@
 @{
     ViewData["Title"] = "Scheduler";
 }
+
+
+<script>
+    function toggleForm(formId)
+    {
+        var form = document.getElementById(formId);
+        if (form.style.display === "none")
+        {
+            form.style.display = "block";
+        }
+        else
+        {
+            form.style.display = "none";
+        }
+    }
+</script>
+
+
 <div class="container mt-5">
     <div class="text-center">
         <h1 class="display-4">Scheduler</h1>
@@ -18,7 +36,7 @@ else
 
 @if (ViewBag.UpcomingAppointments != null && ViewBag.UpcomingAppointments.Count > 0)
 {
-    <div class="card p-3 mt-4">
+    <div class="card p-3 mt-4" id="appointmentBox">
         <h4 class="fw-bold">Upcoming Appointments</h4>
         <hr />
         <table class="table table-borderless">
@@ -35,12 +53,31 @@ else
                 {
                     <tr>
                         <td>Title</td>
-                        <td>@appointment.ScheduledTime.ToString("yyyy-MM-dd HH:mm")</td>
-                        <td>@appointment.Advisor?.FullName</td>
+                        @* <td>@appointment.ScheduledTime.ToString("yyyy-MM-dd HH:mm")</td> *@
+
+                        <td>@appointment.ScheduledTime.ToString()</td>
+                        <td>@appointment.AdvisorId</td>
                         <td>
-                            <button class="btn btn-secondary">Change Advisor</button>
-                            <button class="btn btn-secondary">Change Date</button>
-                            <button class="btn btn-danger"><i class="bi bi-trash"></i> Cancel</button>
+                            <button type="button" onclick="toggleForm('advisorForm_@appointment.Id')" class="btn btn-secondary">Change Advisor</button>
+                            <div id="advisorForm_@appointment.Id" style="display:none">
+                                <form asp-action="ChangeAdvisor" method="post" class="d-inline">
+                                    <input type="hidden" name="appointmentId" value="@appointment.Id" />
+                                    <input type="search" name="newAdvisorId" placeholder="New Advisor"/>
+                                    <button type="submit" class="btn btn-secondary"> Confirm </button>
+                                </form>
+                            </div>
+                            <button type="button" onclick="toggleForm('dateForm_@appointment.Id')" class="btn btn-secondary">Change Date</button>
+                            <div id="dateForm_@appointment.Id" style="display:none">
+                                <form asp-action="ChangeDate" method="post" class="d-inline">
+                                    <input type="hidden" name="appointmentId" value="@appointment.Id" />
+                                    <input type="datetime-local" name="newAppointmentTime" />
+                                    <button type="submit" class="btn btn-secondary"> Confirm </button>
+                                </form>
+                            </div>
+                            <form asp-action="CancelAppointment" method="post" class="d-inline">
+                                <input type="hidden" name="appointmentId" value="@appointment.Id" />
+                                <button type="submit" class="btn btn-danger">Cancel</button>
+                            </form>
                         </td>
                     </tr>
                 }
@@ -56,9 +93,19 @@ else
 <!-- Advisor Information -->
 <div class="card p-3 mt-4">
     <h4 class="fw-bold">Current Financial Advisor</h4>
-    <img src="~/images/avatar.jpg" alt="profile-pic" id="profileImg"/>
-    <div class="row align-items-center">
-        <p>Advisor Name</p>
+    <hr />
+    <div class="container text-center">
+        <div class="row align-items-center">
+            <div class="col col-sm-3">
+                <img src="~/images/avatar.jpg" alt="profile-pic" id="profileImg" />
+            </div>
+            <div class="col-6">
+                    <h4 id="advisorName">@ViewBag.advisorId</h4>
+            </div>
+            <div class="col">
+                <button class="btn btn-secondary">Change Advisor</button>
+            </div>
+        </div>
     </div>   
 </div>
 
@@ -94,7 +141,26 @@ else
         clip-path: circle();
         width: 10%;
         height: 10%;
-        padding-left: 0.5rem;
+        /* padding-left: 0.5rem; */
     }
+    .col-sm
+    {
+        height: fit-content;
+    }
+    
+    /* #advisorName */
+    /* { */
+    /*     padding-left: 0.5rem; */
+    /* } */
+
+    form
+    {
+        margin-top: 0.5rem;
+    }
+    button
+    {
+        margin: 0.25rem 0;
+    }
+
 </style>
 
