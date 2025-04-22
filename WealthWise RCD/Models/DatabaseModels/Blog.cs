@@ -20,6 +20,7 @@ namespace WealthWise_RCD.Models.DatabaseModels
         public string Topic {  get; set; }
         public string Content {  get; set; }
         public int RecommendationScore { get; set; }
+        public bool IsTip { get; set; } = false;
 
         public string AdvisorId { get; set; }
 
