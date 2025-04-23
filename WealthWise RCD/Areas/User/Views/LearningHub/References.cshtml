@@ -1,7 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@using WealthWise_RCD.Models
 @{
+    var financeResources = FinanceResourceData.GetResources();
 }
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
@@ -12,7 +14,35 @@
     <i class="fa-solid fa-arrow-left fa-xl" style="color: #828282;"></i>
 </a>
 
-<div class="text-center">
-    <h1 class="display-4" style="text-align: center">Learning Hub: References</h1>
-    <p class="lead text-muted">Check the sources!</p>
+<div>
+    <h1 class="display-4" style="text-align: center">Learning Hub: Resources</h1>
+    <p class="lead text-muted" style="text-align: center">Check out some external resources!</p>
+    <!-- External Link cards -->
+    <div class="container mt-5" style="width: 65%">
+        @foreach (var resource in financeResources)
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title fw-bold" id="link-title">
+                        <a href="@resource.Url" class="maroon-on-hover">
+                            @resource.Name
+                        </a>
+                    </h3>
+                    <p class="card-text">Summary: @resource.Description</p>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+<style>
+    #link-title {
+        text-decoration: none;
+    }
+
+        #link-title:hover {
+            text-decoration: underline;
+            color: #815050;
+            transition: all .25s ease-in-out;
+        }
+</style>
