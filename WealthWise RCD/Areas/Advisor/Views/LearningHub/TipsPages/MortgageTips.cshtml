@@ -1,6 +1,5 @@
-﻿@using WealthWise_RCD.Models
-@model List<WealthWise_RCD.Models.DatabaseModels.Blog>
-
+﻿@using WealthWise_RCD.Models.DatabaseModels;
+@model List<Blog>
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
 </head>
@@ -15,9 +14,6 @@
         <h1 class="display-4" style="text-align: center">Tips: Mortgage</h1>
         <p class="lead text-muted">Learn how to make the most of your money!</p>
     </div>
-</div>
-
-<div class="container mt-5">
     <!-- Blog Posts -->
     <div class="container mt-5" style="width: 65%">
         @foreach (var blog in Model)
@@ -25,7 +21,7 @@
             <div class="card mb-4 shadow-sm">
                 <div class="card-body">
                     <h3 class="card-title fw-bold" id="blog-title">
-                        <a asp-area="User" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id" class="maroon-on-hover">
+                        <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id" class="maroon-on-hover">
                             @blog.Title
                         </a>
                     </h3>
@@ -35,14 +31,4 @@
             </div>
         }
     </div>
-
-    <style>
-        #blog-title {
-            text-decoration: none;
-        }
-
-            #blog-title:hover {
-                text-decoration: underline;
-            }
-    </style>
 </div>

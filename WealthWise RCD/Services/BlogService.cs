@@ -20,8 +20,12 @@ namespace WealthWise_RCD.Services
         {
             return await _context.BlogPosts.Where(b => b.IsTip == false).ToListAsync();
         }
+        public async Task<List<Blog>> GetTipsCategoryPostsAsync(string category)
+        {
+            return await _context.BlogPosts.ToListAsync();
+        }
 
-        public async Task UpsertBlogPostAsync(Blog blogPost)
+        public async Task UpsertBlogPostAsync(Blog blogPost, bool isTip = false)
         {
             if (blogPost.Id == 0)
             {
@@ -40,6 +44,7 @@ namespace WealthWise_RCD.Services
                     postEntry.Content = blogPost.Content;
                     postEntry.RecommendationScore = blogPost.RecommendationScore;
                     postEntry.AdvisorId = blogPost.AdvisorId;
+                    postEntry.IsTip = isTip;
                 }
             }
             await _context.SaveChangesAsync();

@@ -66,6 +66,11 @@ namespace WealthWise_RCD.Areas.User.Controllers
 
         public IActionResult MortgageTips()
         {
+            var blogPosts = await _blogService.GetAllBlogPostsAsync();
+            foreach (var blogPost in blogPosts)
+            {
+                blogPost.Advisor = await _blogService.(blogPost);
+            }
             return View("TipsPages/MortgageTips");
         }
 
