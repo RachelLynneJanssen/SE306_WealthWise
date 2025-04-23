@@ -33,7 +33,7 @@ namespace WealthWise_RCD.Areas.User.Controllers
 
         public async Task<IActionResult> BlogDetails(int id)
         {
-            var blogPosts = await _blogService.GetAllBlogPostsAsync();
+            var blogPosts = await _blogService.GetAllPosts();
             var blog = blogPosts.FirstOrDefault(b => b.Id == id); // will fix later
 
             if(blog is null)
