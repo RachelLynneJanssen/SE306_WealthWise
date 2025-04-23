@@ -65,7 +65,8 @@
         const blogData = {
             Title: title,
             Topic: topic,
-            Content: content
+            Content: content,
+            IsTip: true
         };
 
         fetch('/Advisor/LearningHub/SaveTempBlog', {
@@ -113,15 +114,16 @@
         const blogData = {
             Title: title,
             Topic: topic,
-            Content: content
+            Content: content,
+            IsTip: true
         };
 
-        fetch('/Advisor/LearningHub/PostBlog', {
+        fetch('/Advisor/LearningHub/PostTip', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(blogData, true) // true for isTip
+            body: JSON.stringify(blogData) // true for isTip
         })
         .then(response => {
             if (!response.ok) {

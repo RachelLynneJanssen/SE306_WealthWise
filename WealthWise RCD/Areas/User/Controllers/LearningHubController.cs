@@ -54,24 +54,46 @@ namespace WealthWise_RCD.Areas.User.Controllers
             return View();
         }
 
-        public IActionResult InvestmentTips()
+        public async Task<IActionResult> InvestmentTips()
         {
-            return View("TipsPages/InvestmentTips");
+            var tips = await _blogService.GetTipsCategoryPostsAsync("Investing Advice");
+            foreach (var tip in tips)
+            {
+                tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
+            }
+            return View("TipsPages/InvestmentTips", tips);
         }
 
-        public IActionResult SavingsTips()
+        public async Task<IActionResult> SavingsTips()
         {
-            return View("TipsPages/SavingsTips");
+            var tips = await _blogService.GetTipsCategoryPostsAsync("Savings Advice");
+            foreach (var tip in tips)
+            {
+                tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
+            }
+            return View("TipsPages/SavingsTips", tips);
         }
 
-        public IActionResult MortgageTips()
+        public async Task<IActionResult> MortgageTips()
         {
-            return View("TipsPages/MortgageTips");
+            {
+                var tips = await _blogService.GetTipsCategoryPostsAsync("Mortgage Advice");
+                foreach (var tip in tips)
+                {
+                    tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
+                }
+                return View("TipsPages/MortgageTips", tips);
+            }
         }
 
-        public IActionResult CardTips()
+        public async Task<IActionResult> CardTips()
         {
-            return View("TipsPages/CardTips");
+            var tips = await _blogService.GetTipsCategoryPostsAsync("Credit Card Advice");
+            foreach (var tip in tips)
+            {
+                tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
+            }
+            return View("TipsPages/CardTips", tips);
         }
 
     }
