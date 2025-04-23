@@ -60,6 +60,11 @@ namespace WealthWise_RCD.Services
             }
             await _context.SaveChangesAsync();
         }
+        public async Task RemoveAppointment(Appointment appt)
+        {
+            _context.Appointments.Remove(appt);
+            _context.SaveChanges();
+        }
         public Task<List<Payment>> GetAllPaymentMethodsAsync(ApplicationUser user)
         {
             return _context.Payments.Where(p => p.UserId == user.Id).ToListAsync();
