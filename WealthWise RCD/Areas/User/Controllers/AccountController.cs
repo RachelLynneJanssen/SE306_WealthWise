@@ -152,21 +152,24 @@ namespace WealthWise_RCD.Areas.User.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPaymentMethod(Payment model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user == null) { return NotFound(); }
 
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return Unauthorized();
+            /*            model.UserId = user.Id;
+                        model.User = user;
 
+                        _context.Payments.Add(model);
+                        await _context.SaveChangesAsync();
+
+                        return RedirectToAction("Index"); // Or wherever you list payment methods
+            */
             model.UserId = user.Id;
             model.User = user;
 
-            _context.Payments.Add(model);
-            await _context.SaveChangesAsync();
+            await _userManager.UpdateAsync(user);
+            await _userService.UpsertPaymentMethod(model);
 
-            return RedirectToAction("Index"); // Or wherever you list payment methods
+            return RedirectToAction("Index", user);
         }
 
     }

@@ -18,7 +18,7 @@ namespace WealthWise_RCD.Services
 
         public async Task<List<Blog>> GetAllBlogPostsAsync()
         {
-            return await _context.BlogPosts.ToListAsync();
+            return await _context.BlogPosts.Where(b => b.IsTip == false).ToListAsync();
         }
 
         public async Task UpsertBlogPostAsync(Blog blogPost)
@@ -48,6 +48,10 @@ namespace WealthWise_RCD.Services
         {
             return await _userManager.FindByIdAsync(post.AdvisorId);
         }
-        
+
+        public async Task<List<Blog>> GetTopicTipsPostsAsync(string topic)
+        {
+            return await _context.BlogPosts.Where(b => b.IsTip == true && b.Topic == topic).ToListAsync();
+        }
     }
 }

@@ -45,6 +45,7 @@ namespace WealthWise_RCD.Services
                 if (updatedAppt != null)
                 {
                     updatedAppt.ScheduledTime = appt.ScheduledTime;
+                    updatedAppt.EndTime = appt.EndTime;
                     updatedAppt.AdvisorId = appt.AdvisorId;
                     updatedAppt.Advisor = appt.Advisor;
                     updatedAppt.UserId = appt.UserId;
@@ -113,22 +114,25 @@ namespace WealthWise_RCD.Services
         {
             return _context.BlogPosts.Where(b => b.AdvisorId == advisor.Id).ToListAsync();
         }
-        //public async Task<IActionResult> SetAvailability(List<AvailabilitySlot> slots, string advisorId)
-        //{
 
-        //    // Remove old slots and add new
-        //    var oldSlots = _context.AvailabilitySlots.Where(s => s.AdvisorId == advisorId);
-        //    _context.AvailabilitySlots.RemoveRange(oldSlots);
+        public Task<List<Blog>> GetAllTipsPostsAsync(string tipTopic)
+        {
+            return _context.BlogPosts.Where(b => b.Topic == tipTopic && b.IsTip).ToListAsync();
+        }
 
-        //    foreach (var slot in slots)
-        //    {
-        //        slot.AdvisorId = advisorId;
-        //    }
-
-        //    await _context.AvailabilitySlots.AddRangeAsync(slots);
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToAction("Availability");
-        //}
+        private async Task<bool> IsAvailable(Appointment appointment)
+        {
+            bool isAvail = false;
+            ApplicationUser advisor = await _userManager.FindByIdAsync(appointment.AdvisorId);
+            if (advisor != null)
+            { 
+                DayOfWeek day = appointment.ScheduledTime.DayOfWeek;
+                TimeSpan startTime = appointment.ScheduledTime.TimeOfDay;
+                TimeSpan endTime = appointment.EndTime;
+                // check within time
+                // check within exception
+            }
+            return isAvail;
+        }
     }
 }

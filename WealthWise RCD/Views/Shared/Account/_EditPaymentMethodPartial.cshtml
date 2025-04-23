@@ -36,7 +36,7 @@
             </div>
             <div class="mb-3">
                 <label asp-for="ExpDate" class="form-label">Expiration Date</label>
-                <input asp-for="ExpDate" class="form-control" />
+                <input asp-for="ExpDate" class="form-control" type="month"/>
             </div>
         </div>
         <div id="paypalFields" class="mb-3" style="display:@(Model.Type == PaymentType.PayPal ? "block" : "none")">
