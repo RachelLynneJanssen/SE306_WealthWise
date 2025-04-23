@@ -1,7 +1,4 @@
 ﻿@model WealthWise_RCD.Models.DatabaseModels.Blog
-@{
-
-}
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.quilljs.com/2.0.3/quill.snow.css" />
@@ -9,9 +6,18 @@
 
 <body>
     <!-- Back Button -->
-    <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogPosts">
-        <i class="fa-solid fa-arrow-left fa-xl" style="color: #828282;" alt="Return to Blog List"></i>
-    </a>
+    @if (Model.IsTip == false)
+    {
+        <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogPosts">
+            <i class="fa-solid fa-arrow-left fa-xl" style="color: #828282;" alt="Return to Blog List"></i>
+        </a>
+    }
+    @if (Model.IsTip == true)
+    {
+        <a asp-area="Advisor" asp-controller="LearningHub" asp-action="TipsAndTricks">
+            <i class="fa-solid fa-arrow-left fa-xl" style="color: #828282;" alt="Return to Tips Main Page"></i>
+        </a>
+    }
 
     <!-- Single Blog Content -->
     <div class="container flex-column justify-content-between align-items-center mb-5 px-5" id="blog-content">
