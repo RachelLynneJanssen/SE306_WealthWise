@@ -26,9 +26,20 @@
                         </a>
                     </h3>
                     <p class="card-text">Topic: @blog.Topic</p>
-                    <p class="card-text text-muted">@blog.Advisor.FirstName @blog.Advisor.LastName -- Published: @blog.PublicationDate</p>
+                    <p class="card-text text-muted">Author @blog.Advisor.FirstName @blog.Advisor.LastName  -- Published: @blog.PublicationDate</p>
                 </div>
             </div>
         }
     </div>
 </div>
+<style>
+    #blog-title {
+        text-decoration: none;
+    }
+
+        #blog-title:hover {
+            text-decoration: underline;
+            color: #815050;
+            transition: all .25s ease-in-out;
+        }
+</style>

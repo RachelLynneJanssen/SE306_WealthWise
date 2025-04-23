@@ -65,7 +65,8 @@
         const blogData = {
             Title: title,
             Topic: topic,
-            Content: content
+            Content: content,
+            IsTip: false
         };
 
         fetch('/Advisor/LearningHub/SaveTempBlog', {
@@ -113,7 +114,8 @@
         const blogData = {
             Title: title,
             Topic: topic,
-            Content: content
+            Content: content,
+            IsTip: false
         };
 
         fetch('/Advisor/LearningHub/PostBlog', {

@@ -1,6 +1,5 @@
-﻿@using WealthWise_RCD.Models
-@model List<WealthWise_RCD.Models.DatabaseModels.Blog>
-
+﻿@using WealthWise_RCD.Models.DatabaseModels;
+@model List<Blog>
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
 </head>
@@ -12,7 +11,35 @@
 <div class="container mt-5">
     <!-- Title and tag line of learning hub -->
     <div class="text-center">
-        <h1 class="display-4" style="text-align: center">Tips: Investing</h1>
+        <h1 class="display-4" style="text-align: center">Tips: Investment</h1>
         <p class="lead text-muted">Learn how to make the most of your money!</p>
     </div>
+    <!-- Blog Posts -->
+    <div class="container mt-5" style="width: 65%">
+        @foreach (var blog in Model)
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title fw-bold" id="blog-title">
+                        <a asp-area="Advisor" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id" class="maroon-on-hover">
+                            @blog.Title
+                        </a>
+                    </h3>
+                    <p class="card-text">Topic: @blog.Topic</p>
+                    <p class="card-text text-muted">Author @blog.Advisor.FirstName @blog.Advisor.LastName  -- Published: @blog.PublicationDate</p>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+<style>
+    #blog-title {
+        text-decoration: none;
+    }
+
+        #blog-title:hover {
+            text-decoration: underline;
+            color: #815050;
+            transition: all .25s ease-in-out;
+        }
+</style>

@@ -54,29 +54,46 @@ namespace WealthWise_RCD.Areas.User.Controllers
             return View();
         }
 
-        public IActionResult InvestmentTips()
+        public async Task<IActionResult> InvestmentTips()
         {
-            return View("TipsPages/InvestmentTips");
-        }
-
-        public IActionResult SavingsTips()
-        {
-            return View("TipsPages/SavingsTips");
-        }
-
-        public IActionResult MortgageTips()
-        {
-            var blogPosts = await _blogService.GetAllBlogPostsAsync();
-            foreach (var blogPost in blogPosts)
+            var tips = await _blogService.GetTipsCategoryPostsAsync("Investing Advice");
+            foreach (var tip in tips)
             {
-                blogPost.Advisor = await _blogService.(blogPost);
+                tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
             }
-            return View("TipsPages/MortgageTips");
+            return View("TipsPages/InvestmentTips", tips);
         }
 
-        public IActionResult CardTips()
+        public async Task<IActionResult> SavingsTips()
         {
-            return View("TipsPages/CardTips");
+            var tips = await _blogService.GetTipsCategoryPostsAsync("Savings Advice");
+            foreach (var tip in tips)
+            {
+                tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
+            }
+            return View("TipsPages/SavingsTips", tips);
+        }
+
+        public async Task<IActionResult> MortgageTips()
+        {
+            {
+                var tips = await _blogService.GetTipsCategoryPostsAsync("Mortgage Advice");
+                foreach (var tip in tips)
+                {
+                    tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
+                }
+                return View("TipsPages/MortgageTips", tips);
+            }
+        }
+
+        public async Task<IActionResult> CardTips()
+        {
+            var tips = await _blogService.GetTipsCategoryPostsAsync("Credit Card Advice");
+            foreach (var tip in tips)
+            {
+                tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
+            }
+            return View("TipsPages/CardTips", tips);
         }
 
     }
