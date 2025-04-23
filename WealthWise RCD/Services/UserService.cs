@@ -19,19 +19,25 @@ namespace WealthWise_RCD.Services
 
         public async Task<List<Appointment>> GetAllAppointmentsAsync(ApplicationUser user)
         {
-            
+            List<Appointment> userAppts = new List<Appointment>();
             if (await _userManager.IsInRoleAsync(user, "User"))
             {
-                return _context.Appointments.Where(a => a.User == user).ToList();
+                userAppts = _context.Appointments.Where(a => a.User == user).ToList();
             }
             else if (await _userManager.IsInRoleAsync(user, "Advisor"))
             {
-                return _context.Appointments.Where(a => a.Advisor == user).ToList();
+                userAppts = _context.Appointments.Where(a => a.Advisor == user).ToList();
             }
             else    // Admin
             {
-                return _context.Appointments.ToList();
+                userAppts = _context.Appointments.ToList();
             }
+            foreach (Appointment appointment in userAppts)
+            {
+                appointment.User = await _userManager.FindByIdAsync(appointment.UserId);
+                appointment.Advisor = await _userManager.FindByIdAsync(appointment.AdvisorId);
+            }
+            return userAppts;
         }
         public async Task UpsertAppointment(Appointment appt)
         {
@@ -53,6 +59,11 @@ namespace WealthWise_RCD.Services
                 }
             }
             await _context.SaveChangesAsync();
+        }
+        public async Task RemoveAppointment(Appointment appt)
+        {
+            _context.Appointments.Remove(appt);
+            _context.SaveChanges();
         }
         public Task<List<Payment>> GetAllPaymentMethodsAsync(ApplicationUser user)
         {
