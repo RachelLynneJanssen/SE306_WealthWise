@@ -30,8 +30,9 @@
         <h1 class="display-4">Saved Payment Methods</h1>
         <p>You can edit or add payment methods to your account here.</p>
     </div>
-    <div style="margin: 5px;">
-        <button class="btn btn-primary" onclick="loadPartial('@Url.Action("LoadAddPaymentMethodPartial", "Account", new { Area = GetAreaBasedOnRole() })')">Add Payment Method</button>
+    <div style="margin-bottom: 10px; display: flex; justify-content: flex-end;">
+        <button class="btn btn-sm" style="width: 175px; margin-right: 5px;" onclick="loadPartial('@Url.Action("LoadAddCreditCardMethodPartial", "Account", new { Area = GetAreaBasedOnRole() })')">Add Credit Card Method</button>
+        <button class="btn btn-sm" style="width: 175px; margin-left: 5px;" onclick="loadPartial('@Url.Action("LoadAddPayPalMethodPartial", "Account", new { Area = GetAreaBasedOnRole() })')">Add PayPal Method</button>
     </div>
     <div class="row">
         @foreach(var payment in Model)
