@@ -114,6 +114,12 @@ namespace WealthWise_RCD.Services
         {
             return _context.BlogPosts.Where(b => b.AdvisorId == advisor.Id).ToListAsync();
         }
+
+        public Task<List<Blog>> GetAllTipsPostsAsync(string tipTopic)
+        {
+            return _context.BlogPosts.Where(b => b.Topic == tipTopic && b.IsTip).ToListAsync();
+        }
+
         private async Task<bool> IsAvailable(Appointment appointment)
         {
             bool isAvail = false;

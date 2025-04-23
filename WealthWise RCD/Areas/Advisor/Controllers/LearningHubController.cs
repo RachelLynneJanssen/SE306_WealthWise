@@ -77,7 +77,7 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
 
         [HttpPost]
         [Route("/Advisor/LearningHub/PostBlog")]
-        public async Task<IActionResult> PostBlog([FromBody] Blog blog, bool isTip = false)
+        public async Task<IActionResult> PostBlog([FromBody] Blog blog)
         {
             if (blog == null || string.IsNullOrWhiteSpace(blog.Title) || string.IsNullOrWhiteSpace(blog.Topic) || string.IsNullOrWhiteSpace(blog.Content))
             {
@@ -93,13 +93,44 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
             blog.PublicationDate = DateTime.Now;
             blog.AdvisorId = user.Id;
             blog.Advisor = user;
-            blog.IsTip = isTip;
 
             // save blog to database
             try
             {
                 await _blogService.UpsertBlogPostAsync(blog);
                 return Ok("Blog posted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Failed to post. Error: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("/Advisor/LearningHub/PostTip")]
+        public async Task<IActionResult> PostTip([FromBody] Blog tip)
+        {
+            if (tip == null || string.IsNullOrWhiteSpace(tip.Title) || string.IsNullOrWhiteSpace(tip.Topic) || string.IsNullOrWhiteSpace(tip.Content))
+            {
+                return BadRequest("Title, Topic, and Content are required to post.");
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized("User not found.");
+            }
+
+            tip.PublicationDate = DateTime.Now;
+            tip.AdvisorId = user.Id;
+            tip.Advisor = user;
+            tip.IsTip = true;
+
+            // save blog to database
+            try
+            {
+                await _blogService.UpsertBlogPostAsync(tip);
+                return Ok("Tip posted successfully.");
             }
             catch (Exception ex)
             {
@@ -123,25 +154,43 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
         }
         public async Task <IActionResult> InvestmentTips()
         {
-            List<Blog> tips = await _blogService.GetAllTipsPostsAsync("Interest Advice");
+            var tips = await _blogService.GetTipsCategoryPostsAsync("Investing Advice");
+            foreach (var tip in tips)
+            {
+                tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
+            }
             return View("TipsPages/InvestmentTips", tips);
         }
 
         public async Task<IActionResult> SavingsTips()
         {
-            List<Blog> tips = await _blogService.GetAllTipsPostsAsync("Savings Advice");
+            var tips = await _blogService.GetTipsCategoryPostsAsync("Savings Advice");
+            foreach (var tip in tips)
+            {
+                tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
+            }
             return View("TipsPages/SavingsTips", tips);
         }
 
         public async Task<IActionResult> MortgageTips()
         {
-            List<Blog> tips = await _blogService.GetAllTipsPostsAsync("Mortgage Advice");
-            return View("TipsPages/MortgageTips", tips);
+            {
+                var tips = await _blogService.GetTipsCategoryPostsAsync("Mortgage Advice");
+                foreach (var tip in tips)
+                {
+                    tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
+                }
+                return View("TipsPages/MortgageTips", tips);
+            }
         }
 
         public async Task<IActionResult> CardTips()
         {
-            List<Blog> tips = await _blogService.GetAllTipsPostsAsync("Credit Card Advice");
+            var tips = await _blogService.GetTipsCategoryPostsAsync("Credit Card Advice");
+            foreach (var tip in tips)
+            {
+                tip.Advisor = await _blogService.GetBlogPostAuthorAsync(tip);
+            }
             return View("TipsPages/CardTips", tips);
         }
         public IActionResult TipsCreator()

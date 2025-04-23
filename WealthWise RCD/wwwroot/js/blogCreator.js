@@ -26,13 +26,13 @@
 
         if (words.length > MAX_LENGTH) {
             quill.history.undo(); // Undo the last change that made the word limit over 200.
-            // KNOWN RISK: If user pastes over 200 words of text it will undo to nothing.
+            // KNOWN RISK: If user pastes over 1000 words of text it will undo to nothing.
         }
 
         // show word count
         const charCount = document.getElementById('charCount');
         if (charCount) {
-            charCount.textContent = `Word Limit: ${Math.min(text.length, MAX_LENGTH)} / ${MAX_LENGTH}`;
+            charCount.textContent = `Word Limit: ${Math.min(words.length, MAX_LENGTH)} / ${MAX_LENGTH}`;
         }
     });
 
@@ -65,7 +65,8 @@
         const blogData = {
             Title: title,
             Topic: topic,
-            Content: content
+            Content: content,
+            IsTip: false
         };
 
         fetch('/Advisor/LearningHub/SaveTempBlog', {
@@ -113,7 +114,8 @@
         const blogData = {
             Title: title,
             Topic: topic,
-            Content: content
+            Content: content,
+            IsTip: false
         };
 
         fetch('/Advisor/LearningHub/PostBlog', {
