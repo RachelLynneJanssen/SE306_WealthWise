@@ -49,7 +49,7 @@ namespace WealthWise_RCD.Services
             return await _userManager.FindByIdAsync(post.AdvisorId);
         }
 
-        public async Task<List<Blog>> GetAllTipsPostsAsync(string topic)
+        public async Task<List<Blog>> GetTopicTipsPostsAsync(string topic)
         {
             return await _context.BlogPosts.Where(b => b.IsTip == true && b.Topic == topic).ToListAsync();
         }

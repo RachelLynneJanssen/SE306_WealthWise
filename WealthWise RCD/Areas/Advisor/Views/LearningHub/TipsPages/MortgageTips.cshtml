@@ -16,3 +16,33 @@
         <p class="lead text-muted">Learn how to make the most of your money!</p>
     </div>
 </div>
+
+<div class="container mt-5">
+    <!-- Blog Posts -->
+    <div class="container mt-5" style="width: 65%">
+        @foreach (var blog in Model)
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title fw-bold" id="blog-title">
+                        <a asp-area="User" asp-controller="LearningHub" asp-action="BlogDetails" asp-route-id="@blog.Id" class="maroon-on-hover">
+                            @blog.Title
+                        </a>
+                    </h3>
+                    <p class="card-text">Topic: @blog.Topic</p>
+                    <p class="card-text text-muted">@blog.Advisor.FirstName @blog.Advisor.LastName -- Published: @blog.PublicationDate</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <style>
+        #blog-title {
+            text-decoration: none;
+        }
+
+            #blog-title:hover {
+                text-decoration: underline;
+            }
+    </style>
+</div>

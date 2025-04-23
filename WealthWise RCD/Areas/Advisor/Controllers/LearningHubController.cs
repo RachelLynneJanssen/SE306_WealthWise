@@ -123,25 +123,25 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
         }
         public async Task <IActionResult> InvestmentTips()
         {
-            List<Blog> tips = await _blogService.GetAllTipsPostsAsync("Interest Advice");
+            List<Blog> tips = await _blogService.GetTopicTipsPostsAsync("Investing Advice");
             return View("TipsPages/InvestmentTips", tips);
         }
 
         public async Task<IActionResult> SavingsTips()
         {
-            List<Blog> tips = await _blogService.GetAllTipsPostsAsync("Savings Advice");
+            List<Blog> tips = await _blogService.GetTopicTipsPostsAsync("Savings Advice");
             return View("TipsPages/SavingsTips", tips);
         }
 
         public async Task<IActionResult> MortgageTips()
         {
-            List<Blog> tips = await _blogService.GetAllTipsPostsAsync("Mortgage Advice");
+            List<Blog> tips = await _blogService.GetTopicTipsPostsAsync("Mortgage Advice");
             return View("TipsPages/MortgageTips", tips);
         }
 
         public async Task<IActionResult> CardTips()
         {
-            List<Blog> tips = await _blogService.GetAllTipsPostsAsync("Credit Card Advice");
+            List<Blog> tips = await _blogService.GetTopicTipsPostsAsync("Credit Card Advice");
             return View("TipsPages/CardTips", tips);
         }
         public IActionResult TipsCreator()
