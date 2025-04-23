@@ -119,12 +119,29 @@ namespace WealthWise_RCD.Services
             bool isAvail = false;
             ApplicationUser advisor = await _userManager.FindByIdAsync(appointment.AdvisorId);
             if (advisor != null)
-            { 
-                DayOfWeek day = appointment.ScheduledTime.DayOfWeek;
+            {
                 TimeSpan startTime = appointment.ScheduledTime.TimeOfDay;
                 TimeSpan endTime = appointment.EndTime;
-                // check within time
+                if(startTime < new TimeSpan(8, 0, 0) || endTime > new TimeSpan(17,0,0))
+                {
+                    isAvail = false; // out of range
+                }
+                else if(startTime > new TimeSpan(12,0,0) && startTime < new TimeSpan(13, 0, 0))
+                {
+                    isAvail = false; // out of range
+                }
+                else if (endTime > new TimeSpan(12, 0, 0) && endTime < new TimeSpan(13, 0, 0))
+                {
+                    isAvail = false; // out of range
+                }
                 // check within exception
+                List<AvailabilityException> potentialConflicts = _context.AvailabilityExceptions.Where(
+                                                                    a => (a.AdvisorId == advisor.Id) && (a.Date.Date == appointment.ScheduledTime.Date)
+                                                                    ).ToList();
+                foreach (AvailabilityException a in potentialConflicts)
+                {
+
+                }
             }
             return isAvail;
         }
