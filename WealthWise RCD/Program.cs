@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NuGet.Packaging;
+using SQLitePCL;
 using WealthWise_RCD.Models;
 using WealthWise_RCD.Models.DatabaseModels;
 using WealthWise_RCD.Services;
@@ -44,7 +45,7 @@ async Task CreateRolesandUsers(IServiceProvider serviceProvider)    // Role crea
         }
     }
 
-    // Deafault Users
+    // Default Users
     await CreateUserIfNotExisting(userManager, dbContext, "admin@test.com", "admin@admin.com", "Test_123", "Admin", "Admin", "User", "306");
     await CreateUserIfNotExisting(userManager, dbContext, "advisor@test.com", "00000", "Test_123", "Advisor", "Test", "Advisor", "1");
     await CreateUserIfNotExisting(userManager, dbContext, "user@test.com", "user@test.com", "Test_123", "User", "Test", "User", "1");
@@ -54,7 +55,7 @@ async Task CreateRolesandUsers(IServiceProvider serviceProvider)    // Role crea
     await CreateUserIfNotExisting(userManager, dbContext, "mt@test.com", "00002", "Test_123", "Advisor", "Mark", "Twain", "1");
     await CreateUserIfNotExisting(userManager, dbContext, "js@test.com", "00003", "Test_123", "Advisor", "John", "Steinbeck", "1");
 
-    
+    await SeedAppointments(userManager, dbContext);
 }
 async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, string email, string username, string password,
                                    string role, string firstName, string lastName, string age)
@@ -111,7 +112,7 @@ async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, App
         
     }
 }
-async Task SeedInitBlogPosts(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, ApplicationUser advisor)
+Task SeedInitBlogPosts(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, ApplicationUser advisor)
 {
     Blog post1 = new() { Id = 1, Title = "Time spent with cats is never wasted.", Topic = "Topic", PublicationDate = DateTime.Now, Content = "Pulled from the database (Quote by Sigmund Freud)!", AdvisorId = advisor.Id };
     Blog post2 = new() { Id = 2, Title = "You can never be truly at home without a cat.", Topic = "Topic", PublicationDate = DateTime.Now, Content = "Pulled from the database (Quote by Mark Twain)!", AdvisorId = advisor.Id };
@@ -144,9 +145,9 @@ async Task SeedInitBlogPosts(UserManager<ApplicationUser> userManager, Applicati
     dbContext.BlogPosts.Add(post1);
     dbContext.BlogPosts.Add(post2);
     dbContext.BlogPosts.Add(post3);
-
-    
+    return Task.CompletedTask;
 }
+
 async Task SetDefaultAvailability(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, ApplicationUser advisor)
 {
     TimeSpan defaultStart = new(8,0,0);
@@ -195,6 +196,40 @@ async Task SeedPaymentMethods(UserManager<ApplicationUser> userManager, Applicat
         await userManager.UpdateAsync(user);
     }
     
+}
+async Task SeedAppointments(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+{
+    bool isEmpty = !await dbContext.Appointments.AnyAsync();
+    if (isEmpty)
+    {
+        var user = await userManager.FindByEmailAsync("user@test.com");
+        var testAdv1 = await userManager.FindByEmailAsync("advisor@test.com");
+        var testAdv2 = await userManager.FindByEmailAsync("cd@test.com");
+        if (user != null && testAdv1 != null && testAdv2 != null)
+        {
+            var dummyAppts = new List<Appointment>
+            {
+                new Appointment
+                {
+                    ScheduledTime = DateTime.Now.AddDays(2).AddHours(10),
+                    Advisor = testAdv1,
+                    AdvisorId = testAdv1.Id,
+                    User = user,
+                    UserId = user.Id
+                },
+                new Appointment
+                {
+                    ScheduledTime = DateTime.Now.AddDays(5).AddHours(14),
+                    Advisor = testAdv2,
+                    AdvisorId = testAdv2.Id,
+                    User = user,
+                    UserId = user.Id
+                }
+            };
+            dbContext.Appointments.AddRange(dummyAppts);
+            await dbContext.SaveChangesAsync();
+        }
+    }
 }
 builder.Services.Configure<IdentityOptions>(options =>
 {

@@ -1,28 +1,5 @@
 ﻿@using WealthWise_RCD.Models.DatabaseModels
-@{
-    var mockAppointments = new List<Appointment>
-    {
-        new Appointment
-        {
-            Id = 1,
-            ScheduledTime = DateTime.Now.AddDays(2).AddHours(10),
-            Advisor = new ApplicationUser { FirstName = "Sarah", LastName = "Connor", Email = "s.connor@wealthwise.com" },
-            AdvisorId = "advisor-001",
-            User = new ApplicationUser { FirstName = "John", LastName = "Doe", Email = "john.doe@email.com" },
-            UserId = "user-001"
-        },
-        new Appointment
-        {
-            Id = 2,
-            ScheduledTime = DateTime.Now.AddDays(5).AddHours(14),
-            Advisor = new ApplicationUser { FirstName = "Michael", LastName = "Smith", Email = "m.smith@wealthwise.com" },
-            AdvisorId = "advisor-002",
-            User = new ApplicationUser { FirstName = "Jane", LastName = "Roe", Email = "jane.roe@email.com" },
-            UserId = "user-002"
-        }
-    };
-}
-@* @model List<Appointment> *@
+@model List<Appointment>
 
 <head>
     <script src="https://kit.fontawesome.com/32c95df022.js" crossorigin="anonymous"></script>
@@ -36,7 +13,7 @@
     </div>
     <div>
         <div class="row">
-            @foreach (var appointment in mockAppointments)
+            @foreach (var appointment in Model)
             {
                 string cardId = $"appointment-card-{appointment.Id}";
                 <div class="col-md-6">
