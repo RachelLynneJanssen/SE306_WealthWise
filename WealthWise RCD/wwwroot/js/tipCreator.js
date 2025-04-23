@@ -121,7 +121,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(blogData)
+            body: JSON.stringify(blogData, true) // true for isTip
         })
         .then(response => {
             if (!response.ok) {
@@ -167,8 +167,8 @@ function missingField(title, topic, content, plainText) {
         topicError.style.visibility = "visible";
         isValid = false;
     }
-    if (!plainText || plainText === "" || plainText.length > 200) {
-        contentError.textContent = "Content must be between 1 and 200 characters.";
+    if (!plainText) {
+        contentError.textContent = "Content is required.";
         contentError.style.visibility = "visible";
         isValid = false;
     }
