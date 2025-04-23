@@ -14,8 +14,7 @@
 
         <div class="mb-3">
             <label asp-for="Type" class="form-label">Payment Type</label>
-            <select asp-for="Type" asp-items="new SelectList(Enum.GetNames(typeof(PaymentType)))" class="form-control" id="paymentType">
-            </select>
+            <input asp-for="Type" class="form-control" readonly />
         </div>
 
         <div class="mb-3">

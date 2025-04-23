@@ -121,7 +121,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(blogData)
+            body: JSON.stringify(blogData, true) // true for isTip
         })
         .then(response => {
             if (!response.ok) {

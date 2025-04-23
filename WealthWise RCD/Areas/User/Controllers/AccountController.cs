@@ -78,9 +78,14 @@ namespace WealthWise_RCD.Areas.User.Controllers
             return PartialView("Account/_EditPaymentMethodPartial", paymentMethod);
         }
 
-        public async Task<IActionResult> LoadAddPaymentMethodPartial()
+        public async Task<IActionResult> LoadAddCreditCardMethodPartial()
         {
             var payment = new Payment { Type = PaymentType.CreditCard } ;
+            return PartialView("Account/_AddPaymentMethodPartial", payment);
+        }
+        public async Task<IActionResult> LoadAddPayPalMethodPartial()
+        {
+            var payment = new Payment { Type = PaymentType.PayPal };
             return PartialView("Account/_AddPaymentMethodPartial", payment);
         }
 

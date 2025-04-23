@@ -77,11 +77,11 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
 
         [HttpPost]
         [Route("/Advisor/LearningHub/PostBlog")]
-        public async Task<IActionResult> PostBlog([FromBody] Blog blog)
+        public async Task<IActionResult> PostBlog([FromBody] Blog blog, bool isTip = false)
         {
             if (blog == null || string.IsNullOrWhiteSpace(blog.Title) || string.IsNullOrWhiteSpace(blog.Topic) || string.IsNullOrWhiteSpace(blog.Content))
             {
-                return BadRequest("Blog Title, Topic, and Content are required.");
+                return BadRequest("Title, Topic, and Content are required to post.");
             }
 
             var user = await _userManager.GetUserAsync(User);
@@ -93,6 +93,7 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
             blog.PublicationDate = DateTime.Now;
             blog.AdvisorId = user.Id;
             blog.Advisor = user;
+            blog.IsTip = isTip;
 
             // save blog to database
             try
@@ -102,7 +103,7 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Failed to post blog. Error: " + ex.Message);
+                return BadRequest("Failed to post. Error: " + ex.Message);
             }
         }
 
