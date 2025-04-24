@@ -43,9 +43,12 @@
                         <h5 class="mb-0">@payment.Name</h5>
                         <div>
                             <button class="btn btn-primary" onclick="loadPartial('@Url.Action("LoadEditPaymentMethodPartial", "Account", new { Area = GetAreaBasedOnRole() })?id=@payment.Id')">Edit</button>
-                            <button class="btn btn-sm delete-button" style="border: none; background: transparent;">
-                                <i class="fa-solid fa-trash fa-lg"></i>
-                            </button>
+                            <form asp-action="RemovePaymentMethod" method="post"
+                                  onsubmit="return confirm('Are you sure you want to delete this payment method?');">
+                                <button class="btn btn-sm delete-button" style="border: none; background: transparent;">
+                                    <i class="fa-solid fa-trash fa-lg"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div class="card-body">
