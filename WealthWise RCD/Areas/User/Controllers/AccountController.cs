@@ -148,11 +148,11 @@ namespace WealthWise_RCD.Areas.User.Controllers
         }
 
         [HttpPost]
-        public async Task RemovePaymentMethod(Appointment model)
+        public async Task RemovePaymentMethod(Payment model)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
 
-            await _userService.RemoveAppointment(model);
+            await _userService.RemovePaymentMethod(model);
         }
 
         [HttpPost]

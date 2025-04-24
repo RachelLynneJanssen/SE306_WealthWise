@@ -41,7 +41,7 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">@payment.Name</h5>
-                        <div>
+                        <div class="d-flex gap-2" style="align-items: center">
                             <button class="btn btn-primary" onclick="loadPartial('@Url.Action("LoadEditPaymentMethodPartial", "Account", new { Area = GetAreaBasedOnRole() })?id=@payment.Id')">Edit</button>
                             <form asp-action="RemovePaymentMethod" method="post"
                                   onsubmit="return confirm('Are you sure you want to delete this payment method?');">
