@@ -101,6 +101,11 @@ namespace WealthWise_RCD.Services
         {
             return await _context.Addresses.FindAsync(user.AddressId);
         }
+        public async Task RemovePaymentMethod(Payment method)
+        {
+            _context.Payments.Remove(method);
+            _context.SaveChanges();
+        }
         public async Task UpsertAddressAsync(Address address)
         {
             if (address.Id == 0)
