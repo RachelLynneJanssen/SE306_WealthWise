@@ -138,14 +138,6 @@ namespace WealthWise_RCD.Areas.User.Controllers
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user == null) { return NotFound(); }
 
-            /*            model.UserId = user.Id;
-                        model.User = user;
-
-                        _context.Payments.Add(model);
-                        await _context.SaveChangesAsync();
-
-                        return RedirectToAction("Index"); // Or wherever you list payment methods
-            */
             model.UserId = user.Id;
             model.User = user;
 
@@ -153,6 +145,22 @@ namespace WealthWise_RCD.Areas.User.Controllers
             await _userService.UpsertPaymentMethod(model);
 
             return RedirectToAction("Index", user);
+        }
+
+        [HttpPost]
+        public async Task RemovePaymentMethod(Payment model)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+
+            await _userService.RemovePaymentMethod(model);
+        }
+
+        [HttpPost]
+        public async Task CancelAppointment(Appointment model)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+
+            await _userService.RemoveAppointment(model);
         }
 
     }
