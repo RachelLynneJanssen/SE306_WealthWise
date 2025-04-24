@@ -35,9 +35,11 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
             user.Address = getAddress.Result;
             return PartialView("Account/_ProfilePartial", user);
         }
-        public IActionResult LoadAppointmentsPartial()
+        public async Task<IActionResult> LoadAppointmentsPartial()
         {
-            return PartialView("Account/_AppointmentsPartial");
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            List<Appointment> userAppts = await _userService.GetAllAppointmentsAsync(user);
+            return PartialView("Account/_AppointmentsPartial", userAppts);
         }
         public async Task<IActionResult> LoadBlogPostsPartial()
         {
