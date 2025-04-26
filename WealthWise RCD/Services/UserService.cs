@@ -19,19 +19,25 @@ namespace WealthWise_RCD.Services
 
         public async Task<List<Appointment>> GetAllAppointmentsAsync(ApplicationUser user)
         {
-            
+            List<Appointment> userAppts = new List<Appointment>();
             if (await _userManager.IsInRoleAsync(user, "User"))
             {
-                return _context.Appointments.Where(a => a.User == user).ToList();
+                userAppts = _context.Appointments.Where(a => a.User == user).ToList();
             }
             else if (await _userManager.IsInRoleAsync(user, "Advisor"))
             {
-                return _context.Appointments.Where(a => a.Advisor == user).ToList();
+                userAppts = _context.Appointments.Where(a => a.Advisor == user).ToList();
             }
             else    // Admin
             {
-                return _context.Appointments.ToList();
+                userAppts = _context.Appointments.ToList();
             }
+            foreach (Appointment appointment in userAppts)
+            {
+                appointment.User = await _userManager.FindByIdAsync(appointment.UserId);
+                appointment.Advisor = await _userManager.FindByIdAsync(appointment.AdvisorId);
+            }
+            return userAppts;
         }
         public async Task UpsertAppointment(Appointment appt)
         {
@@ -53,6 +59,11 @@ namespace WealthWise_RCD.Services
                 }
             }
             await _context.SaveChangesAsync();
+        }
+        public async Task RemoveAppointment(Appointment appt)
+        {
+            _context.Appointments.Remove(appt);
+            _context.SaveChanges();
         }
         public Task<List<Payment>> GetAllPaymentMethodsAsync(ApplicationUser user)
         {
@@ -90,6 +101,11 @@ namespace WealthWise_RCD.Services
         {
             return await _context.Addresses.FindAsync(user.AddressId);
         }
+        public async Task RemovePaymentMethod(Payment method)
+        {
+            _context.Payments.Remove(method);
+            _context.SaveChanges();
+        }
         public async Task UpsertAddressAsync(Address address)
         {
             if (address.Id == 0)
@@ -125,12 +141,29 @@ namespace WealthWise_RCD.Services
             bool isAvail = false;
             ApplicationUser advisor = await _userManager.FindByIdAsync(appointment.AdvisorId);
             if (advisor != null)
-            { 
-                DayOfWeek day = appointment.ScheduledTime.DayOfWeek;
+            {
                 TimeSpan startTime = appointment.ScheduledTime.TimeOfDay;
                 TimeSpan endTime = appointment.EndTime;
-                // check within time
+                if(startTime < new TimeSpan(8, 0, 0) || endTime > new TimeSpan(17,0,0))
+                {
+                    isAvail = false; // out of range
+                }
+                else if(startTime > new TimeSpan(12,0,0) && startTime < new TimeSpan(13, 0, 0))
+                {
+                    isAvail = false; // out of range
+                }
+                else if (endTime > new TimeSpan(12, 0, 0) && endTime < new TimeSpan(13, 0, 0))
+                {
+                    isAvail = false; // out of range
+                }
                 // check within exception
+                List<AvailabilityException> potentialConflicts = _context.AvailabilityExceptions.Where(
+                                                                    a => (a.AdvisorId == advisor.Id) && (a.Date.Date == appointment.ScheduledTime.Date)
+                                                                    ).ToList();
+                foreach (AvailabilityException a in potentialConflicts)
+                {
+
+                }
             }
             return isAvail;
         }

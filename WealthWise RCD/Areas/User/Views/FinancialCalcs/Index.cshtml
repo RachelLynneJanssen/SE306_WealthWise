@@ -74,15 +74,18 @@
             <form method="post">
                 <div class="form-group">
                     <label for="currentAge">Current Age:</label>
-                    <input type="number" class="form-control money-input-retirement" id="currentAge" name="CurrentAge" placeholder="Enter your age" step="1">
+                    <input type="number" class="form-control" id="currentAge" name="CurrentAge" placeholder="Enter your age" step="1">
                 </div>
                 <div class="form-group">
                     <label for="retirementAge">Retirement Age:</label>
-                    <input type="number" class="form-control money-input-retirement" id="retirementAge" name="RetirementAge" placeholder="Enter retirement age" step="1">
+                    <input type="number" class="form-control" id="retirementAge" name="RetirementAge" placeholder="Enter retirement age" step="1">
                 </div>
                 <div class="form-group">
                     <label for="annualIncome">Annual Income:</label>
-                    <input type="number" class="form-control" id="annualIncome" name="AnnualIncome" placeholder="Enter your income" step="0.01">
+                    <div class="position-relative">
+                        <input type="number" class="form-control money-input-retirement" id="annualIncome" name="AnnualIncome" placeholder="Enter your income" step="0.01">
+                        <span class="dollar-sign-retirement">$</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="expectedIncomeInc">Expected Annual Income Increase (%):</label>
@@ -150,19 +153,35 @@
         });
 
         document.addEventListener("DOMContentLoaded", function() {
-            const inputField = document.querySelector(".money-input-interest");
-            const dollarSign = document.querySelector(".dollar-sign-interest");
+            const interestField = document.querySelector(".money-input-interest");
+            const interestDollarSign = document.querySelector(".dollar-sign-interest");
 
-            inputField.addEventListener("input", function() {
-                if (inputField.value.trim() !== "")
+            interestField.addEventListener("input", function() {
+                if (interestField.value.trim() !== "")
                 {
-                    dollarSign.style.opacity = "1";
-                    inputField.style.paddingLeft = "20px";
+                    interestDollarSign.style.opacity = "1";
+                    interestField.style.paddingLeft = "20px";
                 }
                 else
                 {
-                    dollarSign.style.opacity = "0";
-                    inputField.style.paddingLeft = "10px";
+                    interestDollarSign.style.opacity = "0";
+                    interestField.style.paddingLeft = "10px";
+                }
+            });
+
+            const retirementField = document.querySelector(".money-input-retirement");
+            const retirementDollarSign = document.querySelector(".dollar-sign-retirement");
+
+            retirementField.addEventListener("input", function() {
+                if (retirementField.value.trim() !== "")
+                {
+                    retirementDollarSign.style.opacity = "1";
+                    retirementField.style.paddingLeft = "20px";
+                }
+                else
+                {
+                    retirementDollarSign.style.opacity = "0";
+                    retirementField.style.paddingLeft = "10px";
                 }
             });
         });

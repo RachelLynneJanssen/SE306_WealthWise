@@ -35,9 +35,11 @@ namespace WealthWise_RCD.Areas.User.Controllers
             user.Address = getAddress.Result; 
             return PartialView("Account/_ProfilePartial", user);
         }
-        public IActionResult LoadAppointmentsPartial()
+        public async Task<IActionResult> LoadAppointmentsPartial()
         {
-            return PartialView("Account/_AppointmentsPartial");
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            List<Appointment> userAppts = await _userService.GetAllAppointmentsAsync(user);
+            return PartialView("Account/_AppointmentsPartial", userAppts);
         }
         public IActionResult LoadSubscriptionPartial()
         {
@@ -121,25 +123,6 @@ namespace WealthWise_RCD.Areas.User.Controllers
 
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user == null) { return NotFound(); }
-            //var paymentMethod = await _context.Payments.FindAsync(model.Id);
-            //if (paymentMethod == null || paymentMethod.UserId != user.Id) { return NotFound(); }
-            //paymentMethod.Type = model.Type;
-            //paymentMethod.Name = model.Name;
-            //paymentMethod.UserId = user.Id;
-            //paymentMethod.User = user;
-            
-
-            //if (model.Type == PaymentType.CreditCard)
-            //{
-            //    paymentMethod.CardNumber = model.CardNumber;
-            //    paymentMethod.CardholderName = model.CardholderName;
-            //    paymentMethod.ExpDate = model.ExpDate;
-            //    paymentMethod.Cvc = model.Cvc;
-            //}
-            //else if (model.Type == PaymentType.PayPal)
-            //{
-            //    paymentMethod.AccountName = model.AccountName;
-            //}
             model.UserId = user.Id;
             model.User = user;
 
@@ -155,14 +138,6 @@ namespace WealthWise_RCD.Areas.User.Controllers
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user == null) { return NotFound(); }
 
-            /*            model.UserId = user.Id;
-                        model.User = user;
-
-                        _context.Payments.Add(model);
-                        await _context.SaveChangesAsync();
-
-                        return RedirectToAction("Index"); // Or wherever you list payment methods
-            */
             model.UserId = user.Id;
             model.User = user;
 
@@ -170,6 +145,22 @@ namespace WealthWise_RCD.Areas.User.Controllers
             await _userService.UpsertPaymentMethod(model);
 
             return RedirectToAction("Index", user);
+        }
+
+        [HttpPost]
+        public async Task RemovePaymentMethod(Payment model)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+
+            await _userService.RemovePaymentMethod(model);
+        }
+
+        [HttpPost]
+        public async Task CancelAppointment(Appointment model)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+
+            await _userService.RemoveAppointment(model);
         }
 
     }

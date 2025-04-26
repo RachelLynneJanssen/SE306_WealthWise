@@ -23,22 +23,22 @@
         <div class="form-group">
             <label for="expense">Add an Expense:</label>
             <div class="position-relative">
-                <input type="number" class="form-control money-input-interest" id="expense" name="Expense" placeholder="Enter an Expense" step="0.01">
-                <span class="dollar-sign-interest">$</span>
+                <input type="number" class="form-control money-input-expense" id="expense" name="Expense" placeholder="Enter an Expense" step="0.01">
+                <span class="dollar-sign-expense">$</span>
             </div>
         </div>
         <div class="form-group">
             <label for="income">Add Income:</label>
             <div class="position-relative">
-                <input type="number" class="form-control money-input-interest" id="income" name="Income" placeholder="Enter an Income" step=".01">
-                <span class="dollar-sign-interest">$</span>
+                <input type="number" class="form-control money-input-income" id="income" name="Income" placeholder="Enter an Income" step=".01">
+                <span class="dollar-sign-income">$</span>
             </div>
         </div>
         <div class="form-group">
             <label for="saving">Add Savings:</label>
             <div class="position-relative">
-                <input type="number" class="form-control money-input-interest" id="saving" name="Savings" placeholder="Enter a Saving" step=".01">
-                <span class="dollar-sign-interest">$</span>
+                <input type="number" class="form-control money-input-savings" id="saving" name="Savings" placeholder="Enter a Saving" step=".01">
+                <span class="dollar-sign-savings">$</span>
             </div>
         </div>
         <br />
@@ -71,19 +71,45 @@
         });
 
         document.addEventListener("DOMContentLoaded", function() {
-            const inputField = document.querySelector(".money-input-interest");
-            const dollarSign = document.querySelector(".dollar-sign-interest");
+            const expenseInputField = document.querySelector(".money-input-expense");
+            const expenseDollarSign = document.querySelector(".dollar-sign-expense");
 
-            inputField.addEventListener("input", function() {
-                if (inputField.value.trim() !== "")
+            expenseInputField.addEventListener("input", function() {
+                if (expenseInputField.value.trim() !== "")
                 {
-                    dollarSign.style.opacity = "1";
-                    inputField.style.paddingLeft = "20px";
+                    expenseDollarSign.style.opacity = "1";
+                    expenseInputField.style.paddingLeft = "20px";
                 }
                 else
                 {
-                    dollarSign.style.opacity = "0";
-                    inputField.style.paddingLeft = "10px";
+                    expenseDollarSign.style.opacity = "0";
+                    expenseInputField.style.paddingLeft = "10px";
+                }
+            });
+
+            const incomeInputField = document.querySelector(".money-input-income");
+            const incomeDollarSign = document.querySelector(".dollar-sign-income");
+
+            incomeInputField.addEventListener("input", function() {
+                if (incomeInputField.value.trim() !== "") {
+                    incomeDollarSign.style.opacity = "1";
+                    incomeInputField.style.paddingLeft = "20px";
+                } else {
+                    incomeDollarSign.style.opacity = "0";
+                    incomeInputField.style.paddingLeft = "10px";
+                }
+            });
+
+            const savingsInputField = document.querySelector(".money-input-savings");
+            const savingsDollarSign = document.querySelector(".dollar-sign-savings");
+
+            savingsInputField.addEventListener("input", function() {
+                if (savingsInputField.value.trim() !== "") {
+                    savingsDollarSign.style.opacity = "1";
+                    savingsInputField.style.paddingLeft = "20px";
+                } else {
+                    savingsDollarSign.style.opacity = "0";
+                    savingsInputField.style.paddingLeft = "10px";
                 }
             });
         });
@@ -130,7 +156,7 @@
         position: relative;
     }
 
-    .dollar-sign-interest  {
+    .dollar-sign-expense  {
         position: absolute;
         left: 10px;
         top: 50%;
@@ -141,11 +167,11 @@
         transition: opacity 0.2s ease-in;
     }
 
-    .money-input-interest {
+    .money-input-expense {
         padding-left: 10px;
     }
 
-    .dollar-sign-retirement {
+    .dollar-sign-income {
         position: absolute;
         left: 10px;
         top: 50%;
@@ -156,7 +182,22 @@
         transition: opacity 0.2s ease-in;
     }
 
-    .money-input-retirement {
+    .money-input-income {
+        padding-left: 10px;
+    }
+
+    .dollar-sign-savings {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: lightgray;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
+    }
+
+    .money-input-savings {
         padding-left: 10px;
     }
 </style>
