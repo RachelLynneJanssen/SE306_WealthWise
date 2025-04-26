@@ -16,7 +16,7 @@ namespace WealthWise_RCD.Areas.User.Controllers
         private readonly MonthlyBudgetService _monthlyBudgetService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public FinancialCalcsController(MonthlyBudgetService monthlyBudgetService, 
+        public FinancialCalcsController(MonthlyBudgetService monthlyBudgetService,
             UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
@@ -33,7 +33,7 @@ namespace WealthWise_RCD.Areas.User.Controllers
         public IActionResult Index(FinancialCalculator model)
         {
             ViewData["ActiveTab"] = model.activeTab;
-            
+
             if (model.activeTab == "interest")
             {
                 if (model.CalculateInterest())
@@ -70,7 +70,7 @@ namespace WealthWise_RCD.Areas.User.Controllers
         public IActionResult MonthlyBudgetViewer()
         {
             ViewData["MonthlyBudgets"] = _monthlyBudgetService.GetAllMonthlyBudgetsAsync().Result; // Get all monthly budgets to display in the view
-            
+
             return View();
         }
 
@@ -87,10 +87,10 @@ namespace WealthWise_RCD.Areas.User.Controllers
             MonthlyBudget monthlyBudget = _monthlyBudgetService.GetLatestMonthlyBudgetAsync().Result;
 
             var getUser = _userManager.GetUserAsync(User);
-            getUser.Wait(); 
+            getUser.Wait();
             ApplicationUser applicationUser = getUser.Result;
 
-            if(monthlyBudget == null)
+            if (monthlyBudget == null)
             {
                 // If no monthly budget exists, create a new one
                 monthlyBudget = new MonthlyBudget
@@ -98,26 +98,53 @@ namespace WealthWise_RCD.Areas.User.Controllers
                     Income = model.Income,
                     Expense = model.Expense,
                     Savings = model.Savings,
-                    UserID = applicationUser.Id, 
+                    UserID = applicationUser.Id,
                     Total = model.Income - model.Expense - model.Savings,
                     CreatedDate = DateTime.Now
                 };
             }
-            else 
+            else
             {
                 monthlyBudget.Income += model.Income;
                 monthlyBudget.Expense += model.Expense;
                 monthlyBudget.Savings += model.Savings;
+                monthlyBudget.Total = monthlyBudget.Income - monthlyBudget.Expense - monthlyBudget.Savings;
             }
 
 
 
             await _monthlyBudgetService.UpsertMonthlyBudgetPostAsync(monthlyBudget);
 
-            ViewData["CurrentBudget"] = "Monthly Budget Updated Successfully! \n " +
+            ViewData["CurrentBudget"] = "Monthly Budget Updated Successfully! " +
                 $"Current Income: {monthlyBudget.Income}, Current Expense: {monthlyBudget.Expense}, Current Savings: {monthlyBudget.Savings}";
 
-            return View(model); 
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNewBudget()
+        {
+            var getUser = _userManager.GetUserAsync(User);
+            getUser.Wait();
+
+            ApplicationUser applicationUser = getUser.Result;
+            // If no monthly budget exists, create a new one
+            MonthlyBudget monthlyBudget = new MonthlyBudget
+            {
+                Income = 0,
+                Expense = 0,
+                Savings = 0,
+                UserID = applicationUser.Id,
+                Total = 0,
+                CreatedDate = DateTime.Now
+            };
+
+            await _monthlyBudgetService.UpsertMonthlyBudgetPostAsync(monthlyBudget);
+
+            ViewData["CurrentBudget"] = "New Monthly Budget Created Successfully! " +
+                $"at {DateTime.Now}";
+
+            return RedirectToAction("MonthlyBudgetUpdater");
         }
     }
 }

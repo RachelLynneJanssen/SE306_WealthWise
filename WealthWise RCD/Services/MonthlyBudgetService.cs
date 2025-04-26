@@ -16,7 +16,7 @@ namespace WealthWise_RCD.Services
 
         public async Task<List<MonthlyBudget>> GetAllMonthlyBudgetsAsync()
         {
-            return await _context.MonthlyBudgets.ToListAsync();
+            return await _context.MonthlyBudgets.OrderByDescending(m => m.CreatedDate).ToListAsync();
         }
 
         public async Task UpsertMonthlyBudgetPostAsync(MonthlyBudget monthlyBudget)
