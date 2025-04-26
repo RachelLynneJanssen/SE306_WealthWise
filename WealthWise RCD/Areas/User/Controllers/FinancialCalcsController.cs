@@ -69,7 +69,11 @@ namespace WealthWise_RCD.Areas.User.Controllers
 
         public IActionResult MonthlyBudgetViewer()
         {
-            ViewData["MonthlyBudgets"] = _monthlyBudgetService.GetAllMonthlyBudgetsAsync().Result; // Get all monthly budgets to display in the view
+            var getUser = _userManager.GetUserAsync(User);
+            getUser.Wait();
+            ApplicationUser applicationUser = getUser.Result;
+
+            ViewData["MonthlyBudgets"] = _monthlyBudgetService.GetAllMonthlyBudgetsAsync(applicationUser.Id).Result; // Get all monthly budgets to display in the view
 
             return View();
         }
