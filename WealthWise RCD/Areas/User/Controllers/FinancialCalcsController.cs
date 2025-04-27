@@ -109,9 +109,9 @@ namespace WealthWise_RCD.Areas.User.Controllers
             }
             else
             {
-                monthlyBudget.Income += model.Income;
-                monthlyBudget.Expense += model.Expense;
-                monthlyBudget.Savings += model.Savings;
+                monthlyBudget.Income = model.Income;
+                monthlyBudget.Expense = model.Expense;
+                monthlyBudget.Savings = model.Savings;
                 monthlyBudget.Total = monthlyBudget.Income - monthlyBudget.Expense - monthlyBudget.Savings;
             }
 
