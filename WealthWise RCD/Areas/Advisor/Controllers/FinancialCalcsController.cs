@@ -19,7 +19,7 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
         [HttpPost]
         public IActionResult Index(FinancialCalculator model)
         {
-        
+
             return View(model);
         }
     }

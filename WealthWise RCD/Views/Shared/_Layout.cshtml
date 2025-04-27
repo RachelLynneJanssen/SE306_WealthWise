@@ -47,7 +47,11 @@
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                                 <li><a class="dropdown-item" asp-area="@GetAreaBasedOnRole()" asp-controller="Account" asp-action="Index">Profile</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-area="Identity" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                <li>
+                                    <form method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" style="display: inline;">
+                                        <button type="submit" class="dropdown-item" id="logout-button">Logout</button>
+                                    </form>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -106,6 +110,18 @@
     .dropdown-item {
         color: #3F3F2F;
     }
+
+        .dropdown-item:hover {
+            background-color: #d5cab8;
+            color: #3F3F2F;
+        }
+    #logout-button:hover {
+        -webkit-text-fill-color: #673636;
+    }
+        a:hover {
+            background-color: #d5cab8;
+            -webkit-text-fill-color: #673636;
+        }
 </style>
 
 @{
