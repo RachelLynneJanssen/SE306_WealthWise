@@ -63,8 +63,7 @@
                                 <span><strong>Cardholder:</strong> @payment.CardholderName</span>
 
                                 <br />
-                                <span><strong>Number:</strong> @payment.CardNumber</span>
-
+                                <span><strong>Number:</strong> **** **** **** @payment.CardNumber[^4..]</span>
                                 <br />
                                 <span><strong>Expires:</strong> @payment.ExpDate?.ToString("MM/yyyy")</span>
                             }

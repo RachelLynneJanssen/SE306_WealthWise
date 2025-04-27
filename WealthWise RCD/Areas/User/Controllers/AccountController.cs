@@ -116,11 +116,6 @@ namespace WealthWise_RCD.Areas.User.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdatePaymentMethod(Payment model)
         {
-            //if(!ModelState.IsValid)
-            //{
-            //    return BadRequest(ModelState);
-            //}
-
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user == null) { return NotFound(); }
             model.UserId = user.Id;
