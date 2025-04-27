@@ -116,11 +116,6 @@ namespace WealthWise_RCD.Areas.User.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdatePaymentMethod(Payment model)
         {
-            //if(!ModelState.IsValid)
-            //{
-            //    return BadRequest(ModelState);
-            //}
-
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user == null) { return NotFound(); }
             model.UserId = user.Id;
@@ -148,19 +143,15 @@ namespace WealthWise_RCD.Areas.User.Controllers
         }
 
         [HttpPost]
-        public async Task RemovePaymentMethod(Payment model)
+        public void RemovePaymentMethod(int id)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-
-            await _userService.RemovePaymentMethod(model);
+            _userService.RemovePaymentMethod(id);
         }
 
         [HttpPost]
-        public async Task CancelAppointment(Appointment model)
+        public void CancelAppointment(int id)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-
-            await _userService.RemoveAppointment(model);
+            _userService.RemoveAppointment(id);
         }
 
     }

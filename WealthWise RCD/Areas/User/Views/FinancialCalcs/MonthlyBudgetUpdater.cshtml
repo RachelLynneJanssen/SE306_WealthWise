@@ -1,7 +1,7 @@
-﻿@using WealthWise_RCD.Models
+﻿﻿@using WealthWise_RCD.Models
 @{
     var errorMessage = ViewData["ErrorMessage"]?.ToString() ?? null;
-	var currentBudget = ViewData["CurrentBudget"]?.ToString() ?? null;
+    var currentBudget = ViewData["CurrentBudget"]?.ToString() ?? null;
 }
 
 <head>
@@ -42,7 +42,7 @@
             </div>
         </div>
         <br />
-        <button type="submit" class="btn btn-primary">Calculate</button>
+        <button type="submit" class="btn btn-primary">Update Budget</button>
         @if (@errorMessage != null)
         {
             <div class="alert alert-info mt-3" id="calculatedAmountBox">
@@ -55,9 +55,6 @@
                 <strong>@currentBudget</strong>
             </div>
         }
-    </form>
-    <form asp-action="CreateNewBudget" asp-controller="FinancialCalcs" method="post" class="d-inline">
-        <button type="submit" class="btn btn-secondary"> Create new monthly budget </button>
     </form>
 </div>
 
@@ -125,8 +122,7 @@
         padding: 10px;
     }
 
-    .link-box 
-    {
+    .link-box {
         display: inline-block;
         width: 200px;
         height: 200px;
@@ -138,14 +134,12 @@
         background-color: white;
     }
 
-    .icon-box 
-    {
+    .icon-box {
         margin-top: 50px;
         margin-bottom: 30px;
     }
 
-    .name-box 
-    {
+    .name-box {
         margin-top: 30px;
         font-size: 18px;
         font-weight: bold;
@@ -156,7 +150,7 @@
         position: relative;
     }
 
-    .dollar-sign-expense  {
+    .dollar-sign-expense {
         position: absolute;
         left: 10px;
         top: 50%;
@@ -201,4 +195,3 @@
         padding-left: 10px;
     }
 </style>
-

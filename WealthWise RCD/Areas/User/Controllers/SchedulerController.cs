@@ -57,7 +57,7 @@ namespace WealthWise_RCD.Controllers
             //    .OrderBy(a => a.EndTime.ToString())
             //    .ToListAsync();
 
-            ViewBag.UserName = currentUser.UserName;
+            ViewBag.UserName = currentUser.FirstName + " " + currentUser.LastName;
             ViewBag.UpcomingAppointments = testAppointments;
             ViewBag.AdvisorId = currentUser.advisorId;
 
