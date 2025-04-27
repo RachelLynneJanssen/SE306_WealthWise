@@ -10,7 +10,7 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
     public class FinancialCalcsController : Controller
     {
 
-        [HttpGet]
+         [HttpGet]
         public IActionResult Index()
         {
             return View(new FinancialCalculator());
@@ -19,6 +19,32 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
         [HttpPost]
         public IActionResult Index(FinancialCalculator model)
         {
+            ViewData["ActiveTab"] = model.activeTab;
+
+            if (model.activeTab == "interest")
+            {
+                if (model.CalculateInterest())
+                {
+                    ViewData["InterestAmount"] = model.InterestAmount;
+                }
+                else
+                {
+                    ViewData["InterestAmount"] = "Invalid input";
+                }
+            }
+
+            if (model.activeTab == "retirement")
+            {
+                if (model.CalculateRetirement())
+                {
+                    ViewData["RetirementAmount"] = model.RetirementAmount;
+                    ViewData["YearlySavings"] = model.YearlySavings;
+                }
+                else
+                {
+                    ViewData["RetirementAmount"] = "Invalid input";
+                }
+            }
 
             return View(model);
         }
