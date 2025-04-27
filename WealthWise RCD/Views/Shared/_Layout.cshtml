@@ -21,21 +21,24 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-center" style="padding-left: 1em">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item" style="padding-left: 1em">
-                            <a class="nav-link text-light @(ViewContext.RouteData.Values["Controller"]?.ToString() == "FinancialCalcs" ? "active font-weight-bold" : "")"
+                            <a class="nav-link text-light maroon-hover @(ViewContext.RouteData.Values["Controller"]?.ToString() == "FinancialCalcs" ? "active font-weight-bold" : "")"
                                asp-area="@GetAreaBasedOnRole()" asp-controller="FinancialCalcs" asp-action="Index">Financial Calculators</a>
                         </li>
                         <li class="nav-item" style="padding-left: 1em">
-                            <a class="nav-link text-light @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LearningHub" ? "active font-weight-bold" : "")"
+                            <a class="nav-link text-light maroon-hover @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LearningHub" ? "active font-weight-bold" : "")"
                                asp-area="@GetAreaBasedOnRole()" asp-controller="LearningHub" asp-action="Index">Learning Hub</a>
                         </li>
                         <li class="nav-item" style="padding-left: 1em">
-                            <a class="nav-link text-light @(ViewContext.RouteData.Values["Controller"]?.ToString() == "News" ? "active font-weight-bold" : "")"
+                            <a class="nav-link text-light maroon-hover @(ViewContext.RouteData.Values["Controller"]?.ToString() == "News" ? "active font-weight-bold" : "")"
                                asp-area="@GetAreaBasedOnRole()" asp-controller="News" asp-action="Index">News</a>
                         </li>
-                        <li class="nav-item" style="padding-left: 1em">
-                            <a class="nav-link text-light @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Scheduler" ? "active font-weight-bold" : "")"
-                               asp-area="@GetAreaBasedOnRole()" asp-controller="Scheduler" asp-action="Index">Scheduler</a>
-                        </li>
+                        @if (GetAreaBasedOnRole() == "User")
+                        {
+                            <li class="nav-item" style="padding-left: 1em">
+                                <a class="nav-link maroon-hover text-light @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Scheduler" ? "active font-weight-bold" : "")"
+                                   asp-area="@GetAreaBasedOnRole()" asp-controller="Scheduler" asp-action="Index">Scheduler</a>
+                            </li>
+                        }
                     </ul>
 
                     <!-- Navbar Profile Dropdown -->
@@ -45,7 +48,7 @@
                                 <img src="@GetProfilePicBasedOnRole()" alt="Profile icon" width="45" height="45" style="border-radius: 50%; border: 1px solid #ccc; margin-top: 10px; margin-bottom: 0px" />
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                                <li><a class="dropdown-item" asp-area="@GetAreaBasedOnRole()" asp-controller="Account" asp-action="Index">Profile</a></li>
+                                <li><a class="dropdown-item maroon-hover" asp-area="@GetAreaBasedOnRole()" asp-controller="Account" asp-action="Index">Profile</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" style="display: inline;">
@@ -115,13 +118,15 @@
             background-color: #d5cab8;
             color: #3F3F2F;
         }
+
     #logout-button:hover {
         -webkit-text-fill-color: #673636;
     }
-        a:hover {
-            background-color: #d5cab8;
-            -webkit-text-fill-color: #673636;
-        }
+
+    .maroon-hover:hover {
+        background-color: #d5cab8;
+        -webkit-text-fill-color: #673636;
+    }
 </style>
 
 @{
