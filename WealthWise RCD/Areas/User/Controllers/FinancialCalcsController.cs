@@ -87,13 +87,24 @@ namespace WealthWise_RCD.Areas.User.Controllers
                 ViewData["ErrorMessage"] = "Please check your inputs. Income, Expense and Savings must be greater than 0.";
                 return View(model);
             }
-
-            MonthlyBudget monthlyBudget = _monthlyBudgetService.GetLatestMonthlyBudgetAsync().Result;
-
+            DateTime today = DateTime.Now;
             var getUser = _userManager.GetUserAsync(User);
             getUser.Wait();
             ApplicationUser applicationUser = getUser.Result;
 
+            MonthlyBudget monthlyBudget = _monthlyBudgetService.GetLatestMonthlyBudgetAsync().Result;
+            if(monthlyBudget.CreatedDate.Month == today.Month)
+            {
+                monthlyBudget = new MonthlyBudget
+                {
+                    Income = model.Income,
+                    Expense = model.Expense,
+                    Savings = model.Savings,
+                    UserID = applicationUser.Id,
+                    Total = model.Income - model.Expense - model.Savings,
+                    CreatedDate = DateTime.Now
+                };
+            }
             if (monthlyBudget == null)
             {
                 // If no monthly budget exists, create a new one
@@ -114,9 +125,6 @@ namespace WealthWise_RCD.Areas.User.Controllers
                 monthlyBudget.Savings = model.Savings;
                 monthlyBudget.Total = monthlyBudget.Income - monthlyBudget.Expense - monthlyBudget.Savings;
             }
-
-
-
             await _monthlyBudgetService.UpsertMonthlyBudgetPostAsync(monthlyBudget);
 
             ViewData["CurrentBudget"] = "Monthly Budget Updated Successfully! " +
