@@ -60,9 +60,10 @@ namespace WealthWise_RCD.Services
             }
             await _context.SaveChangesAsync();
         }
-        public async Task RemoveAppointment(Appointment appt)
+        public void RemoveAppointment(int id)
         {
-            _context.Appointments.Remove(appt);
+            Appointment dbAppt = _context.Appointments.Find(id)!;
+            _context.Appointments.Remove(dbAppt);
             _context.SaveChanges();
         }
         public Task<List<Payment>> GetAllPaymentMethodsAsync(ApplicationUser user)
@@ -101,8 +102,9 @@ namespace WealthWise_RCD.Services
         {
             return await _context.Addresses.FindAsync(user.AddressId);
         }
-        public async Task RemovePaymentMethod(Payment method)
+        public void RemovePaymentMethod(int id)
         {
+            Payment method = _context.Payments.Find(id)!;
             _context.Payments.Remove(method);
             _context.SaveChanges();
         }

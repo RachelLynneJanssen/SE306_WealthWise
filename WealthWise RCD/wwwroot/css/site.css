@@ -74,13 +74,25 @@ h3 {
     font-family: 'Times New Roman';
 }
 
-.nav-tabs .nav-link {
+.nav-tabs, .nav-link {
     color: #7a7a52; /* olive green */
+    font-size: 20px; /* Larger font size */
+    border-color: transparent;
 }
+    .navbar-nav:hover, .nav-link:hover {
+        color: #673636; /* olive green */
+        border-color: transparent; /* olive green */
+    }
+    .navbar-nav .nav-link.active {
+        font-weight: bold;
+        color: #adad85 !important;
+        border-color: transparent;
+    }
 
-.navbar-nav .nav-link.active {
-    font-weight: bold;
-    color: #adad85 !important;
+.nav-tabs .nav-link.active {
+    -webkit-text-fill-color: #7a7a52; /* olive green */
+    background-color: transparent;
+    border-color: #adad85 transparent !important; /* olive green */
 }
 
 a {

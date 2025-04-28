@@ -13,6 +13,7 @@
         {
             if (InitialAmount >= 0 && InterestRate >= 0 && NumberOfPayments > 0 && Time >= 0)
             {
+                InterestRate = InterestRate / 100;
                 InterestAmount = Math.Round(InitialAmount * Math.Pow(1 + (InterestRate / NumberOfPayments), Time * NumberOfPayments),2);
                 return true;
             }
@@ -30,6 +31,10 @@
 
         public bool CalculateRetirement()
         {
+            ExpectedIncomeInc = ExpectedIncomeInc / 100;
+            RetirementSavings = RetirementSavings / 100;
+            SavingsInterestRate = SavingsInterestRate / 100;
+
             if (!(CurrentAge >= 0 && RetirementAge > CurrentAge && AnnualIncome >= 0 && ExpectedIncomeInc >= 0 && RetirementSavings >= 0 && SavingsInterestRate >= 0))
                 return false;
             

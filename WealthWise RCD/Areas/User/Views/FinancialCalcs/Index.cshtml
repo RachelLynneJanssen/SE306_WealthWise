@@ -29,7 +29,7 @@
     </ul>
 
     <!-- tab page content -->
-    <div class="tab-content" id="myTabContent">
+    <div class="tab-content" id="myTabContent" style="margin-top: 20px">
         <div class="tab-pane @(activeTab is "interest" ? "active show" : "fade")" id="interest-calculator" role="tabpanel" aria-labelledby="interest-calculator-tab">
             <!-- Interest Calculator Content -->
             <h3>Interest Calculator</h3>
@@ -42,16 +42,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="numberOfPayments">Number of Payments:</label>
-                    <input type="number" class="form-control" id="numberOfPayments" name="NumberOfPayments" placeholder="Enter number of payments" step="1">
+                    <label for="numberOfPayments">Compound Rate:</label>
+                    <input type="number" class="form-control" id="numberOfPayments" name="NumberOfPayments" placeholder="Enter the number of times per year the interest is compounded" step="1">
                 </div>
                 <div class="form-group">
-                    <label for="time">Time:</label>
-                    <input type="number" class="form-control" id="time" name="Time" placeholder="Enter the times you want to compound" step="1">
+                    <label for="time">Time in Years:</label>
+                    <input type="number" class="form-control" id="time" name="Time" placeholder="Enter the number of years the interest is accruing" step="1">
                 </div>
                 <div class="form-group">
                     <label for="interestRate">Interest Rate (%):</label>
-                    <input type="number" class="form-control" id="interestRate" name="InterestRate" placeholder="Enter interest rate" step="0.01">
+                    <input type="number" class="form-control" id="interestRate" name="InterestRate" placeholder="Enter the interest rate as a percent" step="0.01">
                 </div>
                 <input type="hidden" name="activeTab" value="interest" />
                 <br />
@@ -60,7 +60,7 @@
             @if (@interestAmount != null)
             {
                 <div class="alert alert-info mt-3" id="calculatedAmountBox">
-                    <strong>Calculated Amount:</strong> @interestAmount
+                    <strong>Calculated Amount:</strong> $@interestAmount
                 </div>
             }
 @*             <div class="mt-3">
@@ -106,7 +106,7 @@
             @if (retirementAmount != null)
             {
                 <div class="alert alert-info mt-3" id="calculatedAmountBox">
-                    <strong>Amount at retirement:</strong> @retirementAmount
+                    <strong>Amount at retirement:</strong> $@retirementAmount
                 </div>
             }
             @if (yearlySavings != null)
@@ -116,7 +116,7 @@
                     <ul>
                         @foreach (var year in yearlySavings.Keys)
                         {
-                            <li>Year @year: @yearlySavings[year]</li>
+                            <li>Year @year: $@yearlySavings[year]</li>
                         }
                     </ul>
                 </div>
@@ -129,13 +129,15 @@
                 <!-- Add your form fields here -->
                 <a asp-area="User" asp-controller="FinancialCalcs" asp-action="MonthlyBudgetUpdater">
                     <div class="card" id="currentBudget">
-                        <i class="fa-solid fa-piggy-bank fa-2xl" style="color: #c4c4a1;font-size: 100px; accent-color: none"></i>
+                        <i class="fa-solid fa-piggy-bank fa-2xl" style="color: #c4c4a1;font-size: 125px; accent-color: none; margin: 40px"></i>
+                        <p style="text-align: center; margin-top: 30px; color: #8a8a5c;">Update Budget</p>
                     </div>
                 </a>
 
                 <a asp-area="User" asp-controller="FinancialCalcs" asp-action="MonthlyBudgetViewer">
                     <div class="card" id="pastBudgets">
-                        <i class="fa-solid fa-money-bills fa-2xl" style="color: #c4c4a1;font-size: 100px; accent-color: none"></i>
+                        <i class="fa-solid fa-money-bills fa-2xl" style="color: #c4c4a1;font-size: 125px; accent-color: none; margin: 40px"></i>
+                        <p style="text-align: center; margin-top: 30px; color: #8a8a5c;">View Budgets</p>
                     </div>
                 </a>
             </div>
