@@ -47,12 +47,12 @@
                             <a class="nav-link" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="@GetProfilePicBasedOnRole()" alt="Profile icon" width="45" height="45" style="border-radius: 50%; border: 1px solid #ccc; margin-top: 10px; margin-bottom: 0px" />
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown" style="margin:0; border:0; padding:0;">
                                 <li><a class="dropdown-item maroon-hover" asp-area="@GetAreaBasedOnRole()" asp-controller="Account" asp-action="Index">Profile</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                                <li><hr class="dropdown-divider" style="margin:0; border:0; padding:0;"></li>
                                 <li>
                                     <form method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" style="display: inline;">
-                                        <button type="submit" class="dropdown-item" id="logout-button">Logout</button>
+                                        <button type="submit" class="dropdown-item maroon-hover" id="logout-button">Logout</button>
                                     </form>
                                 </li>
                             </ul>
@@ -113,20 +113,16 @@
 
     .dropdown-item {
         color: #3F3F2F;
+        padding: 15px;
     }
 
         .dropdown-item:hover {
-            background-color: #d5cab8;
+            background-color: #fbfaf8;
             color: #3F3F2F;
         }
 
-    #logout-button:hover {
-        -webkit-text-fill-color: #673636;
-    }
-
     .maroon-hover:hover {
-        background-color: #d5cab8;
-        -webkit-text-fill-color: #673636;
+        -webkit-text-fill-color : #673636;
     }
 </style>
 
