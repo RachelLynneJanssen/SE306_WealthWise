@@ -61,7 +61,7 @@ namespace WealthWise_RCD.Controllers
                 //_context.Roles.Where(u => u.Id == "Advisor").ToListAsync();
 
 
-            ViewBag.UserName = user.FirstName;
+            ViewBag.UserName = user.FirstName + " " + user.LastName;
             ViewBag.UpcomingAppointments = userAppts;
             ViewBag.Advisor = advisors;
 
