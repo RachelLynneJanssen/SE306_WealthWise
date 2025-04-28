@@ -59,6 +59,7 @@ namespace WealthWise_RCD.Controllers
 
             var advisors = await _context.Roles.Where(u => u.Id == "Advisor").ToListAsync();
 
+
             ViewBag.UserName = user.FirstName;
             ViewBag.UpcomingAppointments = displayAppt;
             ViewBag.Advisor = advisors;
@@ -128,6 +129,48 @@ namespace WealthWise_RCD.Controllers
 
             }
 
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> AddAppointment(DateTime appointmentDate, string advisorName)
+        {
+            if (string.IsNullOrWhiteSpace(advisorName))
+            {
+                TempData["Error"] = "Advisor Name is required.";
+                return RedirectToAction("Index");
+            }
+
+            var advisor = await _context.Users.FirstOrDefaultAsync(u => u.FirstName == advisorName);
+
+            if (advisor == null)
+            {
+                TempData["Error"] = "Advisor not found.";
+                return RedirectToAction("Index");
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            bool isTimeSlotTaken = await _context.Appointments.AnyAsync(a => a.ScheduledTime == appointmentDate);
+
+            if (isTimeSlotTaken)
+            {
+                TempData["Error"] = "Another appointment already exists at this time. Please choose a different time.";
+                return RedirectToAction("Index");
+            }
+
+            var newAppointment = new Appointment
+            {
+                UserId = currentUser.Id,
+                AdvisorId = advisor.Id,
+                ScheduledTime = appointmentDate,
+                EndTime = TimeSpan.FromMinutes(60)
+            };
+
+            _context.Appointments.Add(newAppointment);
+
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
     }
