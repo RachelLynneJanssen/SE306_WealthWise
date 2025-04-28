@@ -104,17 +104,17 @@ else
         <hr />
         <table class="table table-borderless">
             <thead style="font-size: 20px;">
-                <tr style="margin-left:0;padding:0;border:0">
-                    <th>Appointment Date</th>
-                    <th>Advisor Name</th>
-                    <th>Advisor Email</th>
-                    <th>Actions</th>
+                <tr style="margin-left:0; justify-content:left">
+                    <th style="margin-left:70px">Appointment Date</th>
+                    <th style="margin-left:130px">Advisor Name</th>
+                    <th style ="margin-left:90px">Advisor Email</th>
+                    <th style="margin-left:145px">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var appointment in ViewBag.UpcomingAppointments)
                 {
-                <tr>
+                <tr style="align-items:center">
                     <td>
                         @appointment.ScheduledTime.ToString("MM/dd/yyyy hh:mm tt")
                     </td>
@@ -229,7 +229,6 @@ else
     }
 
     tr {
-        padding: 0.5rem;
         display:flex;
         justify-content: space-around;
     }
