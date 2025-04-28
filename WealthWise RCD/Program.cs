@@ -56,6 +56,7 @@ async Task CreateRolesandUsers(IServiceProvider serviceProvider)    // Role crea
     await CreateUserIfNotExisting(userManager, dbContext, "js@test.com", "00003", "Test_123", "Advisor", "John", "Steinbeck", "1");
 
     await SeedAppointments(userManager, dbContext);
+    await SeedBudgets(userManager, dbContext);
 }
 async Task CreateUserIfNotExisting(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, string email, string username, string password,
                                    string role, string firstName, string lastName, string age)
@@ -227,6 +228,54 @@ async Task SeedAppointments(UserManager<ApplicationUser> userManager, Applicatio
                 }
             };
             dbContext.Appointments.AddRange(dummyAppts);
+            await dbContext.SaveChangesAsync();
+        }
+    }
+}
+
+async Task SeedBudgets(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+{
+    bool isEmpty = !await dbContext.MonthlyBudgets.AnyAsync();
+    if (isEmpty)
+    {
+        var user = await userManager.FindByEmailAsync("user@test.com");
+        if (user != null)
+        {
+            var dummyBudgets = new List<MonthlyBudget>
+            {
+                new MonthlyBudget
+                {
+                    CreatedDate = new DateTime(2025, 01, 01),
+                    Income = 500,
+                    Savings = 100,
+                    Expense = 300,
+                    Total = 100,
+                    UserID = user.Id,
+                    User = user
+                },
+                new MonthlyBudget
+                {
+                    CreatedDate = new DateTime(2025, 02, 01),
+                    Income = 500,
+                    Savings = 100,
+                    Expense = 300,
+                    Total = 100,
+                    UserID = user.Id,
+                    User = user
+                },
+                new MonthlyBudget
+                {
+                    CreatedDate = new DateTime(2025, 03, 01),
+                    Income = 500,
+                    Savings = 100,
+                    Expense = 300,
+                    Total = 100,
+                    UserID = user.Id,
+                    User = user
+                },
+
+            };
+            dbContext.MonthlyBudgets.AddRange(dummyBudgets);
             await dbContext.SaveChangesAsync();
         }
     }
