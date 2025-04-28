@@ -143,15 +143,19 @@ namespace WealthWise_RCD.Areas.User.Controllers
         }
 
         [HttpPost]
-        public void RemovePaymentMethod(int id)
+        public async Task<RedirectToActionResult> RemovePaymentMethod(int id)
         {
             _userService.RemovePaymentMethod(id);
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            return RedirectToAction("Index", user);
         }
 
         [HttpPost]
-        public void CancelAppointment(int id)
+        public async Task<RedirectToActionResult> CancelAppointmentAsync(int id)
         {
             _userService.RemoveAppointment(id);
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            return RedirectToAction("Index", user);
         }
 
     }
