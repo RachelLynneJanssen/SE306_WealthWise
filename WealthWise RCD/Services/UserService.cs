@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using WealthWise_RCD.Models;
 using WealthWise_RCD.Models.DatabaseModels;
 
@@ -39,26 +40,33 @@ namespace WealthWise_RCD.Services
             }
             return userAppts;
         }
-        public async Task UpsertAppointment(Appointment appt)
+        public async Task<bool> UpsertAppointment(Appointment appt)
         {
-            if (appt.Id == 0)
+            bool isSuccess = false;
+            bool isAvailable = IsAvailable(appt);
+            if (isAvailable)
             {
-                _context.Appointments.Add(appt);
-            }
-            else
-            {
-                var updatedAppt = await _context.Appointments.FindAsync(appt.Id);
-                if (updatedAppt != null)
+                if (appt.Id == 0)
                 {
-                    updatedAppt.ScheduledTime = appt.ScheduledTime;
-                    updatedAppt.EndTime = appt.EndTime;
-                    updatedAppt.AdvisorId = appt.AdvisorId;
-                    updatedAppt.Advisor = appt.Advisor;
-                    updatedAppt.UserId = appt.UserId;
-                    updatedAppt.User = appt.User;
+                    _context.Appointments.Add(appt);
                 }
+                else
+                {
+                    var updatedAppt = await _context.Appointments.FindAsync(appt.Id);
+                    if (updatedAppt != null)
+                    {
+                        updatedAppt.ScheduledTime = appt.ScheduledTime;
+                        updatedAppt.EndTime = appt.EndTime;
+                        updatedAppt.AdvisorId = appt.AdvisorId;
+                        updatedAppt.Advisor = appt.Advisor;
+                        updatedAppt.UserId = appt.UserId;
+                        updatedAppt.User = appt.User;
+                    }
+                }
+                await _context.SaveChangesAsync();
+                isSuccess = true;
             }
-            await _context.SaveChangesAsync();
+            return isSuccess;
         }
         public void RemoveAppointment(int id)
         {
@@ -138,34 +146,14 @@ namespace WealthWise_RCD.Services
             return _context.BlogPosts.Where(b => b.Topic == tipTopic && b.IsTip).ToListAsync();
         }
 
-        private async Task<bool> IsAvailable(Appointment appointment)
+        private bool IsAvailable(Appointment appointment)
         {
             bool isAvail = false;
-            ApplicationUser advisor = await _userManager.FindByIdAsync(appointment.AdvisorId);
-            if (advisor != null)
+            List<Appointment> conflicts = _context.Appointments.Where(a => a.ScheduledTime == appointment.ScheduledTime &&
+                a.AdvisorId == appointment.AdvisorId).ToList();
+            if (conflicts.IsNullOrEmpty())
             {
-                TimeSpan startTime = appointment.ScheduledTime.TimeOfDay;
-                TimeSpan endTime = appointment.EndTime;
-                if(startTime < new TimeSpan(8, 0, 0) || endTime > new TimeSpan(17,0,0))
-                {
-                    isAvail = false; // out of range
-                }
-                else if(startTime > new TimeSpan(12,0,0) && startTime < new TimeSpan(13, 0, 0))
-                {
-                    isAvail = false; // out of range
-                }
-                else if (endTime > new TimeSpan(12, 0, 0) && endTime < new TimeSpan(13, 0, 0))
-                {
-                    isAvail = false; // out of range
-                }
-                // check within exception
-                List<AvailabilityException> potentialConflicts = _context.AvailabilityExceptions.Where(
-                                                                    a => (a.AdvisorId == advisor.Id) && (a.Date.Date == appointment.ScheduledTime.Date)
-                                                                    ).ToList();
-                foreach (AvailabilityException a in potentialConflicts)
-                {
-
-                }
+                isAvail = true;
             }
             return isAvail;
         }

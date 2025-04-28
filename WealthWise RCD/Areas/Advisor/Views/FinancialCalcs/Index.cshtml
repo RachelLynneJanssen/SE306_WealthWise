@@ -54,7 +54,7 @@
                 <br />
                 <button type="submit" class="btn btn-primary">Calculate</button>
             </form>
-            @if (@interestAmount != null)
+            @if (@interestAmount != " ")
             {
                 <div class="alert alert-info mt-3" id="calculatedAmountBox">
                     <strong>Calculated Amount:</strong> @interestAmount
@@ -100,7 +100,7 @@
                 <br />
                 <button type="submit" class="btn btn-primary">Calculate</button>
             </form>
-            @if (retirementAmount != null)
+            @if (retirementAmount != " ")
             {
                 <div class="alert alert-info mt-3" id="calculatedAmountBox">
                     <strong>Amount at retirement:</strong> @retirementAmount
