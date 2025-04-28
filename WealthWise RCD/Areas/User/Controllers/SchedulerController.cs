@@ -72,58 +72,26 @@ namespace WealthWise_RCD.Controllers
         public ActionResult CancelAppointment(int appointmentId, ApplicationUser user)
         {
             _userService.RemoveAppointment(appointmentId);
-            //var appointment = await _context.Appointments.FirstOrDefaultAsync(a => a.Id == appointmentId);
-
-            //if (appointment != null)
-            //{
-            //    _context.Appointments.Remove(appointment);
-            //    await _context.SaveChangesAsync();
-            //}
 
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeAdvisor(int appointmentId, string newAdvisor)
+        public async Task<IActionResult> ChangeDate(int appointmentId, DateOnly appointmentDate, TimeOnly appointmentTime)
         {
-            var appointment = await _context.Appointments.FirstOrDefaultAsync(a => a.Id == appointmentId);
-
-            if (appointment != null && !string.IsNullOrWhiteSpace(newAdvisor))
-            {
-                var advisor = await _context.Users.FirstOrDefaultAsync(u => u.FirstName == newAdvisor);
-
-                if (advisor == null)
-                {
-                    Console.WriteLine($"Advisor with First Name {newAdvisor} does not exist!");
-                    TempData["Error"] = "The selected Advisor does not exist.";
-                    return RedirectToAction("Index");
-                }
-
-                Console.WriteLine($"Changed Advisor for Appointment {appointment.Id} from {appointment.AdvisorId} to {newAdvisor}");
-                appointment.AdvisorId = advisor.Id;
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ChangeDate(int appointmentId, DateTime newAppointmentTime)
-        {
-            var appointment = await _context.Appointments.FirstOrDefaultAsync(a => a.Id == appointmentId);
+            DateTime appointmentDateTime = new(appointmentDate, appointmentTime);
+            Appointment? appointment = _context.Appointments.Find(appointmentId)!;
 
             if (appointment != null)
             {
 
-                if (newAppointmentTime < DateTime.Now)
+                if (appointmentDateTime < DateTime.Now)
                 {
                     TempData["Error"] = "New appointment date cannot be in the past.";
                     return RedirectToAction("Index");
                 }
-
-                Console.WriteLine($"Changed date for Appointment {appointment.Id} from {appointment.ScheduledTime} to {newAppointmentTime}");
-                appointment.ScheduledTime = newAppointmentTime;
-                await _context.SaveChangesAsync();
+                appointment.ScheduledTime = appointmentDateTime;
+                await _userService.UpsertAppointment(appointment);
             }
             else
             {
@@ -136,16 +104,19 @@ namespace WealthWise_RCD.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> AddAppointment(DateTime appointmentDate, string advisorName)
+        public async Task<IActionResult> AddAppointment(DateOnly appointmentDate, TimeOnly appointmentTime, string advisorId)
         {
-            if (string.IsNullOrWhiteSpace(advisorName))
+            DateTime appointmentDateTime = new(appointmentDate, appointmentTime);
+
+            if (string.IsNullOrWhiteSpace(advisorId))
             {
                 TempData["Error"] = "Advisor Name is required.";
                 return RedirectToAction("Index");
             }
-            var advisors = await _userManager.GetUsersInRoleAsync("Advisor");
-            ApplicationUser? advisor = advisors.FirstOrDefault(u => u.FirstName == advisorName);
-            //var advisor = await _context.Users.FirstOrDefaultAsync(u => u.FirstName == advisorName);
+            ApplicationUser? advisor = await _userManager.FindByIdAsync(advisorId);
+            //var advisors = await _userManager.GetUsersInRoleAsync("Advisor");
+            //ApplicationUser? advisor = advisors.FirstOrDefault(u => u.FirstName == advisorId);
+            //var advisor = await _context.Users.FirstOrDefaultAsync(u => u.FirstName == advisorId);
 
             if (advisor == null)
             {
@@ -157,7 +128,7 @@ namespace WealthWise_RCD.Controllers
 
             Appointment newAppointment = new Appointment
             {
-                ScheduledTime = appointmentDate,
+                ScheduledTime = appointmentDateTime,
                 EndTime = TimeSpan.FromMinutes(60),
                 AdvisorId = advisor.Id,
                 Advisor = advisor,

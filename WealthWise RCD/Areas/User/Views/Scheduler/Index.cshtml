@@ -4,16 +4,16 @@
 
 
 <script>
-    function toggleForm(formId)
-    {
-        var form = document.getElementById(formId);
-        if (form.style.display === "none")
-        {
+    function toggleForm(appointmentId) {
+        var form = document.getElementById("dateForm_" + appointmentId);
+        var cancelForm = document.getElementById("cancelForm_" + appointmentId);
+
+        if (form.style.display === "none") {
             form.style.display = "block";
-        }
-        else
-        {
+            cancelForm.style.display = "none";
+        } else {
             form.style.display = "none";
+            cancelForm.style.display = "block"; 
         }
     }
 </script>
@@ -55,8 +55,26 @@ else
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="appointmentDate" class="form-label">Appointment Date</label>
-                        <input type="datetime-local" class="form-control" id="appointmentDate" name="appointmentDate" required />
+                        <input type="date" class="form-control" id="appointmentDate" name="appointmentDate" required />
                     </div>
+
+                    <div class="mb-3">
+                        <label for="appointmentTime" class="form-label">Appointment Time</label>
+                        <select id="appointmentTime" class="form-control" name="appointmentTime" required>
+                            <option value="">Select a time</option>
+                            <option value="08:00">8:00 AM</option>
+                            <option value="09:00">9:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="15:00">3:00 PM</option>
+                            <option value="16:00">4:00 PM</option>
+                            <option value="17:00">5:00 PM</option>
+                        </select>
+                    </div>
+
                     <div class="mb-3">
                         <label for="advisorName" class="form-label">Advisor Name</label>
                         <!-- Dropdown for selecting a new advisor -->
@@ -85,70 +103,63 @@ else
         <h4 class="fw-bold">Upcoming Appointments</h4>
         <hr />
         <table class="table table-borderless">
-            <thead>
-                <tr>
+            <thead style="font-size: 20px;">
+                <tr style="margin-left:0;padding:0;border:0">
                     <th>Appointment Date</th>
                     <th>Advisor Name</th>
+                    <th>Advisor Email</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var appointment in ViewBag.UpcomingAppointments)
                 {
-                    <tr>
-                        <td>
-                            @appointment.ScheduledTime.ToString("MM/dd/yyyy hh:mm tt")
-                        </td>
-                        <td>
-                            @($"{appointment.Advisor.FirstName} {appointment.Advisor.LastName}")
-                        </td>
-@*                         <td>
-                            <strong>Advisor Email:</strong> @($"{appointment.Advisor.Email}")
-                        </td> *@
+                <tr>
+                    <td>
+                        @appointment.ScheduledTime.ToString("MM/dd/yyyy hh:mm tt")
+                    </td>
+                    <td>
+                        @($"{appointment.Advisor.FirstName} {appointment.Advisor.LastName}")
+                    </td>
+                    <td>
+                        @($"{appointment.Advisor.Email}")
+                    </td>
                      <td>
+                        <button type="button" onclick="toggleForm('@appointment.Id')" class="btn btn-secondary" style="margin-right:10px;">
+                            Reschedule Appointment
+                        </button>
 
-
-
-                            @* <button type="button" onclick="toggleForm('advisorForm_@appointment.Id')" class="btn btn-secondary">Change Advisor</button> *@
-                            @* <div id="advisorForm_@appointment.Id" style="display:none"> *@
-                            @*     <form asp-action="ChangeAdvisor" method="post" class="d-inline"> *@
-                            @*         <input type="hidden" name="appointmentId" value="@appointment.Id" /> *@
-                            @*         <input type="search" name="newAdvisor" placeholder="New Advisor"/> *@
-                            @*         <button type="submit" class="btn btn-secondary"> Confirm </button> *@
-                            @*     </form> *@
-                            @* </div> *@
-
-                            <button type="button" onclick="toggleForm('advisorForm_@appointment.Id')" class="btn btn-secondary">Change Advisor</button>
-                            <div id="advisorForm_@appointment.Id" style="display:none">
-                                <form asp-action="ChangeAdvisor" method="post" class="d-inline">
-                                    <input type="hidden" name="appointmentId" value="@appointment.Id" />
-
-                                    <!-- Dropdown for selecting a new advisor -->
-                                    <select name="newAdvisorId" class="form-control">
-                                        @foreach (var advisor in ViewBag.Advisor)
-                                        {
-                                            <option value="@advisor.Id">@advisor.FirstName @advisor.LastName</option>
-                                        }
-                                    </select>
-
-                                    <button type="submit" class="btn btn-secondary">Confirm</button>
-                                </form>
-                            </div>
-
-                            <button type="button" onclick="toggleForm('dateForm_@appointment.Id')" class="btn btn-secondary">Change Date</button>
-                            <div id="dateForm_@appointment.Id" style="display:none">
-                                <form asp-action="ChangeDate" method="post" class="d-inline">
-                                    <input type="hidden" name="appointmentId" value="@appointment.Id" />
-                                    <input type="datetime-local" name="newAppointmentTime" />
-                                    <button type="submit" class="btn btn-secondary"> Confirm </button>
-                                </form>
-                            </div>
-                            <form asp-action="CancelAppointment" method="post" class="d-inline">
+                        <form id="cancelForm_@appointment.Id" asp-action="CancelAppointment" method="post" class="d-inline">
+                            <input type="hidden" name="appointmentId" value="@appointment.Id" />
+                            <button type="submit" class="btn btn-danger">Cancel</button>
+                        </form>
+                        <div id="dateForm_@appointment.Id" style="display:none">
+                            <form asp-action="ChangeDate" method="post" class="d-inline">
                                 <input type="hidden" name="appointmentId" value="@appointment.Id" />
-                                <button type="submit" class="btn btn-danger">Cancel</button>
+                                <div class="mb-3" style="margin:5px;">
+                                    <input type="date" class="form-control" id="appointmentDate" name="appointmentDate" required />
+                                </div>
+
+                                <div class="mb-3" style="margin:5px;">
+                                    <select id="appointmentTime" class="form-control" name="appointmentTime" required>
+                                        <option value="">Select a time</option>
+                                        <option value="08:00">8:00 AM</option>
+                                        <option value="09:00">9:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="13:00">1:00 PM</option>
+                                        <option value="14:00">2:00 PM</option>
+                                        <option value="15:00">3:00 PM</option>
+                                        <option value="16:00">4:00 PM</option>
+                                        <option value="17:00">5:00 PM</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-secondary"> Confirm </button>
                             </form>
-                        </td>
-                    </tr>
+                        </div>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -159,7 +170,7 @@ else
     <p>No upcoming appointments.</p>
 }
 
-<!-- Advisor Information -->
+@* <!-- Advisor Information -->
 <div class="card p-3 mt-4">
     <h4 class="fw-bold">Current Financial Advisor</h4>
     <hr />
@@ -177,7 +188,7 @@ else
         </div>
     </div>
 </div>
-
+ *@
 <!-- Change Advisor Form -->
 @* <div class="card p-3 mt-4"> *@
 @*     <h5 class="fw-bold">Change Advisor</h5> *@
@@ -215,6 +226,12 @@ else
 
     .col-sm {
         height: fit-content;
+    }
+
+    tr {
+        padding: 0.5rem;
+        display:flex;
+        justify-content: space-around;
     }
 
     /* #advisorName */
