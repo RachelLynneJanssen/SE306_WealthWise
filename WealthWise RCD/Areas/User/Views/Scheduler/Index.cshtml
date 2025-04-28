@@ -42,6 +42,7 @@ else
         <table class="table table-borderless">
             <thead>
                 <tr>
+                    <th>Title</th>
                     <th>Appointment Date</th>
                     <th>Advisor Name</th>
                     <th>Actions</th>
@@ -51,41 +52,20 @@ else
                 @foreach (var appointment in ViewBag.UpcomingAppointments)
                 {
                     <tr>
+                        <td>Title</td>
                         @* <td>@appointment.ScheduledTime.ToString("yyyy-MM-dd HH:mm")</td> *@
-                        <td>@appointment.ScheduledTime</td>
-                        <td>@appointment.FirstName</td>
-                        @* <td>@appointment.AdvisorId</td> *@
+
+                        <td>@appointment.ScheduledTime.ToString()</td>
+                        <td>@appointment.AdvisorId</td>
                         <td>
-
-                            @* code for previous changeAdvisor function*@
-
-
-                            @* <button type="button" onclick="toggleForm('advisorForm_@appointment.Id')" class="btn btn-secondary">Change Advisor</button> *@
-                            @* <div id="advisorForm_@appointment.Id" style="display:none"> *@
-                            @*     <form asp-action="ChangeAdvisor" method="post" class="d-inline"> *@
-                            @*         <input type="hidden" name="appointmentId" value="@appointment.Id" /> *@
-                            @*         <input type="search" name="newAdvisor" placeholder="New Advisor"/> *@
-                            @*         <button type="submit" class="btn btn-secondary"> Confirm </button> *@
-                            @*     </form> *@
-                            @* </div> *@
-
                             <button type="button" onclick="toggleForm('advisorForm_@appointment.Id')" class="btn btn-secondary">Change Advisor</button>
                             <div id="advisorForm_@appointment.Id" style="display:none">
                                 <form asp-action="ChangeAdvisor" method="post" class="d-inline">
                                     <input type="hidden" name="appointmentId" value="@appointment.Id" />
-
-                                    <!-- Dropdown for selecting a new advisor -->
-                                    <select name="newAdvisorId" class="form-control">
-                                        @foreach (var advisor in ViewBag.Advisor)
-                                        {
-                                            <option value="@advisor.Id">@advisor.FirstName @advisor.LastName</option>
-                                        }
-                                    </select>
-
-                                    <button type="submit" class="btn btn-secondary">Confirm</button>
+                                    <input type="search" name="newAdvisorId" placeholder="New Advisor"/>
+                                    <button type="submit" class="btn btn-secondary"> Confirm </button>
                                 </form>
                             </div>
-
                             <button type="button" onclick="toggleForm('dateForm_@appointment.Id')" class="btn btn-secondary">Change Date</button>
                             <div id="dateForm_@appointment.Id" style="display:none">
                                 <form asp-action="ChangeDate" method="post" class="d-inline">
