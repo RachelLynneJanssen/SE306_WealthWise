@@ -8,6 +8,9 @@ using WealthWise_RCD.Models;
 using WealthWise_RCD.Models.DatabaseModels;
 using WealthWise_RCD.Migrations;
 using Org.BouncyCastle.Security;
+using WealthWise_RCD.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace WealthWise_RCD.Controllers
 {
@@ -16,97 +19,158 @@ namespace WealthWise_RCD.Controllers
 
     public class SchedulerController : Controller
     {
+        // services
+        private readonly UserService _userService;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public SchedulerController(ApplicationDbContext context)
+        // db models
+        private readonly ApplicationUser applicationUser;
+        private readonly Appointment appointments;
+
+        public SchedulerController(UserService userSerivce, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
+            _userService = userSerivce;
+            _userManager = userManager;
             _context = context;
         }
-
-        // private static list that doesn't get created everytime page refreshes
-        // so if anything is changed, you can see the change
-        private static List<Appointment> testAppointments = new List<Appointment>
-            {
-                new Appointment { Id = 1, UserId = "USER1", ScheduledTime = DateTime.Now.AddDays(1), EndTime = TimeSpan.FromDays(2), AdvisorId = "Sivan"},
-                new Appointment { Id = 2, UserId = "USER2", ScheduledTime = DateTime.Now.AddDays(2), EndTime = TimeSpan.FromDays(2), AdvisorId = "10001"},
-                new Appointment { Id = 3, UserId = "USER3", ScheduledTime = DateTime.Now.AddDays(3), EndTime = TimeSpan.FromDays(2), AdvisorId = "10002" },
-                new Appointment { Id = 4, UserId = "USER4", ScheduledTime = DateTime.Now.AddDays(4), EndTime = TimeSpan.FromDays(2), AdvisorId = "10003" }
-            };
-
         public async Task<ActionResult> Index()
         {
+            // check if user is actually logged in
+
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
-            if (currentUser == null)
-            {
-                return NotFound("User not found");
-            }
+            // stores current user info
+            var user = await _userManager.GetUserAsync(User);
 
-            var appointments = _context.Appointments
-                .Where(a => a.UserId == currentUser.Id)
-                .OrderBy(a => a.ScheduledTime)
+            var displayAppt = _context.Appointments
+                .Where(a => a.UserId == user.Id)
+                .OrderBy(a => a.EndTime)
+                .Select(a => new
+                {
+                    a.Id,
+                    a.ScheduledTime,
+                    a.Advisor.FirstName
+                })
                 .ToList();
 
-            // this is for when using DB
-            //var appointments = await _context.Appointments
-            //    .Where(a => a.UserId == currentUser.Id)
-            //    .OrderBy(a => a.EndTime.ToString())
-            //    .ToListAsync();
+            var advisors = await _context.Roles.Where(u => u.Id == "Advisor").ToListAsync();
 
-            ViewBag.UserName = currentUser.FirstName + " " + currentUser.LastName;
-            ViewBag.UpcomingAppointments = testAppointments;
-            ViewBag.AdvisorId = currentUser.advisorId;
+
+            ViewBag.UserName = user.FirstName;
+            ViewBag.UpcomingAppointments = displayAppt;
+            ViewBag.Advisor = advisors;
 
             return View();
         }
 
         [HttpPost]
-
-        public IActionResult CancelAppointment (int appointmentId)
+        public async Task<ActionResult> CancelAppointment(int appointmentId, ApplicationUser user)
         {
-            var appointment = testAppointments.FirstOrDefault(a => a.Id == appointmentId);
-
-            if(appointment != null)
-            {
-                appointment.EndTime.ToString();
-                Console.WriteLine($"Cancelled Appointment ID: {appointment.Id}");
-                testAppointments.Remove(appointment);
-                //_context.Appointments.Remove(appointment);
-                //await _context.SaveChangesAsync();
-            }
-
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public IActionResult ChangeAdvisor(int appointmentId, string newAdvisorId)
-        {
-            var appointment = testAppointments.FirstOrDefault(a => a.Id == appointmentId);
-
-            if (appointment != null && !string.IsNullOrWhiteSpace(newAdvisorId))
-            {
-                Console.WriteLine($"Changed Advisor for Appointment {appointment.Id} from {appointment.AdvisorId} to {newAdvisorId}");
-                appointment.AdvisorId = newAdvisorId;
-            }
-
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public IActionResult ChangeDate(int appointmentId, DateTime newAppointmentTime)
-        {
-            var appointment = testAppointments.FirstOrDefault(a => a.Id == appointmentId);
+            var appointment = await _context.Appointments.FirstOrDefaultAsync(a => a.Id == appointmentId);
 
             if (appointment != null)
             {
-                Console.WriteLine($"Changed date for Appointment {appointment.Id} from {appointment.ScheduledTime} to {newAppointmentTime}");
-                appointment.ScheduledTime = newAppointmentTime;
+                _context.Appointments.Remove(appointment);
+                await _context.SaveChangesAsync();
             }
 
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeAdvisor(int appointmentId, string newAdvisor)
+        {
+            var appointment = await _context.Appointments.FirstOrDefaultAsync(a => a.Id == appointmentId);
+
+            if (appointment != null && !string.IsNullOrWhiteSpace(newAdvisor))
+            {
+                var advisor = await _context.Users.FirstOrDefaultAsync(u => u.FirstName == newAdvisor);
+
+                if (advisor == null)
+                {
+                    Console.WriteLine($"Advisor with First Name {newAdvisor} does not exist!");
+                    TempData["Error"] = "The selected Advisor does not exist.";
+                    return RedirectToAction("Index");
+                }
+
+                Console.WriteLine($"Changed Advisor for Appointment {appointment.Id} from {appointment.AdvisorId} to {newAdvisor}");
+                appointment.AdvisorId = advisor.Id;
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeDate(int appointmentId, DateTime newAppointmentTime)
+        {
+            var appointment = await _context.Appointments.FirstOrDefaultAsync(a => a.Id == appointmentId);
+
+            if (appointment != null)
+            {
+
+                if (newAppointmentTime < DateTime.Now)
+                {
+                    TempData["Error"] = "New appointment date cannot be in the past.";
+                    return RedirectToAction("Index");
+                }
+
+                Console.WriteLine($"Changed date for Appointment {appointment.Id} from {appointment.ScheduledTime} to {newAppointmentTime}");
+                appointment.ScheduledTime = newAppointmentTime;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                TempData["Error"] = "Appointment not found.";
+
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> AddAppointment(DateTime appointmentDate, string advisorName)
+        {
+            if (string.IsNullOrWhiteSpace(advisorName))
+            {
+                TempData["Error"] = "Advisor Name is required.";
+                return RedirectToAction("Index");
+            }
+
+            var advisor = await _context.Users.FirstOrDefaultAsync(u => u.FirstName == advisorName);
+
+            if (advisor == null)
+            {
+                TempData["Error"] = "Advisor not found.";
+                return RedirectToAction("Index");
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            bool isTimeSlotTaken = await _context.Appointments.AnyAsync(a => a.ScheduledTime == appointmentDate);
+
+            if (isTimeSlotTaken)
+            {
+                TempData["Error"] = "Another appointment already exists at this time. Please choose a different time.";
+                return RedirectToAction("Index");
+            }
+
+            var newAppointment = new Appointment
+            {
+                UserId = currentUser.Id,
+                AdvisorId = advisor.Id,
+                ScheduledTime = appointmentDate,
+                EndTime = TimeSpan.FromMinutes(60)
+            };
+
+            _context.Appointments.Add(newAppointment);
+
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
     }

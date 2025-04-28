@@ -22,7 +22,7 @@
 <div class="container mt-5">
     <div class="text-center">
         <h1 class="display-4">Scheduler</h1>
-        <p class="lead text-muted">Schedule appointments with certified financial Advisors!</p>
+        <p class="lead text-muted">Schedule appointments with Users or Advisors!</p>
     </div>
 </div>
 @if (User.Identity.IsAuthenticated)
@@ -34,6 +34,45 @@ else
     <p>Please log in to view your appointments.</p>
 }
 
+
+<div style="margin-bottom: 20px;">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addAppointmentModal">
+        Add Appointment
+    </button>
+</div>
+
+<!-- Add Appointment Modal -->
+<div class="modal fade" id="addAppointmentModal" tabindex="-1" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAppointmentModalLabel">Add New Appointment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form asp-action="AddAppointment" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="appointmentDate" class="form-label">Appointment Date</label>
+                        <input type="datetime-local" class="form-control" id="appointmentDate" name="appointmentDate" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="advisorName" class="form-label">Advisor Name</label>
+                        <input type="text" class="form-control" id="advisorName" name="advisorName" required />
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Appointment</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
 @if (ViewBag.UpcomingAppointments != null && ViewBag.UpcomingAppointments.Count > 0)
 {
     <div class="card p-3 mt-4" id="appointmentBox">
@@ -42,7 +81,6 @@ else
         <table class="table table-borderless">
             <thead>
                 <tr>
-                    <th>Title</th>
                     <th>Appointment Date</th>
                     <th>Advisor Name</th>
                     <th>Actions</th>
@@ -52,20 +90,41 @@ else
                 @foreach (var appointment in ViewBag.UpcomingAppointments)
                 {
                     <tr>
-                        <td>Title</td>
                         @* <td>@appointment.ScheduledTime.ToString("yyyy-MM-dd HH:mm")</td> *@
-
-                        <td>@appointment.ScheduledTime.ToString()</td>
-                        <td>@appointment.AdvisorId</td>
+                        <td>@appointment.ScheduledTime</td>
+                        <td>@appointment.FirstName</td>
+                        @* <td>@appointment.AdvisorId</td> *@
                         <td>
+
+                            @* code for previous changeAdvisor function*@
+
+
+                            @* <button type="button" onclick="toggleForm('advisorForm_@appointment.Id')" class="btn btn-secondary">Change Advisor</button> *@
+                            @* <div id="advisorForm_@appointment.Id" style="display:none"> *@
+                            @*     <form asp-action="ChangeAdvisor" method="post" class="d-inline"> *@
+                            @*         <input type="hidden" name="appointmentId" value="@appointment.Id" /> *@
+                            @*         <input type="search" name="newAdvisor" placeholder="New Advisor"/> *@
+                            @*         <button type="submit" class="btn btn-secondary"> Confirm </button> *@
+                            @*     </form> *@
+                            @* </div> *@
+
                             <button type="button" onclick="toggleForm('advisorForm_@appointment.Id')" class="btn btn-secondary">Change Advisor</button>
                             <div id="advisorForm_@appointment.Id" style="display:none">
                                 <form asp-action="ChangeAdvisor" method="post" class="d-inline">
                                     <input type="hidden" name="appointmentId" value="@appointment.Id" />
-                                    <input type="search" name="newAdvisorId" placeholder="New Advisor"/>
-                                    <button type="submit" class="btn btn-secondary"> Confirm </button>
+
+                                    <!-- Dropdown for selecting a new advisor -->
+                                    <select name="newAdvisorId" class="form-control">
+                                        @foreach (var advisor in ViewBag.Advisor)
+                                        {
+                                            <option value="@advisor.Id">@advisor.FirstName @advisor.LastName</option>
+                                        }
+                                    </select>
+
+                                    <button type="submit" class="btn btn-secondary">Confirm</button>
                                 </form>
                             </div>
+
                             <button type="button" onclick="toggleForm('dateForm_@appointment.Id')" class="btn btn-secondary">Change Date</button>
                             <div id="dateForm_@appointment.Id" style="display:none">
                                 <form asp-action="ChangeDate" method="post" class="d-inline">
@@ -100,13 +159,13 @@ else
                 <img src="~/images/avatar.jpg" alt="profile-pic" id="profileImg" />
             </div>
             <div class="col-6">
-                    <h4 id="advisorName">@ViewBag.advisorId</h4>
+                <h4 id="advisorName">@ViewBag.advisorId</h4>
             </div>
             <div class="col">
                 <button class="btn btn-secondary">Change Advisor</button>
             </div>
         </div>
-    </div>   
+    </div>
 </div>
 
 <!-- Change Advisor Form -->
@@ -143,22 +202,21 @@ else
         height: 10%;
         /* padding-left: 0.5rem; */
     }
-    .col-sm
-    {
+
+    .col-sm {
         height: fit-content;
     }
-    
+
     /* #advisorName */
     /* { */
     /*     padding-left: 0.5rem; */
     /* } */
 
-    form
-    {
+    form {
         margin-top: 0.5rem;
     }
-    button
-    {
+
+    button {
         margin: 0.25rem 0;
     }
 
