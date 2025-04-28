@@ -59,7 +59,13 @@ else
                     </div>
                     <div class="mb-3">
                         <label for="advisorName" class="form-label">Advisor Name</label>
-                        <input type="text" class="form-control" id="advisorName" name="advisorName" required />
+                        <!-- Dropdown for selecting a new advisor -->
+                        <select name="advisorId" id="advisorId" class="form-control">
+                            @foreach (var advisor in ViewBag.Advisor)
+                            {
+                                <option value="@advisor.Id">@advisor.FirstName @advisor.LastName</option>
+                            }
+                        </select>                   
                     </div>
                 </div>
 
@@ -90,13 +96,17 @@ else
                 @foreach (var appointment in ViewBag.UpcomingAppointments)
                 {
                     <tr>
-                        @* <td>@appointment.ScheduledTime.ToString("yyyy-MM-dd HH:mm")</td> *@
-                        <td>@appointment.ScheduledTime</td>
-                        <td>@appointment.Advisor.FirstName</td>
-                        @* <td>@appointment.AdvisorId</td> *@
                         <td>
+                            @appointment.ScheduledTime.ToString("MM/dd/yyyy hh:mm tt")
+                        </td>
+                        <td>
+                            @($"{appointment.Advisor.FirstName} {appointment.Advisor.LastName}")
+                        </td>
+@*                         <td>
+                            <strong>Advisor Email:</strong> @($"{appointment.Advisor.Email}")
+                        </td> *@
+                     <td>
 
-                            @* code for previous changeAdvisor function*@
 
 
                             @* <button type="button" onclick="toggleForm('advisorForm_@appointment.Id')" class="btn btn-secondary">Change Advisor</button> *@
