@@ -80,5 +80,12 @@ namespace WealthWise_RCD.Areas.Advisor.Controllers
             await _userManager.UpdateAsync(user);
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public async Task<RedirectToActionResult> CancelAppointmentAsync(int id)
+        {
+            _userService.RemoveAppointment(id);
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            return RedirectToAction("Index", user);
+        }
     }
 }
