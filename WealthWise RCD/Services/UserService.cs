@@ -146,7 +146,7 @@ namespace WealthWise_RCD.Services
             return _context.BlogPosts.Where(b => b.Topic == tipTopic && b.IsTip).ToListAsync();
         }
 
-        private bool IsAvailable(Appointment appointment)
+        public bool IsAvailable(Appointment appointment)
         {
             bool isAvail = false;
             List<Appointment> conflicts = _context.Appointments.Where(a => a.ScheduledTime == appointment.ScheduledTime &&

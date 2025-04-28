@@ -135,10 +135,12 @@ namespace WealthWise_RCD.Controllers
                 UserId = currentUser!.Id,
                 User = currentUser!
             };
-            bool isTimeSlotTaken = await _userService.UpsertAppointment(newAppointment);
+            Task<bool> isTimeSlotTaken = _userService.UpsertAppointment(newAppointment);
+            isTimeSlotTaken.Wait();
+            bool isSuccess = isTimeSlotTaken.Result;
             //bool isTimeSlotTaken = await _context.Appointments.AnyAsync(a => a.ScheduledTime == appointmentDate);
 
-            if (isTimeSlotTaken)
+            if (!isSuccess)
             {
                 TempData["Error"] = "Another appointment already exists at this time. Please choose a different time.";
                 return RedirectToAction("Index");

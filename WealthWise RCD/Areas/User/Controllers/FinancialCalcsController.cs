@@ -93,7 +93,7 @@ namespace WealthWise_RCD.Areas.User.Controllers
             ApplicationUser applicationUser = getUser.Result;
 
             MonthlyBudget monthlyBudget = _monthlyBudgetService.GetLatestMonthlyBudgetAsync().Result;
-            if(monthlyBudget.CreatedDate.Month == today.Month)
+            if(monthlyBudget.CreatedDate.Month != today.Month)
             {
                 monthlyBudget = new MonthlyBudget
                 {
